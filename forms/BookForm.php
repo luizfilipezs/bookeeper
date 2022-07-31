@@ -16,7 +16,12 @@ class BookForm extends Book
      * 
      * @var string
      */
-    public string $workIds;
+    public $workIds;
+
+    public static function tableName(): string
+    {
+        return Book::tableName();
+    }
 
     /**
      * {@inheritdoc}
@@ -26,7 +31,7 @@ class BookForm extends Book
         return [
             ...parent::rules(),
             [['workIds'], 'string'],
-            [['workIds'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray'],
+            [['workIds'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
 
@@ -37,7 +42,7 @@ class BookForm extends Book
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if (!$this->workIds) {
+        if (!$this->workIds && !$this->getWorks()->exists()) {
             $this->generateWork();
         }
 

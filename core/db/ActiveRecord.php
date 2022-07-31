@@ -12,7 +12,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public final static function tableName(): string
+    public static function tableName(): string
     {
         return StringHelper::basename(static::class);
     }

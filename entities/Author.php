@@ -23,8 +23,8 @@ class Author extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['nome'], 'required'],
-            [['nome', 'nationality'], 'string'],
+            [['name'], 'required'],
+            [['name', 'nationality'], 'string'],
         ];
     }
 
@@ -35,7 +35,7 @@ class Author extends ActiveRecord
     {
         return [
             'id' => Yii::t('app/label', 'ID'),
-            'title' => Yii::t('app/label', 'Nome'),
+            'name' => Yii::t('app/label', 'Nome'),
         ];
     }
 

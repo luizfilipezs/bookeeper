@@ -27,7 +27,7 @@ class m220731_124308_generate_sample_data extends Migration
         $publishingCompany->saveOrFail();
 
         $book = new BookForm();
-        $book->name = 'Coração das trevas';
+        $book->title = 'Coração das trevas';
         $book->publishingCompanyId = $publishingCompany->id;
         $book->saveOrFail();
 
