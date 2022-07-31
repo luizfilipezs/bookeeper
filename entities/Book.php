@@ -3,6 +3,8 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use app\core\exceptions\FriendlyException;
+use Yii;
 use yii\db\ActiveQuery;
 
 /**
@@ -12,6 +14,8 @@ use yii\db\ActiveQuery;
  * @property int $publishingCompanyId
  * @property string $title
  * @property string $subtitle
+ * @property string $language
+ * @property int $pages
  * @property string $year
  * 
  * @property-read PublishingCompany $publishingCompany
@@ -27,11 +31,42 @@ class Book extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['language'], 'default', 'value' => 'Português'],
             [['title', 'publishingCompanyId'], 'required'],
-            [['publishingCompanyId'], 'integer'],
-            [['title', 'subtitle', 'year'], 'string'],
+            [['publishingCompanyId', 'pages'], 'integer'],
+            [['title', 'subtitle', 'language', 'year'], 'string'],
             [['publishingCompanyId'], 'exist', 'skipOnError' => true, 'targetClass' => PublishingCompany::class, 'targetAttribute' => 'id'],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => Yii::t('app/label', 'ID'),
+            'publishingCompanyId' => Yii::t('app/label', 'Editora'),
+            'title' => Yii::t('app/label', 'Título'),
+            'subtitle' => Yii::t('app/label', 'Subtítulo'),
+            'language' => Yii::t('app/label', 'Idioma'),
+            'pages' => Yii::t('app/label', 'Número de páginas'),
+            'year' => Yii::t('app/label', 'Ano de publicação'),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeDelete(): bool
+    {
+        if (!parent::beforeDelete()) {
+            return false;
+        }
+
+        $this->removeWorks();
+
+        return true;
     }
 
     public function getPublishingCompany(): ActiveQuery
@@ -61,5 +96,14 @@ class Book extends ActiveRecord
             ->select('Author.name')
             ->joinWith('authors')
             ->column();
+    }
+
+    private function removeWorks(): void
+    {
+        try {
+            foreach ($this->works as $work) $this->removeWork($work);
+        } catch (\Exception $e) {
+            throw new FriendlyException(Yii::t('app/error', 'Não foi possível remover todas as obras.'));
+        }
     }
 }
