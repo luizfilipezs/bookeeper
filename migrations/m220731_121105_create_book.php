@@ -19,6 +19,8 @@ class m220731_121105_create_book extends Migration
             'publishingCompanyId' => $this->integer()->notNull(),
             'title' => $this->string()->notNull(),
             'subtitle' => $this->string(),
+            'language' => $this->string()->notNull(),
+            'pages' => $this->string(),
             'year' => $this->string(),
         ]);
 
