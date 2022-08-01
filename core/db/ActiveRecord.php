@@ -2,6 +2,7 @@
 
 namespace app\core\db;
 
+use app\core\exceptions\FriendlyException;
 use yii\helpers\StringHelper;
 
 /**
@@ -32,7 +33,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
     public function saveOrFail($runValidation = true, $attributeNames = null): void
     {
         if (!$this->save($runValidation, $attributeNames)) {
-            throw new \Exception('Record could not be saved on database.');
+            throw new FriendlyException('Não foi possível salvar o registro. ' . implode(' ', $this->firstErrors));
         }
     }
 
