@@ -5,6 +5,7 @@ namespace app\forms;
 use app\core\exceptions\RelationAlreadyExistsException;
 use app\entities\Book;
 use app\entities\Work;
+use Yii;
 
 /**
  * This form is used to create/update book records.
@@ -12,12 +13,15 @@ use app\entities\Work;
 class BookForm extends Book
 {
     /**
-     * Comma-separed list of work IDs.
+     * List of work IDs.
      * 
-     * @var string
+     * @var string[]
      */
     public $workIds;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tableName(): string
     {
         return Book::tableName();
@@ -30,8 +34,17 @@ class BookForm extends Book
     {
         return [
             ...parent::rules(),
-            [['workIds'], 'string'],
             [['workIds'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return parent::attributeLabels() + [
+            'workIds' => Yii::t('app/label', 'Obras'),
         ];
     }
 
