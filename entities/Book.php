@@ -3,6 +3,7 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use app\core\enums\BookConservationState;
 use app\core\exceptions\FriendlyException;
 use Yii;
 use yii\db\ActiveQuery;
@@ -17,6 +18,7 @@ use yii\db\ActiveQuery;
  * @property string $language
  * @property int $pages
  * @property string $year
+ * @property string $conservationState
  * 
  * @property-read PublishingCompany $publishingCompany
  * @property-read Work[] $works
@@ -31,10 +33,12 @@ class Book extends ActiveRecord
     public function rules(): array
     {
         return [
+            [['publishingCompanyId', 'title', 'conservationState'], 'required'],
             [['language'], 'default', 'value' => 'Português'],
-            [['title', 'publishingCompanyId'], 'required'],
+            [['conservationState'], 'default', 'value' => BookConservationState::New->value],
             [['publishingCompanyId', 'pages'], 'integer'],
-            [['title', 'subtitle', 'language', 'year'], 'string'],
+            [['title', 'subtitle', 'language', 'year', 'conservationState'], 'string'],
+            [['conservationState'], 'in', 'range' => BookConservationState::values()],
             [['publishingCompanyId'], 'exist', 'skipOnError' => true, 'targetClass' => PublishingCompany::class, 'targetAttribute' => 'id'],
         ];
     }
@@ -52,6 +56,7 @@ class Book extends ActiveRecord
             'language' => Yii::t('app/label', 'Idioma'),
             'pages' => Yii::t('app/label', 'Número de páginas'),
             'year' => Yii::t('app/label', 'Ano de publicação'),
+            'conservationState' => Yii::t('app/label', 'Estado de conservação'),
         ];
     }
 
