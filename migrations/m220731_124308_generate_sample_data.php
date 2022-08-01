@@ -29,6 +29,8 @@ class m220731_124308_generate_sample_data extends Migration
         $book = new BookForm();
         $book->title = 'Coração das trevas';
         $book->publishingCompanyId = $publishingCompany->id;
+        $book->year = '2020';
+        $book->pages = 223;
         $book->saveOrFail();
 
         $author = new Author();
