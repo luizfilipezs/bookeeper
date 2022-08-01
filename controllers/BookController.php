@@ -23,6 +23,7 @@ class BookController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['get'],
+                    'view' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
                 ],
@@ -38,6 +39,15 @@ class BookController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionView(int $id): string
+    {
+        $model = Book::findOne($id);
+
+        return $this->render('view', [
+            'model' => $model,
         ]);
     }
 

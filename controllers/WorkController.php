@@ -21,6 +21,7 @@ class WorkController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['get'],
+                    'list' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
                 ],
@@ -37,6 +38,17 @@ class WorkController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionList(?string $search): array
+    {
+        $this->response->format = Response::FORMAT_JSON;
+
+        return Work::find()
+            ->select(['id', 'title AS text'])
+            ->filterWhere(['like', 'title', $search])
+            ->asArray()
+            ->all();
     }
 
     public function actionCreate(): string|Response
