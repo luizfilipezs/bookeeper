@@ -21,6 +21,7 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script src="https://kit.fontawesome.com/6faae0639e.js" crossorigin="anonymous"></script>
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
@@ -37,9 +38,10 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Início', 'url' => ['/site/index']],
+            //['label' => 'Início', 'url' => ['/site/index']],
             ['label' => 'Livros', 'url' => ['/book/index']],
             ['label' => 'Obras', 'url' => ['/work/index']],
+            /*
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -52,6 +54,7 @@ AppAsset::register($this);
                 . Html::endForm()
                 . '</li>'
             )
+            */
         ],
     ]);
     NavBar::end();
@@ -68,12 +71,14 @@ AppAsset::register($this);
     </div>
 </main>
 
+<!--
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-left">&copy; My Company <?= date('Y') ?></p>
         <p class="float-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
+-->
 
 <?php $this->endBody() ?>
 </body>
