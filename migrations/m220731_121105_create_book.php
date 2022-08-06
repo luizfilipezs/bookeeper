@@ -1,5 +1,6 @@
 <?php
 
+use app\core\db\EnumColumnBuilder;
 use app\core\enums\BookConservationState;
 use app\entities\Book;
 use app\entities\PublishingCompany;
@@ -10,13 +11,13 @@ use yii\db\Migration;
  */
 class m220731_121105_create_book extends Migration
 {
+    use EnumColumnBuilder;
+
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $conservationStates = implode(', ', array_map(fn (string $value) => "'{$value}'", BookConservationState::values()));
-
         $this->createTable(Book::tableName(), [
             'id' => $this->primaryKey(),
             'publishingCompanyId' => $this->integer()->notNull(),
@@ -25,7 +26,7 @@ class m220731_121105_create_book extends Migration
             'language' => $this->string()->notNull(),
             'pages' => $this->string(),
             'year' => $this->string(),
-            'conservationState' => "ENUM({$conservationStates})",
+            'conservationState' => $this->enum(BookConservationState::values()),
         ]);
 
         $this->addForeignKey('fk_book_publishing_company', Book::tableName(), 'publishingCompanyId', PublishingCompany::tableName(), 'id');
