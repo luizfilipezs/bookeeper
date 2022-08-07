@@ -3,6 +3,7 @@
 namespace app\forms;
 
 use app\core\exceptions\RelationAlreadyExistsException;
+use app\core\validation\ForeignKey;
 use app\entities\Book;
 use app\entities\Work;
 use Yii;
@@ -17,25 +18,18 @@ class BookForm extends Book
      * 
      * @var string[]
      */
+    #[ForeignKey(
+        model: Work::class,
+        multiple: true
+    )]
     public $workIds;
 
     /**
      * {@inheritdoc}
      */
-    public static function tableName(): string
+    public final static function tableName(): string
     {
         return Book::tableName();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules(): array
-    {
-        return [
-            ...parent::rules(),
-            [['workIds'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
-        ];
     }
 
     /**

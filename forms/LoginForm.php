@@ -3,6 +3,13 @@
 namespace app\forms;
 
 use app\core\helpers\TimeHelper;
+use app\core\validation\{
+    Boolean,
+    CallbackMethod,
+    EnableValidation,
+    IsString,
+    Required
+};
 use app\entities\User;
 use Yii;
 use yii\base\Model;
@@ -12,13 +19,29 @@ use yii\base\Model;
  *
  * @property-read User|null $user
  */
+#[EnableValidation]
 class LoginForm extends Model
 {
+    #[Required]
+    #[IsString]
     public $username;
+
+    #[Required]
+    #[IsString]
+    #[CallbackMethod('validatePassword')]
     public $password;
+
+    #[Boolean(
+        conversions: [Boolean::FROM_STRING]
+    )]
     public $rememberMe = true;
 
-    private $_user = false;
+    /**
+     * User to be logged in.
+     * 
+     * @var User|null
+     */
+    private $_user;
 
     /**
      * {@inheritdoc}
@@ -26,9 +49,7 @@ class LoginForm extends Model
     public function rules(): array
     {
         return [
-            [['username', 'password'], 'required'],
-            [['rememberMe'], 'boolean'],
-            [['password'], 'validatePassword'],
+            [['username', 'password', 'rememberMe'], 'safe'],
         ];
     }
 
@@ -36,10 +57,9 @@ class LoginForm extends Model
      * Validates the password.
      * This method serves as the inline validation for password.
      *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
+     * @param string $attribute the attribute currently being validated.
      */
-    public function validatePassword($attribute, $params): void
+    public function validatePassword(string $attribute): void
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
@@ -74,10 +94,6 @@ class LoginForm extends Model
      */
     public function getUser(): ?User
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
-        }
-
-        return $this->_user;
+        return $this->_user ??= User::findByUsername($this->username);
     }
 }
