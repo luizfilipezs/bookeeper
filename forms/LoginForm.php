@@ -28,7 +28,7 @@ class LoginForm extends Model
 
     #[Required]
     #[IsString]
-    #[CallbackMethod('validatePassword')]
+    #[CallbackMethod]
     public $password;
 
     #[Boolean(
