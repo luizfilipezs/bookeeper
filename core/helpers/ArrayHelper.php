@@ -5,7 +5,7 @@ namespace app\core\helpers;
 /**
  * Implements utilities for handling arrays.
  */
-class ArrayHelper
+final class ArrayHelper
 {
     /**
      * Runs a callback function for every item and return a boolean indicating

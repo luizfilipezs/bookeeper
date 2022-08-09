@@ -5,7 +5,7 @@ namespace app\core\helpers;
 /**
  * Implements utilities for handling time.
  */
-class TimeHelper
+final class TimeHelper
 {
     /**
      * Returns the quantity of days turned into millisseconds.
