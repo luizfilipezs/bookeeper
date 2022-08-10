@@ -25,8 +25,6 @@ class PivotRelationHandler extends Component
     const EVENT_BEFORE_CREATE = 'before-create';
     const EVENT_BEFORE_DELETE = 'before-delete';
 
-    public static $entitiesNamespace = 'app\entities';
-
     private ?string $_fieldNameA;
     private ?string $_fieldNameB;
     private ?string $_pivotClass;
@@ -81,7 +79,7 @@ class PivotRelationHandler extends Component
 
     public function getPivotClass(): string
     {
-        return $this->_pivotClass ?: self::$entitiesNamespace . '\\' . $this->tableA . $this->tableB;
+        return $this->_pivotClass ?: 'app\entities\\' . $this->tableA . $this->tableB;
     }
 
     public function setPivotClass(?string $value): void
