@@ -15,7 +15,7 @@ class AttributeValidationBootstrap implements BootstrapInterface
     /**
      * {@inheritdoc}
      */
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         Event::on(Model::class, Model::EVENT_BEFORE_VALIDATE, function (Event $event) {
             $this->runAttributeValidation($event->sender);

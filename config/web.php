@@ -10,7 +10,9 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
+        'app\core\bootstrap\DependencyInjectionBootstrap',
         'app\core\bootstrap\AttributeValidationBootstrap',
+        'app\core\bootstrap\SubscriberBootstrap',
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
