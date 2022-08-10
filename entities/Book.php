@@ -5,7 +5,6 @@ namespace app\entities;
 use app\core\db\ActiveRecord;
 use app\core\enums\BookConservationState;
 use app\core\exceptions\FriendlyException;
-use Yii;
 use yii\db\ActiveQuery;
 
 /**
@@ -33,9 +32,9 @@ class Book extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['publishingCompanyId', 'title', 'conservationState'], 'required'],
             [['language'], 'default', 'value' => 'Português'],
             [['conservationState'], 'default', 'value' => BookConservationState::New->value],
+            [['publishingCompanyId', 'title', 'conservationState'], 'required'],
             [['publishingCompanyId', 'pages'], 'integer'],
             [['title', 'subtitle', 'language', 'year', 'conservationState'], 'string'],
             [['conservationState'], 'in', 'range' => BookConservationState::values()],
