@@ -3,13 +3,6 @@
 namespace app\forms;
 
 use app\core\helpers\TimeHelper;
-use app\core\validation\{
-    Boolean,
-    CallbackMethod,
-    EnableValidation,
-    IsString,
-    Required
-};
 use app\entities\User;
 use Yii;
 use yii\base\Model;
@@ -19,21 +12,27 @@ use yii\base\Model;
  *
  * @property-read User|null $user
  */
-#[EnableValidation]
 class LoginForm extends Model
 {
-    #[Required]
-    #[IsString]
+    /**
+     * Username.
+     * 
+     * @var string
+     */
     public $username;
 
-    #[Required]
-    #[IsString]
-    #[CallbackMethod]
+    /**
+     * User password.
+     * 
+     * @var string
+     */
     public $password;
 
-    #[Boolean(
-        conversions: [Boolean::FROM_STRING]
-    )]
+    /**
+     * Wether to keep user logged in.
+     * 
+     * @var bool
+     */
     public $rememberMe = true;
 
     /**
@@ -49,7 +48,9 @@ class LoginForm extends Model
     public function rules(): array
     {
         return [
-            [['username', 'password', 'rememberMe'], 'safe'],
+            [['username', 'password', 'rememberMe'], 'required'],
+            [['username', 'password'], 'string'],
+            [['rememberMe'], 'boolean'],
         ];
     }
 
@@ -62,7 +63,7 @@ class LoginForm extends Model
     public function validatePassword(string $attribute): void
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
+            $user = $this->user;
 
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
@@ -81,10 +82,7 @@ class LoginForm extends Model
             return false;
         }
 
-        $duration = $this->rememberMe ? TimeHelper::getDaysInMs(30) : 0;
-        $user = $this->getUser();
-
-        return Yii::$app->user->login($user, $duration);
+        return Yii::$app->user->login($this->user, $this->rememberMe ? TimeHelper::getDaysInMs(30) : 0);
     }
 
     /**
