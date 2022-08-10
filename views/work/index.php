@@ -18,7 +18,7 @@ $this->title = 'Obras';
         <p class="fs-2">
             <?= $this->title ?>
         </p>
-        <?= Html::a(Yii::t('app/label', 'Cadastrar'), Url::toRoute('create'), ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cadastrar', Url::toRoute('create'), ['class' => 'btn btn-success']) ?>
     </div>
 </div>
 <hr>

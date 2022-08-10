@@ -36,9 +36,9 @@ class Work extends ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('app/label', 'ID'),
-            'title' => Yii::t('app/label', 'Título'),
-            'subtitle' => Yii::t('app/label', 'Subtítulo'),
+            'id' => 'ID',
+            'title' => 'Título',
+            'subtitle' => 'Subtítulo',
         ];
     }
 

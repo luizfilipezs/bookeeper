@@ -116,8 +116,8 @@ $form = ActiveForm::begin([
 </div>
 <div class="row">
     <div class="col-12">
-        <?= Html::a(Yii::t('app/action', 'Cancelar'), Url::toRoute('index'), ['class' => 'btn btn-danger']) ?>
-        <?= Html::submitButton(Yii::t('app/action', 'Salvar'), ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Cancelar', Url::toRoute('index'), ['class' => 'btn btn-danger']) ?>
+        <?= Html::submitButton('Salvar', ['class' => 'btn btn-success']) ?>
     </div>
 </div>
 

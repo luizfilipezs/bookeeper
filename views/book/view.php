@@ -32,17 +32,17 @@ $this->title = "Livro \"{$model->title}\"";
             'visible' => !!$model->subtitle,
         ],
         [
-            'label' => Yii::t('app/label', 'Autores'),
+            'label' => 'Autores',
             'value' => implode(', ', $model->authorNames),
         ],
         [
-            'label' => Yii::t('app/label', 'Obras'),
+            'label' => 'Obras',
             'value' => implode(', ', $model->getWorks()->select('Work.title')->column()),
             'visible' => $model->getWorks()->count() > 1,
         ],
         'year',
         [
-            'label' => Yii::t('app/label', 'Editora'),
+            'label' => 'Editora',
             'attribute' => 'publishingCompany.name',
         ],
         [

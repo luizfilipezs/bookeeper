@@ -49,14 +49,14 @@ class Book extends ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('app/label', 'ID'),
-            'publishingCompanyId' => Yii::t('app/label', 'Editora'),
-            'title' => Yii::t('app/label', 'Título'),
-            'subtitle' => Yii::t('app/label', 'Subtítulo'),
-            'language' => Yii::t('app/label', 'Idioma'),
-            'pages' => Yii::t('app/label', 'Número de páginas'),
-            'year' => Yii::t('app/label', 'Ano de publicação'),
-            'conservationState' => Yii::t('app/label', 'Estado de conservação'),
+            'id' => 'ID',
+            'publishingCompanyId' => 'Editora',
+            'title' => 'Título',
+            'subtitle' => 'Subtítulo',
+            'language' => 'Idioma',
+            'pages' => 'Número de páginas',
+            'year' => 'Ano de publicação',
+            'conservationState' => 'Estado de conservação',
         ];
     }
 
@@ -108,7 +108,7 @@ class Book extends ActiveRecord
         try {
             foreach ($this->works as $work) $this->removeWork($work);
         } catch (\Exception $e) {
-            throw new FriendlyException(Yii::t('app/error', 'Não foi possível remover todas as obras.'));
+            throw new FriendlyException('Não foi possível remover todas as obras.');
         }
     }
 }

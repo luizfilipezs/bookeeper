@@ -53,21 +53,6 @@ $config = [
                 ],
             ],
         ],
-        'i18n' => [
-            'translations' => [
-                'app*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages',
-                    'sourceLanguage' => 'pt-BR',
-                    'fileMap' => [
-                        'app' => 'app.php',
-                        'app/error' => 'error.php',
-                        'app/label' => 'label.php',
-                        'app/action' => 'label.php',
-                    ],
-                ],
-            ],
-        ],
         'db' => $db,
         /*
         'urlManager' => [

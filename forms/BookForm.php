@@ -38,7 +38,7 @@ class BookForm extends Book
     public function attributeLabels(): array
     {
         return parent::attributeLabels() + [
-            'workIds' => Yii::t('app/label', 'Obras'),
+            'workIds' => 'Obras',
         ];
     }
 

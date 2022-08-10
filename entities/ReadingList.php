@@ -33,8 +33,8 @@ class ReadingList extends ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('app/label', 'ID'),
-            'name' => Yii::t('app/label', 'Nome'),
+            'id' => 'ID',
+            'name' => 'Nome',
         ];
     }
 
