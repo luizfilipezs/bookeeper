@@ -3,7 +3,6 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
-use Yii;
 use yii\db\ActiveQuery;
 
 /**
