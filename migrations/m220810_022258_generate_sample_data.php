@@ -1,15 +1,17 @@
 <?php
 
-use app\entities\Author;
-use app\entities\PublishingCompany;
-use app\entities\User;
+use app\entities\{
+    Author,
+    PublishingCompany,
+    User
+};
 use app\forms\BookForm;
 use yii\db\Migration;
 
 /**
- * Class m220731_124308_generate_sample_data
+ * Class m220810_022258_generate_sample_data
  */
-class m220731_124308_generate_sample_data extends Migration
+class m220810_022258_generate_sample_data extends Migration
 {
     /**
      * {@inheritdoc}
