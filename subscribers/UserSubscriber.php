@@ -21,7 +21,7 @@ class UserSubscriber
     public function createUserDefaultReadingList(User $user): void
     {
         $readingList = new ReadingList();
-        $readingList->name = 'Livros lidos em ' . date('Y');
+        $readingList->name = 'Lidos em ' . date('Y');
         $readingList->userId = $user->id;
         $readingList->save();
     }
