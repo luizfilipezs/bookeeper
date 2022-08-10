@@ -9,6 +9,9 @@ use app\core\db\subscription\{
 use Yii;
 use yii\base\BootstrapInterface;
 
+/**
+ * Handles dependency injection definitions during the bootstrap process.
+ */
 class DependencyInjectionBootstrap implements BootstrapInterface
 {
     /**

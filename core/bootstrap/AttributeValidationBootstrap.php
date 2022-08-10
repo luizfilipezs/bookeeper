@@ -10,6 +10,9 @@ use yii\base\Event;
 use yii\base\Model;
 use yii\helpers\StringHelper;
 
+/**
+ * Handles preparing attribute validation events during the bootstrap process.
+ */
 class AttributeValidationBootstrap implements BootstrapInterface
 {
     /**

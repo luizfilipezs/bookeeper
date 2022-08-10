@@ -2,6 +2,7 @@
 
 namespace app\forms;
 
+use app\core\exceptions\FriendlyException;
 use app\core\exceptions\RelationAlreadyExistsException;
 use app\entities\{
     Book,
@@ -35,7 +36,7 @@ class BookForm extends Book
     {
         return [
             ...parent::rules(),
-            [['workIds'], 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id'],
+            [['workIds'], 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
 
@@ -63,6 +64,28 @@ class BookForm extends Book
         $this->saveWorks();
     }
 
+    /**
+     * Saves a new work with the same title and subtitle of the current book and
+     * add it to the work list.
+     * 
+     * @throws FriendlyException If work could not be saved.
+     */
+    private function generateWork(): void
+    {
+        $work = new Work();
+        $work->title = $this->title;
+        $work->subtitle = $this->subtitle;
+        
+        if (!$work->save()) {
+            throw new FriendlyException('Não foi possível salvar a obra referente ao livro. Será necessário cadastrá-la manualmente.');
+        }
+
+        $this->workIds[] = $work->id;
+    }
+
+    /**
+     * Creates relations between the book and its works.
+     */
     private function saveWorks(): void
     {
         $works = Work::findAll($this->workIds);
@@ -72,6 +95,9 @@ class BookForm extends Book
         }
     }
 
+    /**
+     * Creates a relation between a work and the book.
+     */
     private function saveWorkRelation(Work $work): void
     {
         try {
@@ -79,15 +105,5 @@ class BookForm extends Book
         } catch (RelationAlreadyExistsException $e) {
             return;
         }
-    }
-
-    private function generateWork(): void
-    {
-        $work = new Work();
-        $work->title = $this->title;
-        $work->subtitle = $this->subtitle;
-        $work->saveOrFail();
-
-        $this->workIds = "{$work->id}";
     }
 }
