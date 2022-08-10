@@ -12,7 +12,6 @@ $config = [
         'log',
         'app\core\bootstrap\DependencyInjectionBootstrap',
         'app\core\bootstrap\SubscriberBootstrap',
-        'app\core\bootstrap\AttributeValidationBootstrap',
     ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
