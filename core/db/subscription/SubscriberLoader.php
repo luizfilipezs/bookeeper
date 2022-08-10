@@ -48,7 +48,7 @@ class SubscriberLoader implements ISubscriberLoader
     private function registerSubscriber(string $subscriberClass): void
     {
         $subscriber = new ReflectionClass($subscriberClass);
-        $entity = 'app\entities\\' . strtr(StringHelper::basename($subscriberClass), 'Subscriber', '');
+        $entity = 'app\entities\\' . str_replace('Subscriber', '', StringHelper::basename($subscriberClass));
         $publicMethods = $subscriber->getMethods(ReflectionMethod::IS_PUBLIC);
 
         foreach ($publicMethods as $method) {
