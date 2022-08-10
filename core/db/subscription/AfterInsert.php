@@ -9,5 +9,6 @@ use Attribute;
  * `app\core\db\ActiveRecord::EVENT_AFTER_INSERT`.
  */
 #[Attribute(Attribute::TARGET_METHOD)]
-class AfterInsert {
+class AfterInsert
+{
 }
