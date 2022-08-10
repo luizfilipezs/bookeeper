@@ -4,6 +4,7 @@ namespace app\core\bootstrap;
 
 use app\core\db\subscription\ISubscriberLoader;
 use yii\base\BootstrapInterface;
+
 /**
  * Handles subscriber registrations during the bootstrap process.
  */
