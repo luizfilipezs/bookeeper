@@ -21,7 +21,6 @@ class m220810_022258_generate_sample_data extends Migration
         $user = new User();
         $user->username = 'admin';
         $user->password = '071de089fe';
-        $user->authKey = 'adminAuthKey';
         $user->saveOrFail();
 
         $publishingCompany = new PublishingCompany();
