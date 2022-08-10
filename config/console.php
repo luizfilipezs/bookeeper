@@ -6,7 +6,11 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'app\core\bootstrap\DependencyInjectionBootstrap',
+        'app\core\bootstrap\SubscriberBootstrap',
+    ],
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
