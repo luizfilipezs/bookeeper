@@ -10,6 +10,7 @@ use app\core\helpers\{
 use ReflectionClass;
 use ReflectionMethod;
 use yii\base\Event;
+use yii\helpers\StringHelper;
 
 /**
  * Loads entity subscribers from `app\subscribers`.
@@ -47,7 +48,7 @@ class SubscriberLoader implements ISubscriberLoader
     private function registerSubscriber(string $subscriberClass): void
     {
         $subscriber = new ReflectionClass($subscriberClass);
-        $entity = ReflectionHelper::getClassAttribute(Subscriber::class, $subscriber)->newInstance()->entity;
+        $entity = 'app\entities\\' . strtr(StringHelper::basename($subscriberClass), 'Subscriber', '');
         $publicMethods = $subscriber->getMethods(ReflectionMethod::IS_PUBLIC);
 
         foreach ($publicMethods as $method) {

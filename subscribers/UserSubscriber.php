@@ -14,7 +14,7 @@ use app\entities\{
 /**
  * Handles database related events for entity `User`.
  */
-#[Subscriber(User::class)]
+#[Subscriber]
 class UserSubscriber
 {
     #[AfterInsert]
