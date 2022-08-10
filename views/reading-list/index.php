@@ -27,6 +27,10 @@ $this->title = 'Listas de leitura';
     'dataProvider' => $dataProvider,
     'summary' => '',
     'columns' => [
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '<div class="d-flex justify-content-around">{view} {update}</div>',
+        ],
         'name',
     ],
 ]) ?>

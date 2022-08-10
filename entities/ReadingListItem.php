@@ -14,7 +14,8 @@ use yii\db\ActiveQuery;
  * @property ?int $bookId
  * @property ?int $workId
  * 
- * @property-read ReadingListItem[] $items
+ * @property-read Book|null $book
+ * @property-read Work|null $work
  */
 class ReadingListItem extends ActiveRecord
 {
@@ -33,8 +34,13 @@ class ReadingListItem extends ActiveRecord
         ];
     }
 
-    public function getItems(): ActiveQuery
+    public function getBook(): ActiveQuery
     {
-        return $this->hasMany(ReadingListItem::class, ['readingListId' => 'id']);
+        return $this->hasMany(Book::class, ['id' => 'bookId']);
+    }
+
+    public function getWork(): ActiveQuery
+    {
+        return $this->hasMany(Work::class, ['id' => 'workId']);
     }
 }
