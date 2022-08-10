@@ -21,7 +21,7 @@ class SubscriberLoader implements ISubscriberLoader
      */
     public function loadAll(): void
     {
-        $subscriberClasses = ClassFinder::getClassesInNamespace('app\subscribers');
+        $subscriberClasses = ClassFinder::getClassesInDirectory('subscribers');
         $subscriberClasses = array_filter($subscriberClasses, fn (string $class) => ReflectionHelper::hasClassAttribute(Subscriber::class, $class));
 
         $this->load($subscriberClasses);
@@ -67,7 +67,7 @@ class SubscriberLoader implements ISubscriberLoader
         $events = $this->getMethodEvents($method);
 
         foreach ($events as $eventName) {
-            Event::on($entity, $eventName, fn () => $method->invoke($subscriber->newInstance()));
+            Event::on($entity, $eventName, fn (Event $event) => $method->invoke($subscriber->newInstance(), $event->sender));
         }
     }
 

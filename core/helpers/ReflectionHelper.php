@@ -48,7 +48,7 @@ final class ReflectionHelper
      * 
      * @return ReflectionAttribute|null Attribute or `null` if not found.
      */
-    public static function getClassAttribute(string $attribute, ReflectionMethod|string $class): ?ReflectionAttribute
+    public static function getClassAttribute(string $attribute, ReflectionClass|string $class): ?ReflectionAttribute
     {
         $class = self::createReflectionClass($class);
 
