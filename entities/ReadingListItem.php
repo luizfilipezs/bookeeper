@@ -11,10 +11,8 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int $readingListId
  * @property ?int $bookId
- * @property ?int $workId
  * 
- * @property-read Book|null $book
- * @property-read Work|null $work
+ * @property-read Book $book
  */
 class ReadingListItem extends ActiveRecord
 {
@@ -24,22 +22,26 @@ class ReadingListItem extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'readingListId'], 'required'],
-            [['bookId'], 'required', 'when' => fn () => !$this->workId],
-            [['workId'], 'required', 'when' => fn () => !$this->bookId],
+            [['readingListId', 'bookId'], 'required'],
             [['readingListId'], 'exist', 'skipOnError' => true, 'targetClass' => ReadingList::class, 'targetAttribute' => 'id'],
-            [['workId'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id'],
             [['bookId'], 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => 'id'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => 'ID',
+            'readingListId' => 'Lista de leitura',
+            'bookId' => 'Livro',
         ];
     }
 
     public function getBook(): ActiveQuery
     {
-        return $this->hasMany(Book::class, ['id' => 'bookId']);
-    }
-
-    public function getWork(): ActiveQuery
-    {
-        return $this->hasMany(Work::class, ['id' => 'workId']);
+        return $this->hasOne(Book::class, ['id' => 'bookId']);
     }
 }

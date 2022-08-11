@@ -27,13 +27,11 @@ class m220809_050710_create_reading_list extends Migration
         $this->createTable(ReadingListItem::tableName(), [
             'id' => $this->primaryKey(),
             'readingListId' => $this->integer()->notNull(),
-            'bookId' => $this->integer(),
-            'workId' => $this->integer(),
+            'bookId' => $this->integer()->notNull(),
         ]);
 
         $this->addForeignKey('fk_reading_list_item_reading_list', ReadingListItem::tableName(), 'readingListId', ReadingList::tableName(), 'id');
         $this->addForeignKey('fk_reading_list_item_book', ReadingListItem::tableName(), 'bookId', Book::tableName(), 'id');
-        $this->addForeignKey('fk_reading_list_item_work', ReadingListItem::tableName(), 'workId', Work::tableName(), 'id');
     }
 
     /**
@@ -41,7 +39,6 @@ class m220809_050710_create_reading_list extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_reading_list_item_work', ReadingListItem::tableName());
         $this->dropForeignKey('fk_reading_list_item_book', ReadingListItem::tableName());
         $this->dropForeignKey('fk_reading_list_item_reading_list', ReadingListItem::tableName());
 
