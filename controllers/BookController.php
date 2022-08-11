@@ -77,7 +77,7 @@ class BookController extends Controller
         ]);
     }
 
-    private function saveModel(BookForm $model): bool
+    private function saveModel(Book $model): bool
     {
         if (!$model->load($this->request->post())) {
             return false;
