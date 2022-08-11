@@ -37,7 +37,8 @@ $this->title = "Livro \"{$model->title}\"";
         ],
         [
             'label' => 'Obras',
-            'value' => implode(', ', $model->getWorks()->select('Work.title')->column()),
+            'value' => fn () => implode('<br>', $model->getWorks()->select('title')->column()),
+            'format' => 'html',
             'visible' => $model->getWorks()->count() > 1,
         ],
         'year',
