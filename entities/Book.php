@@ -98,6 +98,7 @@ class Book extends ActiveRecord
     {
         return $this->getWorks()
             ->select('Author.name')
+            ->distinct()
             ->joinWith('authors')
             ->column();
     }
