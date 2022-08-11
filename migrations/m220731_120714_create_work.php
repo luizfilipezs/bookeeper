@@ -17,7 +17,6 @@ class m220731_120714_create_work extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
             'subtitle' => $this->string(),
-            'year' => $this->string(),
         ]);
     }
 
