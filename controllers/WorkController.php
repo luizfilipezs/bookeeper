@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\entities\Work;
+use app\forms\WorkForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
@@ -53,7 +54,7 @@ class WorkController extends Controller
 
     public function actionCreate(): string|Response
     {
-        $model = new Work();
+        $model = new WorkForm();
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -66,7 +67,7 @@ class WorkController extends Controller
 
     public function actionUpdate(int $id): string|Response
     {
-        $model = Work::findOne($id);
+        $model = WorkForm::findOne($id);
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
