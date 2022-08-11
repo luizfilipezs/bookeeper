@@ -48,7 +48,7 @@ class SubscriberLoader implements ISubscriberLoader
     private function registerSubscriber(string $subscriberClass): void
     {
         $subscriber = new ReflectionClass($subscriberClass);
-        $entity = 'app\entities\\' . str_replace('Subscriber', '', StringHelper::basename($subscriberClass));
+        $entity = $this->getSubscriberEntity($subscriber);
         $publicMethods = $subscriber->getMethods(ReflectionMethod::IS_PUBLIC);
 
         foreach ($publicMethods as $method) {
@@ -88,5 +88,26 @@ class SubscriberLoader implements ISubscriberLoader
         }
 
         return $events;
+    }
+
+    /**
+     * Returns the entity class the subscriber is subscribed to.
+     * 
+     * @param ReflectionClass $subscriber Subscriber reflection.
+     * 
+     * @return string Entity class name.
+     */
+    private function getSubscriberEntity(ReflectionClass $subscriber): string
+    {
+        $subscriberAttribute = ReflectionHelper::getClassAttribute(Subscriber::class, $subscriber)->newInstance();
+        
+        if ($subscriberAttribute->entity !== null) {
+            return $subscriberAttribute->entity;
+        }
+
+        $subscriberName = $subscriber->getName();
+        $entityName = str_replace('Subscriber', '', $subscriberName);
+        
+        return 'app\entities\\' . $entityName;
     }
 }
