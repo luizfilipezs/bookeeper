@@ -17,6 +17,11 @@ use app\entities\{
 #[Subscriber]
 class UserSubscriber
 {
+    /**
+     * Creates a default reading list for a new user.
+     * 
+     * @param User $user The new user.
+     */
     #[AfterInsert]
     public function createUserDefaultReadingList(User $user): void
     {
