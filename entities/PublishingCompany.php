@@ -16,6 +16,18 @@ use yii\db\ActiveQuery;
 class PublishingCompany extends ActiveRecord
 {
     /**
+     * Finds a record by the column `name`.
+     * 
+     * @param string $name Publishing company name.
+     * 
+     * @return static|null Publishing company matching the name, or `null` if nothing matches.
+     */
+    public static function findByName(string $name): ?static
+    {
+        return self::findOne(['name' => $name]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules(): array
