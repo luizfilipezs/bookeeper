@@ -13,13 +13,13 @@ use yii\web\JsExpression;
  */
 
 $selectedWorks = $model->getWorks()
-    ->select(['Work.title', 'Work.id'])
-    ->indexBy('Work.id')
+    ->select(['title', 'id'])
+    ->indexBy('id')
     ->column();
 
 $selectedPublishingCompany = $model->getPublishingCompany()
-    ->select(['PublishingCompany.name', 'PublishingCompany.id'])
-    ->indexBy('PublishingCompany.id')
+    ->select(['name', 'id'])
+    ->indexBy('id')
     ->column();
 
 $form = ActiveForm::begin([
