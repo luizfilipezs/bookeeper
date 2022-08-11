@@ -10,7 +10,6 @@ use app\core\helpers\{
 use ReflectionClass;
 use ReflectionMethod;
 use yii\base\Event;
-use yii\helpers\StringHelper;
 
 /**
  * Loads entity subscribers from `app\subscribers`.
