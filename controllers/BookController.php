@@ -34,7 +34,7 @@ class BookController extends Controller
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Book::find(),
+            'query' => Book::find()->orderBy(['id' => SORT_DESC]),
         ]);
 
         return $this->render('index', [
