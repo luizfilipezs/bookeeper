@@ -22,6 +22,13 @@ class BookForm extends Book
     public $workIds;
 
     /**
+     * Wether a work should automatically be created if none is specified.
+     * 
+     * @var bool
+     */
+    public $canAutoCreateWork = true;
+
+    /**
      * {@inheritdoc}
      */
     public final static function tableName(): string
@@ -36,6 +43,7 @@ class BookForm extends Book
     {
         return [
             ...parent::rules(),
+            [['canAutoCreateWork'], 'boolean'],
             [['workIds'], 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
@@ -57,7 +65,7 @@ class BookForm extends Book
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if (!$this->workIds && !$this->getWorks()->exists()) {
+        if ($this->canAutoCreateWork && !$this->workIds && !$this->getWorks()->exists()) {
             $this->generateWork();
         }
 
