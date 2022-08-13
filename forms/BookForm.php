@@ -43,8 +43,8 @@ class BookForm extends Book
     {
         return [
             ...parent::rules(),
-            [['canAutoCreateWork'], 'boolean'],
-            [['workIds'], 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
+            ['canAutoCreateWork', 'boolean'],
+            ['workIds', 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
 

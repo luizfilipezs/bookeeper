@@ -35,7 +35,7 @@ class WorkForm extends Work
     {
         return [
             ...parent::rules(),
-            [['authorIds'], 'exist', 'targetClass' => Author::class, 'targetAttribute' => 'id', 'allowArray' => true],
+            ['authorIds', 'exist', 'targetClass' => Author::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
 

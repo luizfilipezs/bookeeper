@@ -32,13 +32,16 @@ class Book extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['language'], 'default', 'value' => 'Português'],
-            [['conservationState'], 'default', 'value' => BookConservationState::New->value],
+            // default values
+            ['language', 'default', 'value' => 'Português'],
+            ['conservationState', 'default', 'value' => BookConservationState::New->value],
+            // common rules
             [['publishingCompanyId', 'title', 'conservationState'], 'required'],
             [['publishingCompanyId', 'pages'], 'integer'],
             [['title', 'subtitle', 'language', 'year', 'conservationState'], 'string'],
-            [['conservationState'], 'in', 'range' => BookConservationState::values()],
-            [['publishingCompanyId'], 'exist', 'skipOnError' => true, 'targetClass' => PublishingCompany::class, 'targetAttribute' => 'id'],
+            ['conservationState', 'in', 'range' => BookConservationState::values()],
+            // relations
+            ['publishingCompanyId', 'exist', 'skipOnError' => true, 'targetClass' => PublishingCompany::class, 'targetAttribute' => 'id'],
         ];
     }
 

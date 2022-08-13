@@ -24,10 +24,12 @@ class WorkAuthor extends ActiveRecord
     public function rules(): array
     {
         return [
+            // common rules
             [['workId', 'authorId'], 'required'],
             [['workId', 'authorId'], 'integer'],
-            [['workId'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id'],
-            [['authorId'], 'exist', 'skipOnError' => true, 'targetClass' => Author::class, 'targetAttribute' => 'id'],
+            // relations
+            ['workId', 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id'],
+            ['authorId', 'exist', 'skipOnError' => true, 'targetClass' => Author::class, 'targetAttribute' => 'id'],
         ];
     }
 

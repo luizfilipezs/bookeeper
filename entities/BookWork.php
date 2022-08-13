@@ -26,8 +26,8 @@ class BookWork extends ActiveRecord
         return [
             [['bookId', 'workId'], 'required'],
             [['bookId', 'workId'], 'integer'],
-            [['bookId'], 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => 'id'],
-            [['workId'], 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id'],
+            ['bookId', 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => 'id'],
+            ['workId', 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id'],
         ];
     }
 

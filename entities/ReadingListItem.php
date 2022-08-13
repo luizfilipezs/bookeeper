@@ -22,9 +22,11 @@ class ReadingListItem extends ActiveRecord
     public function rules(): array
     {
         return [
+            // common rules
             [['readingListId', 'bookId'], 'required'],
-            [['readingListId'], 'exist', 'skipOnError' => true, 'targetClass' => ReadingList::class, 'targetAttribute' => 'id'],
-            [['bookId'], 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => 'id'],
+            // relations
+            ['readingListId', 'exist', 'skipOnError' => true, 'targetClass' => ReadingList::class, 'targetAttribute' => 'id'],
+            ['bookId', 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => 'id'],
         ];
     }
 

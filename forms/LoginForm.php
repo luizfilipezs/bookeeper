@@ -50,7 +50,7 @@ class LoginForm extends Model
         return [
             [['username', 'password', 'rememberMe'], 'required'],
             [['username', 'password'], 'string'],
-            [['rememberMe'], 'boolean'],
+            ['rememberMe', 'boolean'],
         ];
     }
 
