@@ -4,14 +4,29 @@ namespace app\core\debug;
 
 use Yii;
 
-class ErrorLogger
+/**
+ * Implements utilities to create logs easier.
+ */
+final class ErrorLogger
 {
-    public static function log($data)
+    /**
+     * Creates an error log for each given value.
+     * 
+     * @param mixed[] $data Data to be logged.
+     */
+    public static function log(...$data): void
     {
-        Yii::error($data);
+        foreach ($data as $value) {
+            Yii::error($value);
+        }
     }
 
-    public static function logException(\Exception $e)
+    /**
+     * Creates a log for the given exception.
+     * 
+     * @param \Exception $e Instance of any exception class.
+     */
+    public static function logException(\Exception $e): void
     {
         self::log([
             'error' => $e->getMessage(),

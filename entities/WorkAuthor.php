@@ -33,11 +33,21 @@ class WorkAuthor extends ActiveRecord
         ];
     }
 
+    /**
+     * Returns a query to the related record from table `Work`.
+     * 
+     * @return ActiveQuery
+     */
     public function getWork(): ActiveQuery
     {
         return $this->hasOne(Work::class, ['id' => 'workId']);
     }
 
+    /**
+     * Returns a query to the related record from table `Author`.
+     * 
+     * @return ActiveQuery
+     */
     public function getAuthor(): ActiveQuery
     {
         return $this->hasOne(Author::class, ['id' => 'authorId']);

@@ -146,6 +146,16 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         $handler->removeRelation();
     }
 
+    /**
+     * Returns a new `PivotRelationHandler` for handling a relation with the given
+     * record.
+     * 
+     * @param self $relatedRecord Record related to the current one.
+     * @param string $pivotClass (Optional) Name of the model class which represents a pivot
+     * relation between the current record and the given one.
+     * 
+     * @return PivotRelationHandler New handler instance properly configured.
+     */
     private function getPivotRelationHandler(self $relatedRecord, string $pivotClass = null): PivotRelationHandler
     {
         return new PivotRelationHandler($this, $relatedRecord, $pivotClass);

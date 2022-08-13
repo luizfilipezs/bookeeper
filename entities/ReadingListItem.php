@@ -42,6 +42,12 @@ class ReadingListItem extends ActiveRecord
         ];
     }
 
+
+    /**
+     * Returns a query to the related record from table `Book`.
+     * 
+     * @return ActiveQuery
+     */
     public function getBook(): ActiveQuery
     {
         return $this->hasOne(Book::class, ['id' => 'bookId']);

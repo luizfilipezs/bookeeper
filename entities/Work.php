@@ -41,26 +41,51 @@ class Work extends ActiveRecord
         ];
     }
 
+    /**
+     * Returns a query to the related records from table `Author`.
+     * 
+     * @return ActiveQuery
+     */
     public function getAuthors(): ActiveQuery
     {
         return $this->hasMany(Author::class, ['id' => 'authorId'])
             ->viaTable(WorkAuthor::tableName(), ['workId' => 'id']);
     }
 
+    /**
+     * Creates a new relation between the given `Author` and the current work.
+     * 
+     * @param Author $author Author to be added to the current work.
+     * 
+     * @return WorkAuthor Pivot relation record.
+     * 
+     * @throws \app\core\exceptions\RelationAlreadyExistsException If relation already exists.
+     */
     public function addAuthor(Author $author): WorkAuthor
     {
         return $this->addRelation($author);
     }
 
+    /**
+     * Removes an existing relation between the given `Author` and the current work.
+     * 
+     * @param Author $author Author to be removed from the current work.
+     */
     public function removeAuthor(Author $author): void
     {
         $this->removeRelation($author);
     }
 
+    /**
+     * Returns all author names without repetitions.
+     * 
+     * @return string[] Author names.
+     */
     public function getAuthorNames(): array
     {
         return $this->getAuthors()
-            ->select('Author.name')
+            ->select('name')
+            ->distinct()
             ->column();
     }
 }

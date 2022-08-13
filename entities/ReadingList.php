@@ -37,6 +37,11 @@ class ReadingList extends ActiveRecord
         ];
     }
 
+    /**
+     * Returns a query to the related records from table `ReadingListItem`.
+     * 
+     * @return ActiveQuery
+     */
     public function getItems(): ActiveQuery
     {
         return $this->hasMany(ReadingListItem::class, ['readingListId' => 'id']);

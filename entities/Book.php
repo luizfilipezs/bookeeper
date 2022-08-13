@@ -76,27 +76,56 @@ class Book extends ActiveRecord
         return true;
     }
 
+    /**
+     * Returns a query to the related record from table `PublishingCompany`.
+     * 
+     * @return ActiveQuery
+     */
     public function getPublishingCompany(): ActiveQuery
     {
         return $this->hasOne(PublishingCompany::class, ['id' => 'publishingCompanyId']);
     }
 
+    /**
+     * Returns a query to the related records from table `Work`.
+     * 
+     * @return ActiveQuery
+     */
     public function getWorks(): ActiveQuery
     {
         return $this->hasMany(Work::class, ['id' => 'workId'])
             ->viaTable(BookWork::tableName(), ['bookId' => 'id']);
     }
 
+    /**
+     * Creates a new relation between the given `Work` and the current book.
+     * 
+     * @param Work $work Work to be added to the current book.
+     * 
+     * @return BookWork Pivot relation record.
+     * 
+     * @throws \app\core\exceptions\RelationAlreadyExistsException If relation already exists.
+     */
     public function addWork(Work $work): BookWork
     {
         return $this->addRelation($work);
     }
 
+    /**
+     * Removes an existing relation between the given `Work` and the current book.
+     * 
+     * @param Work $work Work to be removed from the current book.
+     */
     public function removeWork(Work $work): void
     {
         $this->removeRelation($work);
     }
 
+    /**
+     * Returns all author names without repetitions.
+     * 
+     * @return string[] Author names.
+     */
     public function getAuthorNames(): array
     {
         return $this->getWorks()
@@ -106,6 +135,11 @@ class Book extends ActiveRecord
             ->column();
     }
 
+    /**
+     * Removes all works related to the current book.
+     * 
+     * @throws FriendlyException If some relation could no be deleted.
+     */
     private function removeWorks(): void
     {
         try {

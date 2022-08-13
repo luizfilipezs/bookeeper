@@ -31,11 +31,21 @@ class BookWork extends ActiveRecord
         ];
     }
 
+    /**
+     * Returns a query to the related record from table `Book`.
+     * 
+     * @return ActiveQuery
+     */
     public function getBook(): ActiveQuery
     {
         return $this->hasOne(Book::class, ['id' => 'bookId']);
     }
 
+    /**
+     * Returns a query to the related record from table `Work`.
+     * 
+     * @return ActiveQuery
+     */
     public function getWork(): ActiveQuery
     {
         return $this->hasOne(Work::class, ['id' => 'workId']);

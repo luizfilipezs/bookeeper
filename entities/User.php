@@ -33,13 +33,13 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * Finds a record by `username` field.
      *
-     * @param string $username
+     * @param string $username Username.
      * 
-     * @return static|null
+     * @return static|null User found, or `null`.
      */
-    public static function findByUsername($username): ?self
+    public static function findByUsername(string $username): ?static
     {
         return self::findOne(['username' => $username]);
     }
@@ -69,12 +69,13 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Validates password
+     * Validates the given password.
      *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @param string $password Password to validate.
+     * 
+     * @return bool Wether password is valid for the current user.
      */
-    public function validatePassword($password)
+    public function validatePassword(string $password): bool
     {
         return $this->password === $password;
     }

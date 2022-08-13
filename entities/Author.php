@@ -38,6 +38,11 @@ class Author extends ActiveRecord
         ];
     }
 
+    /**
+     * Returns a query to the related records from table `Work`.
+     * 
+     * @return ActiveQuery
+     */
     public function getWorks(): ActiveQuery
     {
         return $this->hasMany(Work::class, ['id' => 'workId'])

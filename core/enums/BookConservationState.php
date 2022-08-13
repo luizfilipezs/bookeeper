@@ -36,6 +36,11 @@ enum BookConservationState: string
         ];
     }
 
+    /**
+     * Returns the label for the current value.
+     * 
+     * @return string Value label.
+     */
     public function label(): string
     {
         $labels = self::labels();

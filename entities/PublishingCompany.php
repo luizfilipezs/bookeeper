@@ -38,6 +38,11 @@ class PublishingCompany extends ActiveRecord
         ];
     }
 
+    /**
+     * Returns a query to the related records from table `Book`.
+     * 
+     * @return ActiveQuery
+     */
     public function getBooks(): ActiveQuery
     {
         return $this->hasMany(Book::class, ['publishingCompanyId' => 'id']);
