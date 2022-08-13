@@ -3,6 +3,7 @@
 namespace app\forms;
 
 use app\core\exceptions\RelationAlreadyExistsException;
+use app\core\helpers\ArrayHelper;
 use app\entities\{
     Author,
     Work
@@ -56,7 +57,10 @@ class WorkForm extends Work
     {
         parent::afterSave($insert, $changedAttributes);
 
-        $this->saveAuthors();
+        if (!$insert && $this->hasNewAuthors()) {
+            $this->removePreviousAuthors();
+            $this->saveAuthors();
+        }
     }
 
     /**
@@ -80,6 +84,32 @@ class WorkForm extends Work
             $this->addAuthor($author);
         } catch (RelationAlreadyExistsException $e) {
             return;
+        }
+    }
+
+    /**
+     * Checks wether authors list changed.
+     * 
+     * @return bool Validation result.
+     */
+    private function hasNewAuthors(): bool
+    {
+        $currentAuthorIds = $this->getAuthors()
+            ->select('id')
+            ->column();
+
+        return !ArrayHelper::every($this->authorIds, function ($authorId) use ($currentAuthorIds) {
+            return in_array($authorId, $currentAuthorIds);
+        });
+    }
+
+    /**
+     * Removes all relations with authors.
+     */
+    private function removePreviousAuthors(): void
+    {
+        foreach ($this->authors as $author) {
+            $this->removeAuthor($author);
         }
     }
 }
