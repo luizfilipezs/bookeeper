@@ -63,20 +63,6 @@ class Book extends ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function beforeDelete(): bool
-    {
-        if (!parent::beforeDelete()) {
-            return false;
-        }
-
-        $this->removeWorks();
-
-        return true;
-    }
-
-    /**
      * Returns a query to the related record from table `PublishingCompany`.
      * 
      * @return ActiveQuery
@@ -122,6 +108,20 @@ class Book extends ActiveRecord
     }
 
     /**
+     * Removes all works related to the current book.
+     * 
+     * @throws FriendlyException If some relation could no be deleted.
+     */
+    public function removeAllWorks(): void
+    {
+        try {
+            foreach ($this->works as $work) $this->removeWork($work);
+        } catch (\Exception $e) {
+            throw new FriendlyException('Não foi possível remover todas as obras vinculadas ao livro.');
+        }
+    }
+
+    /**
      * Returns all author names without repetitions.
      * 
      * @return string[] Author names.
@@ -133,19 +133,5 @@ class Book extends ActiveRecord
             ->distinct()
             ->joinWith('authors')
             ->column();
-    }
-
-    /**
-     * Removes all works related to the current book.
-     * 
-     * @throws FriendlyException If some relation could no be deleted.
-     */
-    private function removeWorks(): void
-    {
-        try {
-            foreach ($this->works as $work) $this->removeWork($work);
-        } catch (\Exception $e) {
-            throw new FriendlyException('Não foi possível remover todas as obras.');
-        }
     }
 }
