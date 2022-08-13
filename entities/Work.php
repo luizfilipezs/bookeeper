@@ -77,6 +77,16 @@ class Work extends ActiveRecord
     }
 
     /**
+     * Removes all relations with authors.
+     */
+    public function removeAllAuthors(): void
+    {
+        foreach ($this->authors as $author) {
+            $this->removeAuthor($author);
+        }
+    }
+
+    /**
      * Returns all author names without repetitions.
      * 
      * @return string[] Author names.

@@ -58,7 +58,7 @@ class WorkForm extends Work
         parent::afterSave($insert, $changedAttributes);
 
         if (!$insert && $this->hasNewAuthors()) {
-            $this->removePreviousAuthors();
+            $this->removeAllAuthors();
             $this->saveAuthors();
         }
     }
@@ -101,15 +101,5 @@ class WorkForm extends Work
         return !ArrayHelper::every($this->authorIds, function ($authorId) use ($currentAuthorIds) {
             return in_array($authorId, $currentAuthorIds);
         });
-    }
-
-    /**
-     * Removes all relations with authors.
-     */
-    private function removePreviousAuthors(): void
-    {
-        foreach ($this->authors as $author) {
-            $this->removeAuthor($author);
-        }
     }
 }
