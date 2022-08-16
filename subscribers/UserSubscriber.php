@@ -44,9 +44,21 @@ class UserSubscriber
     public function removeUserReadingLists(User $user): void
     {
         foreach ($user->readingLists as $readingList) {
-            if ($readingList->delete() === false) {
-                throw new FriendlyException('Não foi possível remover todas as listas de leitura.');
-            }
+            $this->deleteReadingList($readingList);
+        }
+    }
+
+    /**
+     * Deletes a reading list.
+     * 
+     * @param ReadingList $readingList Record to delete.
+     * 
+     * @throws FriendlyException If the record could not be deleted.
+     */
+    private function deleteReadingList(ReadingList $readingList): void
+    {
+        if ($readingList->delete() === false) {
+            throw new FriendlyException('Não foi possível remover todas as listas de leitura.');
         }
     }
 }
