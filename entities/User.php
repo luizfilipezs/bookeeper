@@ -3,6 +3,7 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use yii\db\ActiveQuery;
 use yii\web\IdentityInterface;
 
 /**
@@ -13,6 +14,8 @@ use yii\web\IdentityInterface;
  * @property string $password
  * @property string $authKey
  * @property string $accessToken
+ * 
+ * @property-read ReadingList[] $readingLists
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -78,5 +81,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword(string $password): bool
     {
         return $this->password === $password;
+    }
+
+    /**
+     * Returns a query to the related records from table `ReadingList`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getReadingLists(): ActiveQuery
+    {
+        return $this->hasMany(ReadingList::class, ['userId' => 'id']);
     }
 }
