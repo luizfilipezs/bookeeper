@@ -4,7 +4,7 @@ use app\entities\{
     Book,
     ReadingList,
     ReadingListItem,
-    Work
+    User,
 };
 use yii\db\Migration;
 
@@ -30,6 +30,7 @@ class m220809_050710_create_reading_list extends Migration
             'bookId' => $this->integer()->notNull(),
         ]);
 
+        $this->addForeignKey('fk_reading_list_user', ReadingList::tableName(), 'userId', User::tableName(), 'id');
         $this->addForeignKey('fk_reading_list_item_reading_list', ReadingListItem::tableName(), 'readingListId', ReadingList::tableName(), 'id');
         $this->addForeignKey('fk_reading_list_item_book', ReadingListItem::tableName(), 'bookId', Book::tableName(), 'id');
     }
@@ -41,6 +42,7 @@ class m220809_050710_create_reading_list extends Migration
     {
         $this->dropForeignKey('fk_reading_list_item_book', ReadingListItem::tableName());
         $this->dropForeignKey('fk_reading_list_item_reading_list', ReadingListItem::tableName());
+        $this->dropForeignKey('fk_reading_list_user', ReadingList::tableName());
 
         $this->dropTable(ReadingListItem::tableName());
         $this->dropTable(ReadingList::tableName());
