@@ -44,6 +44,12 @@ $this->title = 'Livros';
                 return implode(', ', $model->authorNames);
             },
         ],
+        [
+            'label' => 'Tags',
+            'value' => function (Book $model) {
+                return implode(', ', $model->tagNames);
+            },
+        ],
         'year',
     ],
 ]) ?>

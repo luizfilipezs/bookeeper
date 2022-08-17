@@ -17,6 +17,7 @@ use yii\db\ActiveQuery;
  * @property-read Tag[] $tags
  * 
  * @property-read string[] $authorNames
+ * @property-read string[] $tagNames
  */
 class Work extends ActiveRecord
 {
@@ -144,5 +145,17 @@ class Work extends ActiveRecord
         foreach ($this->tags as $tag) {
             $this->removeTag($tag);
         }
+    }
+
+    /**
+     * Returns all tag names.
+     * 
+     * @return string[] Tag names.
+     */
+    public function getTagNames(): array
+    {
+        return $this->getTags()
+            ->select('name')
+            ->column();
     }
 }
