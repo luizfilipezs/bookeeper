@@ -2,7 +2,6 @@
 
 namespace app\core\db\subscription;
 
-use app\core\db\ActiveRecord;
 use app\core\helpers\{
     ClassFinder,
     ReflectionHelper
