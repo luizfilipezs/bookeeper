@@ -18,6 +18,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'language' => 'pt-BR',
+    'timeZone' => 'America/Sao_Paulo',
     'components' => [
         'request' => [
             /*
