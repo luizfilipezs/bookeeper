@@ -37,7 +37,7 @@ class Subscriber
      * 
      * @param string $entity Entity class.
      */
-    public function __construct(public readonly string $entity)
+    public function __construct(public readonly ?string $entity = null)
     {
     }
 }
