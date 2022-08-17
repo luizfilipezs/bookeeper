@@ -3,6 +3,7 @@
 use app\entities\{
     Author,
     PublishingCompany,
+    Tag,
     User
 };
 use app\forms\BookForm;
@@ -46,6 +47,7 @@ class m220810_022258_generate_sample_data extends Migration
         /** @var \app\entities\Work */
         $work = $book->getWorks()->one();
         $work->addAuthor($author);
+        $work->addTag(Tag::findByName('Romance'));
     }
 
     /**

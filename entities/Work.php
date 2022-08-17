@@ -3,6 +3,7 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use app\core\exceptions\RelationAlreadyExistsException;
 use yii\db\ActiveQuery;
 
 /**
@@ -13,6 +14,7 @@ use yii\db\ActiveQuery;
  * @property string $subtitle
  * 
  * @property-read Author[] $authors
+ * @property-read Tag[] $tags
  * 
  * @property-read string[] $authorNames
  */
@@ -59,7 +61,7 @@ class Work extends ActiveRecord
      * 
      * @return WorkAuthor Pivot relation record.
      * 
-     * @throws \app\core\exceptions\RelationAlreadyExistsException If relation already exists.
+     * @throws RelationAlreadyExistsException If relation already exists.
      */
     public function addAuthor(Author $author): WorkAuthor
     {
@@ -97,5 +99,50 @@ class Work extends ActiveRecord
             ->select('name')
             ->distinct()
             ->column();
+    }
+
+    /**
+     * Returns a query to the related records from table `Author`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getTags(): ActiveQuery
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tagId'])
+            ->viaTable(WorkTag::tableName(), ['workId' => 'id']);
+    }
+
+    /**
+     * Creates a new relation between the given `Tag` and the current work.
+     * 
+     * @param Tag $tag Tag to be added to the current work.
+     * 
+     * @return WorkTag Pivot relation record.
+     * 
+     * @throws RelationAlreadyExistsException If relation already exists.
+     */
+    public function addTag(Tag $tag): WorkTag
+    {
+        return $this->addRelation($tag);
+    }
+
+    /**
+     * Removes an existing relation between the given `Tag` and the current work.
+     * 
+     * @param Tag $tag Tag to be removed from the current work.
+     */
+    public function removeTag(Tag $tag): void
+    {
+        $this->removeRelation($tag);
+    }
+
+    /**
+     * Removes all relations with tags.
+     */
+    public function removeAllTags(): void
+    {
+        foreach ($this->tags as $tag) {
+            $this->removeTag($tag);
+        }
     }
 }
