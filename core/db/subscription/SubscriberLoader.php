@@ -80,13 +80,18 @@ class SubscriberLoader implements ISubscriberLoader
      */
     private function getMethodEvents(ReflectionMethod $method): array
     {
-        $events = [];
+        $eventNames = [];
+        $attributes = $method->getAttributes();
 
-        if (ReflectionHelper::hasMethodAttribute(AfterInsert::class, $method)) {
-            $events[] = ActiveRecord::EVENT_AFTER_INSERT;
+        foreach ($attributes as $attribute) {
+            $attributeInstance = $attribute->newInstance();
+
+            if ($eventName = $attributeInstance->eventName ?? false) {
+                $eventNames[] = $eventName;
+            }
         }
 
-        return $events;
+        return $eventNames;
     }
 
     /**
