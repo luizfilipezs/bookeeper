@@ -19,7 +19,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
     }
 
     /**
-     * Calls [[save()]] and throws and exception if saving fails.
+     * Calls `save()` and throws and exception if saving fails.
      * 
      * @param bool $runValidation whether to perform validation (calling [[validate()]])
      * before saving the record. Defaults to `true`. If the validation fails, the record
@@ -28,7 +28,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
      * @param array|null $attributeNames list of attribute names that need to be saved.
      * Defaults to `null`, meaning all attributes that are loaded from DB will be saved.
      * 
-     * @throws \Exception if saving fails.
+     * @throws FriendlyException if saving fails.
      */
     public function saveOrFail($runValidation = true, $attributeNames = null): void
     {
