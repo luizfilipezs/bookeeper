@@ -24,6 +24,7 @@ use yii\db\ActiveQuery;
  * @property-read Work[] $works
  * 
  * @property-read string[] $authorNames
+ * @property-read string[] $tagNames
  */
 class Book extends ActiveRecord
 {
@@ -134,7 +135,21 @@ class Book extends ActiveRecord
         return $this->getWorks()
             ->select('Author.name')
             ->distinct()
-            ->joinWith('authors')
+            ->joinWith('authors', false)
+            ->column();
+    }
+
+    /**
+     * Returns all tag names without repetitions.
+     * 
+     * @return string[] Tag names.
+     */
+    public function getTagNames(): array
+    {
+        return $this->getWorks()
+            ->select('Tag.name')
+            ->distinct()
+            ->joinWith('tags', false)
             ->column();
     }
 }
