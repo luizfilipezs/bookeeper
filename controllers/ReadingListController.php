@@ -41,15 +41,6 @@ class ReadingListController extends Controller
         ]);
     }
 
-    public function actionView(int $id): string
-    {
-        $model = ReadingList::findOne($id);
-
-        return $this->render('view', [
-            'model' => $model,
-        ]);
-    }
-
     public function actionCreate(): string|Response
     {
         $model = new ReadingList();

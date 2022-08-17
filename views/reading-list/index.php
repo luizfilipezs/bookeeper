@@ -29,7 +29,7 @@ $this->title = 'Listas de leitura';
     'columns' => [
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '<div class="d-flex justify-content-around">{view} {update}</div>',
+            'template' => '<div class="d-flex justify-content-around">{update}</div>',
         ],
         'name',
     ],
