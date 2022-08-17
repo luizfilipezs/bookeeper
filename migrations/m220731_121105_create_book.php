@@ -24,6 +24,7 @@ class m220731_121105_create_book extends Migration
             'title' => $this->string()->notNull(),
             'subtitle' => $this->string(),
             'language' => $this->string()->notNull(),
+            'volumes' => $this->tinyInteger()->notNull(),
             'pages' => $this->string(),
             'year' => $this->string(),
             'conservationState' => $this->enum(BookConservationState::values()),

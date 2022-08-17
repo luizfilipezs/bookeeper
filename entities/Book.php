@@ -15,6 +15,7 @@ use yii\db\ActiveQuery;
  * @property string $title
  * @property string $subtitle
  * @property string $language
+ * @property int $volumes
  * @property int $pages
  * @property string $year
  * @property string $conservationState
@@ -35,9 +36,10 @@ class Book extends ActiveRecord
             // default values
             ['language', 'default', 'value' => 'Português'],
             ['conservationState', 'default', 'value' => BookConservationState::New->value],
+            ['volumes', 'default', 'value' => 1],
             // common rules
-            [['publishingCompanyId', 'title', 'conservationState'], 'required'],
-            [['publishingCompanyId', 'pages'], 'integer'],
+            [['publishingCompanyId', 'title', 'conservationState', 'volumes'], 'required'],
+            [['publishingCompanyId', 'volumes', 'pages'], 'integer'],
             [['title', 'subtitle', 'language', 'year', 'conservationState'], 'string'],
             ['conservationState', 'in', 'range' => BookConservationState::values()],
             // relations
@@ -56,6 +58,7 @@ class Book extends ActiveRecord
             'title' => 'Título',
             'subtitle' => 'Subtítulo',
             'language' => 'Idioma',
+            'volumes' => 'Volumes',
             'pages' => 'Número de páginas',
             'year' => 'Ano de publicação',
             'conservationState' => 'Estado de conservação',
