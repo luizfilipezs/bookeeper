@@ -10,11 +10,11 @@ use app\forms\BookForm;
 use yii\db\Migration;
 
 /**
- * Class m220810_022258_generate_sample_data
+ * Class m220817_184729_create_sample_data
  */
-class m220810_022258_generate_sample_data extends Migration
+class m220817_184729_create_sample_data extends Migration
 {
-    /**
+        /**
      * {@inheritdoc}
      */
     public function safeUp()
