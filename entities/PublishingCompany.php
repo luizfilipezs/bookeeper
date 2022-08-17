@@ -24,7 +24,7 @@ class PublishingCompany extends ActiveRecord
      */
     public static function findByName(string $name): ?static
     {
-        return self::findOne(['name' => $name]);
+        return static::findOne(['name' => $name]);
     }
 
     /**
@@ -33,8 +33,8 @@ class PublishingCompany extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'], 'required'],
-            [['name'], 'string'],
+            ['name', 'required'],
+            ['name', 'string'],
         ];
     }
 
