@@ -9,6 +9,7 @@ use app\core\helpers\{
 use ReflectionClass;
 use ReflectionMethod;
 use yii\base\Event;
+use yii\helpers\StringHelper;
 
 /**
  * Loads entity subscribers from `app\subscribers`.
@@ -108,7 +109,7 @@ class SubscriberLoader implements ISubscriberLoader
             return $subscriberAttribute->entity;
         }
 
-        $subscriberName = $subscriber->getName();
+        $subscriberName = StringHelper::basename($subscriber->getName());
         $entityName = str_replace('Subscriber', '', $subscriberName);
         
         return 'app\entities\\' . $entityName;
