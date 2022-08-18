@@ -36,6 +36,7 @@ class TagController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Tag::find()->orderBy('name'),
+            'pagination' => false,
         ]);
 
         return $this->render('index', [

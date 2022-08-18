@@ -37,6 +37,7 @@ class BookController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Book::find()->orderBy(['id' => SORT_DESC]),
+            'pagination' => false,
         ]);
 
         return $this->render('index', [

@@ -34,6 +34,7 @@ class WorkController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Work::find(),
+            'pagination' => false,
         ]);
 
         return $this->render('index', [

@@ -33,6 +33,7 @@ class AuthorController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Author::find(),
+            'pagination' => false,
         ]);
 
         return $this->render('index', [

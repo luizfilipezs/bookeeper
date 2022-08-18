@@ -34,6 +34,7 @@ class ReadingListController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => ReadingList::find(),
+            'pagination' => false,
         ]);
 
         return $this->render('index', [
