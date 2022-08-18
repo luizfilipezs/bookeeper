@@ -25,18 +25,14 @@ class PivotRelationHandler extends Component
     const EVENT_BEFORE_CREATE = 'before-create';
     const EVENT_BEFORE_DELETE = 'before-delete';
 
-    private ?string $_fieldNameA;
-    private ?string $_fieldNameB;
-    private ?string $_pivotClass;
-    private ?ActiveRecord $_pivotRecord;
+    private ?string $_fieldNameA = null;
+    private ?string $_fieldNameB = null;
+    private ?string $_pivotClass = null;
+    private ?ActiveRecord $_pivotRecord = null;
     
-    public function __construct(
-        public ActiveRecord $instanceA,
-        public ActiveRecord $instanceB,
-        string $pivotClass = null
-    )
+    public function __construct(public ActiveRecord $instanceA, public ActiveRecord $instanceB, string $pivotClass = null)
     {
-        $this->pivotClass = $pivotClass;
+        $this->_pivotClass = $pivotClass;
     }
 
     /**
