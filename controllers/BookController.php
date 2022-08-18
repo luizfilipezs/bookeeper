@@ -23,6 +23,7 @@ class BookController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['get'],
+                    'list' => ['get'],
                     'view' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],

@@ -2,16 +2,15 @@
 
 namespace app\controllers;
 
-use app\entities\ReadingList;
+use app\core\exceptions\FriendlyException;
+use app\entities\Tag;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
-use yii\web\{
-    Controller,
-    Response
-};
+use yii\web\Controller;
+use yii\web\Response;
 
-class ReadingListController extends Controller
+class TagController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -23,8 +22,11 @@ class ReadingListController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['get'],
+                    'list' => ['get'],
+                    'view' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -33,7 +35,7 @@ class ReadingListController extends Controller
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => ReadingList::find(),
+            'query' => Tag::find()->orderBy('name'),
         ]);
 
         return $this->render('index', [
@@ -41,9 +43,29 @@ class ReadingListController extends Controller
         ]);
     }
 
+    public function actionList(?string $search): array
+    {
+        $this->response->format = Response::FORMAT_JSON;
+
+        return Tag::find()
+            ->select(['id', 'name AS text'])
+            ->filterWhere(['like', 'name', $search])
+            ->asArray()
+            ->all();
+    }
+
+    public function actionView(int $id): string
+    {
+        $model = Tag::findOne($id);
+
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionCreate(): string|Response
     {
-        $model = new ReadingList();
+        $model = new Tag();
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -56,7 +78,7 @@ class ReadingListController extends Controller
 
     public function actionUpdate(int $id): string|Response
     {
-        $model = ReadingList::findOne($id);
+        $model = Tag::findOne($id);
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -69,25 +91,25 @@ class ReadingListController extends Controller
 
     public function actionDelete(int $id): Response
     {
-        $model = ReadingList::findOne($id);
+        $model = Tag::findOne($id);
         $transaction = Yii::$app->db->beginTransaction();
 
         try {
             if ($model->delete() !== false) {
                 $transaction->commit();
-                Yii::$app->session->setFlash('success', 'Lista removida com sucesso.');
+                Yii::$app->session->setFlash('success', 'Tag removida com sucesso.');
             }
         } finally {
             if ($transaction->isActive) {
                 $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Não foi possível excluir a lista.');
+                Yii::$app->session->setFlash('error', 'Não foi possível excluir a tag.');
             }
         }
 
         return $this->redirect(['index']);
     }
 
-    private function saveModel(ReadingList $model): bool
+    private function saveModel(Tag $model): bool
     {
         if (!$model->load($this->request->post())) {
             return false;
@@ -98,14 +120,17 @@ class ReadingListController extends Controller
         try {
             $model->saveOrFail();
             $transaction->commit();
-            Yii::$app->session->setFlash('success', 'Obra salva com sucesso!');
+            Yii::$app->session->setFlash('success', 'Tag salva com sucesso!');
+
+            return true;
+        } catch (FriendlyException $friendlyException) {
+            Yii::$app->session->setFlash('error', $friendlyException->getMessage());
         } catch (\Exception $e) {
-            Yii::$app->session->setFlash('error', 'Não foi possível salvar a obra.');
-            return false;
+            Yii::$app->session->setFlash('error', 'Não foi possível salvar a tag.');
         } finally {
             $transaction->isActive && $transaction->rollBack();
         }
 
-        return true;
+        return false;
     }
 }
