@@ -35,6 +35,7 @@ class Author extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Nome',
+            'nationality' => 'Nacionalidade',
         ];
     }
 
