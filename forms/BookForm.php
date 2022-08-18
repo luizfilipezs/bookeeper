@@ -69,7 +69,10 @@ class BookForm extends Book
             $this->generateWork();
         }
 
-        $this->saveWorks();
+        if ($this->hasNewWorks()) {
+            !$insert && $this->removeAllWorks();
+            $this->saveWorks();
+        }
     }
 
     /**
@@ -113,5 +116,19 @@ class BookForm extends Book
         } catch (RelationAlreadyExistsException $e) {
             return;
         }
+    }
+
+    /**
+     * Checks whether works list changed.
+     * 
+     * @return bool Validation result.
+     */
+    private function hasNewWorks(): bool
+    {
+        $currentWorkIds = $this->getWorks()
+            ->select('id')
+            ->column();
+
+        return $this->workIds != $currentWorkIds;
     }
 }
