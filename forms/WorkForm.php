@@ -3,9 +3,9 @@
 namespace app\forms;
 
 use app\core\exceptions\RelationAlreadyExistsException;
-use app\core\helpers\ArrayHelper;
 use app\entities\{
     Author,
+    Tag,
     Work
 };
 
@@ -20,6 +20,13 @@ class WorkForm extends Work
      * @var string[]
      */
     public $authorIds;
+
+    /**
+     * List of tag IDs.
+     * 
+     * @var string[]
+     */
+    public $tagIds;
 
     /**
      * {@inheritdoc}
@@ -37,6 +44,7 @@ class WorkForm extends Work
         return [
             ...parent::rules(),
             ['authorIds', 'exist', 'targetClass' => Author::class, 'targetAttribute' => 'id', 'allowArray' => true],
+            ['tagIds', 'exist', 'targetClass' => Tag::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
 
@@ -47,6 +55,7 @@ class WorkForm extends Work
     {
         return parent::attributeLabels() + [
             'authorIds' => 'Autores',
+            'tagIds' => 'Tags',
         ];
     }
 
@@ -57,9 +66,14 @@ class WorkForm extends Work
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if (!$insert && $this->hasNewAuthors()) {
-            $this->removeAllAuthors();
+        if ($this->hasNewAuthors()) {
+            !$insert && $this->removeAllAuthors();
             $this->saveAuthors();
+        }
+
+        if ($this->hasNewTags()) {
+            !$insert && $this->removeAllTags();
+            $this->saveTags();
         }
     }
 
@@ -97,9 +111,45 @@ class WorkForm extends Work
         $currentAuthorIds = $this->getAuthors()
             ->select('id')
             ->column();
+        
+        return $this->authorIds != $currentAuthorIds;
+    }
 
-        return !ArrayHelper::every($this->authorIds, function ($authorId) use ($currentAuthorIds) {
-            return in_array($authorId, $currentAuthorIds);
-        });
+    /**
+     * Checks wether authors list changed.
+     * 
+     * @return bool Validation result.
+     */
+    private function hasNewTags(): bool
+    {
+        $currentTagIds = $this->getTags()
+            ->select('id')
+            ->column();
+
+        return $this->tagIds != $currentTagIds;
+    }
+
+    /**
+     * Creates relations between the work and its tags.
+     */
+    private function saveTags(): void
+    {
+        $tags = Tag::findAll($this->tagIds);
+
+        foreach ($tags as $tag) {
+            $this->saveTagRelation($tag);
+        }
+    }
+
+    /**
+     * Creates a relation between a tag and the work.
+     */
+    private function saveTagRelation(Tag $tag): void
+    {
+        try {
+            $this->addTag($tag);
+        } catch (RelationAlreadyExistsException $e) {
+            return;
+        }
     }
 }

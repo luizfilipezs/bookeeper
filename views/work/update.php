@@ -2,7 +2,7 @@
 
 /**
  * @var yii\web\View $this
- * @var app\entities\Work $model
+ * @var app\forms\WorkForm $model
  */
 
 $this->title = 'Editar obra';

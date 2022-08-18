@@ -20,6 +20,11 @@ $selectedAuthors = $model->getAuthors()
     ->indexBy('id')
     ->column();
 
+$selectedTags = $model->getTags()
+    ->select(['name', 'id'])
+    ->indexBy('id')
+    ->column();
+
 ?>
 
 <div class="row">
@@ -33,29 +38,58 @@ $selectedAuthors = $model->getAuthors()
     </div>
 </div>
 
-<div class="col-6">
-    <?= $form->field($model, 'authorIds')->widget(Select2::class, [
-        'data' => $selectedAuthors,
-        'options' => [
-            'value' => implode(',', array_keys($selectedAuthors)),
-            'multiple' => true,
-            'placeholder' => 'Selecione...',
-        ],
-        'pluginOptions' => [
-            'allowClear' => true,
-            'minimumInputLength' => 1,
-            'ajax' => [
-                'url' => Url::to(['author/list']),
-                'data' => new JsExpression("({ term }) => ({ search: term })"),
-                'dataType' => 'json',
-                'cache' => true,
-                'processResults' => new JsExpression('results => ({ results })'),
+<div class="row">
+    <div class="col-6">
+        <?= $form->field($model, 'authorIds')->widget(Select2::class, [
+            'data' => $selectedAuthors,
+            'options' => [
+                'value' => array_keys($selectedAuthors),
+                'multiple' => true,
+                'placeholder' => 'Selecione...',
             ],
-            'escapeMarkup' => new JsExpression('markup => markup'),
-            'templateResult' => new JsExpression('({ text }) => text'),
-            'templateSelection' => new JsExpression('({ text }) => text'),
-        ],
-    ]) ?>
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 1,
+                'ajax' => [
+                    'url' => Url::to(['author/list']),
+                    'data' => new JsExpression("({ term }) => ({ search: term })"),
+                    'dataType' => 'json',
+                    'cache' => true,
+                    'processResults' => new JsExpression('results => ({ results })'),
+                ],
+                'escapeMarkup' => new JsExpression('markup => markup'),
+                'templateResult' => new JsExpression('({ text }) => text'),
+                'templateSelection' => new JsExpression('({ text }) => text'),
+            ],
+        ]) ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <?= $form->field($model, 'tagIds')->widget(Select2::class, [
+            'data' => $selectedTags,
+            'options' => [
+                'value' => array_keys($selectedTags),
+                'multiple' => true,
+                'placeholder' => 'Selecione...',
+            ],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 1,
+                'ajax' => [
+                    'url' => Url::to(['tag/list']),
+                    'data' => new JsExpression("({ term }) => ({ search: term })"),
+                    'dataType' => 'json',
+                    'cache' => true,
+                    'processResults' => new JsExpression('results => ({ results })'),
+                ],
+                'escapeMarkup' => new JsExpression('markup => markup'),
+                'templateResult' => new JsExpression('({ text }) => text'),
+                'templateSelection' => new JsExpression('({ text }) => text'),
+            ],
+        ]) ?>
+    </div>
 </div>
 
 <div class="row">
