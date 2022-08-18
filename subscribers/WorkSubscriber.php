@@ -24,4 +24,15 @@ class WorkSubscriber
     {
         $work->removeAllAuthors();
     }
+
+    /**
+     * Removes all relations with tags from the work being deleted.
+     * 
+     * @param Work $work The work being deleted.
+     */
+    #[BeforeDelete]
+    public function removeAllTagsFromWork(Work $work): void
+    {
+        $work->removeAllTags();
+    }
 }
