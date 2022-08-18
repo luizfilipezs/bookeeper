@@ -96,7 +96,7 @@ $form = ActiveForm::begin([
         <?= $form->field($model, 'workIds')->widget(Select2::class, [
             'data' => $selectedWorks,
             'options' => [
-                'value' => implode(',', array_keys($selectedWorks)),
+                'value' => array_keys($selectedWorks),
                 'multiple' => true,
                 'placeholder' => 'Selecione...',
             ],
