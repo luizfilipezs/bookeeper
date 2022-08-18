@@ -26,6 +26,7 @@ class BookController extends Controller
                     'view' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -40,6 +41,18 @@ class BookController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionList(?string $search): array
+    {
+        $this->response->format = Response::FORMAT_JSON;
+
+        return Book::find()
+            ->select(['id', 'title AS text'])
+            ->filterWhere(['like', 'title', $search])
+            ->orFilterWhere(['like', 'subtitle', $search])
+            ->asArray()
+            ->all();
     }
 
     public function actionView(int $id): string
@@ -75,6 +88,26 @@ class BookController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionDelete(int $id): Response
+    {
+        $model = Book::findOne($id);
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            if ($model->delete() !== false) {
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Livro removido com sucesso.');
+            }
+        } finally {
+            if ($transaction->isActive) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Não foi possível excluir o livro.');
+            }
+        }
+
+        return $this->redirect(['index']);
     }
 
     private function saveModel(Book $model): bool

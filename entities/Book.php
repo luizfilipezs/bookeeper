@@ -59,7 +59,7 @@ class Book extends ActiveRecord
             'title' => 'Título',
             'subtitle' => 'Subtítulo',
             'language' => 'Idioma',
-            'volumes' => 'Volumes',
+            'volumes' => 'Qntd. de volumes',
             'pages' => 'Número de páginas',
             'year' => 'Ano de publicação',
             'conservationState' => 'Estado de conservação',

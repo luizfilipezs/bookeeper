@@ -47,6 +47,12 @@ $this->title = "Livro \"{$model->title}\"";
             'attribute' => 'publishingCompany.name',
         ],
         [
+            'label' => 'Tags',
+            'value' => fn () => implode('<br>', $model->tagNames),
+            'format' => 'html',
+            'visible' => !!$model->tagNames,
+        ],
+        [
             'attribute' => 'conservationState',
             'value' => BookConservationState::from($model->conservationState)->label(),
         ],

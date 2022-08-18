@@ -57,11 +57,14 @@ $form = ActiveForm::begin([
         <?= $form->field($model, 'pages')->textInput(['maxLength' => true]) ?>
     </div>
     <div class="col-2">
-        <?= $form->field($model, 'year')->textInput(['maxLength' => true]) ?>
+        <?= $form->field($model, 'volumes')->textInput(['placeholder' => '1']) ?>
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-3">
+        <?= $form->field($model, 'year')->textInput(['maxLength' => true]) ?>
+    </div>
+    <div class="col-3">
         <?= $form->field($model, 'conservationState')->dropDownList(BookConservationState::labels()) ?>
     </div>
 </div>
