@@ -38,9 +38,10 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Listas de leitura', 'url' => ['/reading-list/index']],
             ['label' => 'Livros', 'url' => ['/book/index']],
             ['label' => 'Obras', 'url' => ['/work/index']],
+            ['label' => 'Autores', 'url' => ['/author/index']],
+            ['label' => 'Listas de leitura', 'url' => ['/reading-list/index']],
             /*
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
