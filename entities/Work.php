@@ -51,8 +51,7 @@ class Work extends ActiveRecord
      */
     public function getAuthors(): ActiveQuery
     {
-        return $this->hasMany(Author::class, ['id' => 'authorId'])
-            ->viaTable(WorkAuthor::tableName(), ['workId' => 'id']);
+        return $this->hasRelation(Author::class);
     }
 
     /**
@@ -103,14 +102,13 @@ class Work extends ActiveRecord
     }
 
     /**
-     * Returns a query to the related records from table `Author`.
+     * Returns a query to the related records from table `Tag`.
      * 
      * @return ActiveQuery
      */
     public function getTags(): ActiveQuery
     {
-        return $this->hasMany(Tag::class, ['id' => 'tagId'])
-            ->viaTable(WorkTag::tableName(), ['workId' => 'id']);
+        return $this->hasRelation(Tag::class);
     }
 
     /**
