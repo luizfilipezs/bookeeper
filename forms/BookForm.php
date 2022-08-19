@@ -70,9 +70,17 @@ class BookForm extends Book
         }
 
         if ($this->hasNewWorks()) {
-            !$insert && $this->removeAllWorks();
-            $this->saveWorks();
+            $this->resetWorks();
         }
+    }
+
+    /**
+     * Removes the old works and saves the new ones.
+     */
+    private function resetWorks(): void
+    {
+        $this->removeAllWorks();
+        $this->saveWorks();
     }
 
     /**
@@ -99,18 +107,20 @@ class BookForm extends Book
      */
     private function saveWorks(): void
     {
-        $works = Work::findAll($this->workIds);
-
-        foreach ($works as $work) {
-            $this->saveWorkRelation($work);
+        foreach ($this->workIds as $workId) {
+            $this->addWorkById($workId);
         }
     }
 
     /**
      * Creates a relation between a work and the book.
+     * 
+     * @param int $workId The work identifier.
      */
-    private function saveWorkRelation(Work $work): void
+    private function addWorkById(int $workId): void
     {
+        $work = Work::findOne($workId);
+
         try {
             $this->addWork($work);
         } catch (RelationAlreadyExistsException $e) {

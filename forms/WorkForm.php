@@ -67,38 +67,30 @@ class WorkForm extends Work
         parent::afterSave($insert, $changedAttributes);
 
         if ($this->hasNewAuthors()) {
-            !$insert && $this->removeAllAuthors();
-            $this->saveAuthors();
+            $this->resetAuthors();
         }
 
         if ($this->hasNewTags()) {
-            !$insert && $this->removeAllTags();
-            $this->saveTags();
+            $this->resetTags();
         }
     }
 
     /**
-     * Creates relations between the book and its authors.
+     * Removes the old authors and saves the new ones.
      */
-    private function saveAuthors(): void
+    private function resetAuthors(): void
     {
-        $authors = Author::findAll($this->authorIds);
-
-        foreach ($authors as $author) {
-            $this->saveAuthorRelation($author);
-        }
+        $this->removeAllAuthors();
+        $this->saveAuthors();
     }
 
     /**
-     * Creates a relation between a author and the book.
+     * Removes the old tags and saves the new ones.
      */
-    private function saveAuthorRelation(Author $author): void
+    private function resetTags(): void
     {
-        try {
-            $this->addAuthor($author);
-        } catch (RelationAlreadyExistsException $e) {
-            return;
-        }
+        $this->removeAllTags();
+        $this->saveTags();
     }
 
     /**
@@ -130,22 +122,50 @@ class WorkForm extends Work
     }
 
     /**
+     * Creates relations between the book and its authors.
+     */
+    private function saveAuthors(): void
+    {
+        foreach ($this->authorIds as $authorId) {
+            $this->addAuthorById($authorId);
+        }
+    }
+
+    /**
+     * Creates a relation between a author and the work.
+     * 
+     * @param int $authorId The author identifier.
+     */
+    private function addAuthorById(int $authorId): void
+    {
+        $author = Author::findOne($authorId);
+
+        try {
+            $this->addAuthor($author);
+        } catch (RelationAlreadyExistsException $e) {
+            return;
+        }
+    }
+
+    /**
      * Creates relations between the work and its tags.
      */
     private function saveTags(): void
     {
-        $tags = Tag::findAll($this->tagIds);
-
-        foreach ($tags as $tag) {
-            $this->saveTagRelation($tag);
+        foreach ($this->tagIds as $tagId) {
+            $this->addTagById($tagId);
         }
     }
 
     /**
      * Creates a relation between a tag and the work.
+     * 
+     * @param int $tagId The tag identifier.
      */
-    private function saveTagRelation(Tag $tag): void
+    private function addTagById(int $tagId): void
     {
+        $tag = Tag::findOne($tagId);
+
         try {
             $this->addTag($tag);
         } catch (RelationAlreadyExistsException $e) {
