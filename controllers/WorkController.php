@@ -25,6 +25,7 @@ class WorkController extends Controller
                     'list' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -77,6 +78,26 @@ class WorkController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionDelete(int $id): Response
+    {
+        $model = Work::findOne($id);
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            if ($model->delete() !== false) {
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Obra removida com sucesso.');
+            }
+        } finally {
+            if ($transaction->isActive) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Não foi possível excluir a obra.');
+            }
+        }
+
+        return $this->redirect(['index']);
     }
 
     private function saveModel(Work $model): bool
