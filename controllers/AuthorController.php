@@ -22,6 +22,7 @@ class AuthorController extends Controller
                 'actions' => [
                     'index' => ['get'],
                     'list' => ['get'],
+                    'view' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
                 ],
@@ -50,6 +51,15 @@ class AuthorController extends Controller
             ->filterWhere(['like', 'name', $search])
             ->asArray()
             ->all();
+    }
+
+    public function actionView(int $id): string
+    {
+        $model = Author::findOne($id);
+
+        return $this->render('view', [
+            'model' => $model,
+        ]);
     }
 
     public function actionCreate(): string|Response
