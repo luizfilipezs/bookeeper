@@ -3,7 +3,6 @@
 namespace app\core\db;
 
 use app\core\exceptions\FriendlyException;
-use yii\db\ActiveQuery;
 use yii\helpers\StringHelper;
 
 /**
@@ -145,24 +144,6 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         }
 
         $handler->removeRelation();
-    }
-
-    /**
-     * It is the equivalent to `hasMany` for getting a relation through a pivot table.
-     * The only difference is that the records will be ordered by the pivot table `id`.
-     * 
-     * @param string $model Relation model class.
-     * @param string $model (Optional) Pivot relation model class.
-     * 
-     * @return ActiveQuery Query object.
-     */
-    protected function hasRelation(string $model, string $pivotModel = null): ActiveQuery
-    {
-        /** @var self */
-        $relatedRecord = new $model;
-        $handler = $this->getPivotRelationHandler($relatedRecord, $pivotModel);
-
-        return $handler->getRelationQuery();
     }
 
     /**
