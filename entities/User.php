@@ -22,7 +22,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public static function findIdentity($id): ?static
     {
         return self::findOne($id);
     }
@@ -30,7 +30,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($token, $type = null): ?static
     {
         return self::findOne(['accessToken' => $token]);
     }
@@ -50,7 +50,19 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function rules(): array
+    {
+        return [
+            [['username', 'password', 'authKey'], 'required'],
+            [['username', 'password', 'authKey', 'accessToken'], 'string'],
+            ['username', 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId(): int
     {
         return $this->id;
     }
@@ -58,7 +70,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function getAuthKey()
+    public function getAuthKey(): ?string
     {
         return $this->authKey;
     }
@@ -66,7 +78,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return $this->authKey === $authKey;
     }

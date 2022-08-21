@@ -32,6 +32,7 @@ class Tag extends ActiveRecord
         return [
             ['name', 'required'],
             ['name', 'string'],
+            ['name', 'unique'],
         ];
     }
 
