@@ -88,14 +88,14 @@ class Book extends ActiveRecord
     }
 
     /**
-     * Returns a query to the related records from table `Work`.
+     * Returns a query to the related records from table `Work` via a JOIN
+     * operation with the pivot table `BookWork`.
      * 
      * @return ActiveQuery
      */
     public function getWorks(): ActiveQuery
     {
-        return $this->hasMany(Work::class, ['id' => 'workId'])
-            ->via('bookWorks');
+        return $this->hasRelation(Work::class);
     }
 
     /**
@@ -143,11 +143,11 @@ class Book extends ActiveRecord
      */
     public function getAuthorNames(): array
     {
-        return $this->getBookWorks()
+        return $this->getWorks()
             ->select('Author.name')
             ->distinct()
-            ->joinWith(['work.workAuthors.author'], false)
-            ->orderBy('BookWork.id ASC, WorkAuthor.id ASC')
+            ->joinWith('workAuthors.author', false)
+            ->addOrderBy('WorkAuthor.id ASC')
             ->column();
     }
 
@@ -158,11 +158,11 @@ class Book extends ActiveRecord
      */
     public function getTagNames(): array
     {
-        return $this->getBookWorks()
+        return $this->getWorks()
             ->select('Tag.name')
             ->distinct()
-            ->joinWith(['work.workTags.tag'], false)
-            ->orderBy('BookWork.id ASC, WorkTag.id ASC')
+            ->joinWith('workTags.tag', false)
+            ->addOrderBy('WorkTag.id ASC')
             ->column();
     }
 }

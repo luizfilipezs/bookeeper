@@ -16,13 +16,13 @@ $form = ActiveForm::begin([
 ]);
 
 $selectedAuthors = $model->getAuthors()
-    ->select(['name', 'id'])
-    ->indexBy('id')
+    ->select(['Author.name', 'Author.id'])
+    ->indexBy('Author.id')
     ->column();
 
 $selectedTags = $model->getTags()
-    ->select(['name', 'id'])
-    ->indexBy('id')
+    ->select(['Tag.name', 'Tag.id'])
+    ->indexBy('Tag.id')
     ->column();
 
 ?>

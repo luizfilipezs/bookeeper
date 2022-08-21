@@ -3,6 +3,7 @@
 namespace app\core\db;
 
 use app\core\exceptions\FriendlyException;
+use yii\db\ActiveQuery;
 use yii\helpers\StringHelper;
 
 /**
@@ -144,6 +145,13 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         }
 
         $handler->removeRelation();
+    }
+
+    protected function hasRelation(string $modelClass, string $pivotClass = null): ActiveQuery
+    {
+        $handler = $this->getPivotRelationHandler(new $modelClass, $pivotClass);
+
+        return $handler->createQueryForRelation();
     }
 
     /**

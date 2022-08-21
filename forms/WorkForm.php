@@ -104,7 +104,7 @@ class WorkForm extends Work
     private function hasNewAuthors(): bool
     {
         $currentAuthorIds = $this->getAuthors()
-            ->select('id')
+            ->select('Author.id')
             ->column();
         
         return $this->authorIds != $currentAuthorIds;
@@ -118,7 +118,7 @@ class WorkForm extends Work
     private function hasNewTags(): bool
     {
         $currentTagIds = $this->getTags()
-            ->select('id')
+            ->select('Tag.id')
             ->column();
 
         return $this->tagIds != $currentTagIds;

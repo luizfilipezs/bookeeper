@@ -5,6 +5,7 @@ namespace app\core\db;
 use app\core\exceptions\RelationAlreadyExistsException;
 use Yii;
 use yii\base\Component;
+use yii\db\ActiveQuery;
 
 /**
  * Enables creation and deletion of records in pivot tables by simply
@@ -132,6 +133,17 @@ class PivotRelationHandler extends Component
         if ($record->delete() === false) {
             throw new \Exception('Relation could not be removed.');
         }
+    }
+
+    public function createQueryForRelation(): ActiveQuery
+    {
+        $query = new ActiveQuery($this->instanceB::class);
+        $query->multiple = true;
+        $pivotTable = $this->pivotTable;
+
+        return $query->leftJoin($pivotTable, "{$pivotTable}.{$this->fieldNameB} = {$this->tableB}.id")
+            ->where(["{$pivotTable}.{$this->fieldNameA}" => $this->instanceA->id])
+            ->orderBy("{$pivotTable}.id");
     }
 
     private function validateCreation(): void
