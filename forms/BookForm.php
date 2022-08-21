@@ -44,7 +44,7 @@ class BookForm extends Book
         return [
             ...parent::rules(),
             ['canAutoCreateWork', 'boolean'],
-            ['workIds', 'filter', 'filter' => function (array|string $value) {
+            ['workIds', 'filter', 'filter' => function ($value) {
                 return  is_array($value) ? $value : [];
             }],
             ['workIds', 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],

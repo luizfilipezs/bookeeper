@@ -43,7 +43,7 @@ class WorkForm extends Work
     {
         return [
             ...parent::rules(),
-            [['authorIds', 'tagIds'], 'filter', 'filter' => function (array|string $value) {
+            [['authorIds', 'tagIds'], 'filter', 'filter' => function ($value) {
                 return  is_array($value) ? $value : [];
             }],
             ['authorIds', 'exist', 'targetClass' => Author::class, 'targetAttribute' => 'id', 'allowArray' => true],

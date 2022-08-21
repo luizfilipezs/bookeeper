@@ -39,7 +39,7 @@ class Book extends ActiveRecord
             ['conservationState', 'default', 'value' => BookConservationState::New->value],
             ['volumes', 'default', 'value' => 1],
             // common rules
-            [['publishingCompanyId', 'title', 'conservationState', 'volumes'], 'required'],
+            [['publishingCompanyId', 'title'], 'required'],
             [['publishingCompanyId', 'volumes', 'pages'], 'integer'],
             [['title', 'subtitle', 'language', 'year', 'conservationState'], 'string'],
             ['conservationState', 'in', 'range' => BookConservationState::values()],
