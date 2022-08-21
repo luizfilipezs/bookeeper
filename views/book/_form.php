@@ -13,8 +13,8 @@ use yii\web\JsExpression;
  */
 
 $selectedWorks = $model->getWorks()
-    ->select(['title', 'id'])
-    ->indexBy('id')
+    ->select(['Work.title', 'Work.id'])
+    ->indexBy('Work.id')
     ->column();
 
 $selectedPublishingCompany = $model->getPublishingCompany()
