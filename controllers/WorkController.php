@@ -90,11 +90,9 @@ class WorkController extends Controller
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', 'Obra removida com sucesso.');
             }
-        } finally {
-            if ($transaction->isActive) {
-                $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Não foi possível excluir a obra.');
-            }
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir a obra.');
         }
 
         return $this->redirect(['index']);

@@ -102,11 +102,9 @@ class BookController extends Controller
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', 'Livro removido com sucesso.');
             }
-        } finally {
-            if ($transaction->isActive) {
-                $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Não foi possível excluir o livro.');
-            }
+        } catch (\Exception $e){
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir o livro.');
         }
 
         return $this->redirect(['index']);

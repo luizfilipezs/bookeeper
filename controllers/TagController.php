@@ -100,11 +100,9 @@ class TagController extends Controller
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', 'Tag removida com sucesso.');
             }
-        } finally {
-            if ($transaction->isActive) {
-                $transaction->rollBack();
-                Yii::$app->session->setFlash('error', 'Não foi possível excluir a tag.');
-            }
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir a tag.');
         }
 
         return $this->redirect(['index']);
