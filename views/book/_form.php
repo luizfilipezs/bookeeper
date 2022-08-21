@@ -117,6 +117,13 @@ $form = ActiveForm::begin([
         ]) ?>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <?= $form->field($model, 'canAutoCreateWork')->checkbox() ?>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12">
         <?= Html::a('Cancelar', Url::toRoute('index'), ['class' => 'btn btn-danger']) ?>

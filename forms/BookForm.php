@@ -36,6 +36,17 @@ class BookForm extends Book
         return Book::tableName();
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function init(): void
+    {
+        parent::init();
+
+        $this->canAutoCreateWork = !!$this->id;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -57,6 +68,7 @@ class BookForm extends Book
     public function attributeLabels(): array
     {
         return parent::attributeLabels() + [
+            'canAutoCreateWork' => 'Criar obra automaticamente',
             'workIds' => 'Obras',
         ];
     }
