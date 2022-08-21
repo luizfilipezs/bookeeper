@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\entities\ReadingList;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\{
     Controller,
@@ -78,9 +79,12 @@ class ReadingListController extends Controller
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', 'Lista removida com sucesso.');
             }
+        } catch (IntegrityException $e) {
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir a lista. Provavelmente há outros itens vinculados a ela.');
         } catch (\Exception $e) {
-            $transaction->rollBack();
             Yii::$app->session->setFlash('error', 'Não foi possível excluir a lista.');
+        } finally {
+            $transaction->isActive && $transaction->rollBack();
         }
 
         return $this->redirect(['index']);

@@ -7,6 +7,7 @@ use app\entities\Book;
 use app\forms\BookForm;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
@@ -102,9 +103,12 @@ class BookController extends Controller
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', 'Livro removido com sucesso.');
             }
-        } catch (\Exception $e){
-            $transaction->rollBack();
+        } catch (IntegrityException $e) {
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir o livro. Provavelmente há outros itens vinculados a ele.');
+        } catch (\Exception $e) {
             Yii::$app->session->setFlash('error', 'Não foi possível excluir o livro.');
+        } finally {
+            $transaction->isActive && $transaction->rollBack();
         }
 
         return $this->redirect(['index']);

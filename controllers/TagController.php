@@ -6,6 +6,7 @@ use app\core\exceptions\FriendlyException;
 use app\entities\Tag;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
@@ -100,9 +101,12 @@ class TagController extends Controller
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', 'Tag removida com sucesso.');
             }
+        } catch (IntegrityException $e) {
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir a tag. Provavelmente há outros itens vinculados a ela.');
         } catch (\Exception $e) {
-            $transaction->rollBack();
             Yii::$app->session->setFlash('error', 'Não foi possível excluir a tag.');
+        } finally {
+            $transaction->isActive && $transaction->rollBack();
         }
 
         return $this->redirect(['index']);

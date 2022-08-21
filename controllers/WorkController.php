@@ -6,6 +6,7 @@ use app\entities\Work;
 use app\forms\WorkForm;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
@@ -90,9 +91,12 @@ class WorkController extends Controller
                 $transaction->commit();
                 Yii::$app->session->setFlash('success', 'Obra removida com sucesso.');
             }
+        } catch (IntegrityException $e) {
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir a obra. Provavelmente há outros itens vinculados a ela.');
         } catch (\Exception $e) {
-            $transaction->rollBack();
             Yii::$app->session->setFlash('error', 'Não foi possível excluir a obra.');
+        } finally {
+            $transaction->isActive && $transaction->rollBack();
         }
 
         return $this->redirect(['index']);
