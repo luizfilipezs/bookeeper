@@ -34,7 +34,7 @@ class WorkController extends Controller
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Work::find(),
+            'query' => Work::find()->orderBy('id DESC'),
             'pagination' => false,
         ]);
 
