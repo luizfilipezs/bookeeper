@@ -15,6 +15,8 @@ use yii\db\ActiveQuery;
  * 
  * @property-read Author[] $authors
  * @property-read Tag[] $tags
+ * @property-read WorkAuthor[] $workAuthors
+ * @property-read WorkTag[] $workTags
  * 
  * @property-read string[] $authorNames
  * @property-read string[] $tagNames
@@ -45,6 +47,16 @@ class Work extends ActiveRecord
     }
 
     /**
+     * Returns a query to the related records from table `WorkAuthor`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getWorkAuthors(): ActiveQuery
+    {
+        return $this->hasMany(WorkAuthor::class, ['workId' => 'id']);
+    }
+
+    /**
      * Returns a query to the related records from table `Author`.
      * 
      * @return ActiveQuery
@@ -52,7 +64,7 @@ class Work extends ActiveRecord
     public function getAuthors(): ActiveQuery
     {
         return $this->hasMany(Author::class, ['id' => 'authorId'])
-            ->viaTable(WorkAuthor::tableName(), ['workId' => 'id']);
+            ->via('workAuthors');
     }
 
     /**
@@ -96,10 +108,22 @@ class Work extends ActiveRecord
      */
     public function getAuthorNames(): array
     {
-        return $this->getAuthors()
-            ->select('name')
+        return $this->getWorkAuthors()
+            ->select('Author.name')  
+            ->joinWith('author', false)
             ->distinct()
+            ->orderBy('WorkAuthor.id')
             ->column();
+    }
+
+    /**
+     * Returns a query to the related records from table `WorkTag`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getWorkTags(): ActiveQuery
+    {
+        return $this->hasMany(WorkTag::class, ['workId' => 'id']);
     }
 
     /**
@@ -110,7 +134,7 @@ class Work extends ActiveRecord
     public function getTags(): ActiveQuery
     {
         return $this->hasMany(Tag::class, ['id' => 'tagId'])
-            ->viaTable(WorkTag::tableName(), ['workId' => 'id']);
+            ->via('workTags');
     }
 
     /**
@@ -154,8 +178,10 @@ class Work extends ActiveRecord
      */
     public function getTagNames(): array
     {
-        return $this->getTags()
-            ->select('name')
+        return $this->getWorkTags()
+            ->select('Tag.name')
+            ->joinWith('tag', false)
+            ->orderBy('WorkTag.id')
             ->column();
     }
 }

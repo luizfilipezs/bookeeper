@@ -20,6 +20,7 @@ use yii\db\ActiveQuery;
  * @property string $year
  * @property string $conservationState
  * 
+ * @property-read BookWork[] $bookWorks
  * @property-read PublishingCompany $publishingCompany
  * @property-read Work[] $works
  * 
@@ -77,6 +78,16 @@ class Book extends ActiveRecord
     }
 
     /**
+     * Returns a query to the related records from table `BookWork`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getBookWorks(): ActiveQuery
+    {
+        return $this->hasMany(BookWork::class, ['bookId' => 'id']);
+    }
+
+    /**
      * Returns a query to the related records from table `Work`.
      * 
      * @return ActiveQuery
@@ -84,7 +95,7 @@ class Book extends ActiveRecord
     public function getWorks(): ActiveQuery
     {
         return $this->hasMany(Work::class, ['id' => 'workId'])
-            ->viaTable(BookWork::tableName(), ['bookId' => 'id']);
+            ->via('bookWorks');
     }
 
     /**
@@ -132,10 +143,11 @@ class Book extends ActiveRecord
      */
     public function getAuthorNames(): array
     {
-        return $this->getWorks()
+        return $this->getBookWorks()
             ->select('Author.name')
             ->distinct()
-            ->joinWith('authors', false)
+            ->joinWith(['work.workAuthors.author'], false)
+            ->orderBy('BookWork.id ASC, WorkAuthor.id ASC')
             ->column();
     }
 
@@ -146,10 +158,11 @@ class Book extends ActiveRecord
      */
     public function getTagNames(): array
     {
-        return $this->getWorks()
+        return $this->getBookWorks()
             ->select('Tag.name')
             ->distinct()
-            ->joinWith('tags', false)
+            ->joinWith(['work.workTags.tag'], false)
+            ->orderBy('BookWork.id ASC, WorkTag.id ASC')
             ->column();
     }
 }
