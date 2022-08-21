@@ -143,6 +143,9 @@ class PivotRelationHandler extends Component
 
         return $query->leftJoin($pivotTable, "{$pivotTable}.{$this->fieldNameB} = {$this->tableB}.id")
             ->where(["{$pivotTable}.{$this->fieldNameA}" => $this->instanceA->id])
+            ->andWhere(['not', [
+                "{$pivotTable}.{$this->fieldNameA}" => null,
+            ]])
             ->orderBy("{$pivotTable}.id");
     }
 
