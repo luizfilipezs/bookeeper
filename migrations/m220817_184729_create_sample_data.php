@@ -23,7 +23,8 @@ class m220817_184729_create_sample_data extends Migration
 
         $user = new User();
         $user->username = 'admin';
-        $user->password = '071de089fe';
+        $user->password = '123456';
+        $user->authKey = 'adminAuthKey';
         $user->saveOrFail();
 
         // Author
