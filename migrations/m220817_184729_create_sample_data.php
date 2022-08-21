@@ -35,19 +35,23 @@ class m220817_184729_create_sample_data extends Migration
 
         // Book
 
+        $publishingCompany = PublishingCompany::findByName('Antofágica');
+
         $book = new BookForm();
         $book->title = 'Coração das trevas';
-        $book->publishingCompanyId = PublishingCompany::findByName('Antofágica')->id;
+        $book->publishingCompanyId = $publishingCompany->id;
         $book->year = '2020';
         $book->pages = 223;
         $book->saveOrFail();
 
         // Work
 
+        $tag = Tag::findByName('Romance');
+
         /** @var \app\entities\Work */
         $work = $book->getWorks()->one();
         $work->addAuthor($author);
-        $work->addTag(Tag::findByName('Romance'));
+        $work->addTag($tag);
     }
 
     /**
