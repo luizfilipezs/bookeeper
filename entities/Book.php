@@ -19,6 +19,7 @@ use yii\db\ActiveQuery;
  * @property int $pages
  * @property string $year
  * @property string $conservationState
+ * @property string $isbn
  * 
  * @property-read BookWork[] $bookWorks
  * @property-read PublishingCompany $publishingCompany
@@ -42,7 +43,7 @@ class Book extends ActiveRecord
             // common rules
             [['publishingCompanyId', 'title'], 'required'],
             [['publishingCompanyId', 'volumes', 'pages'], 'integer'],
-            [['title', 'subtitle', 'language', 'year', 'conservationState'], 'string'],
+            [['title', 'subtitle', 'language', 'year', 'conservationState', 'isbn'], 'string'],
             ['conservationState', 'in', 'range' => BookConservationState::values()],
             // relations
             ['publishingCompanyId', 'exist', 'skipOnError' => true, 'targetClass' => PublishingCompany::class, 'targetAttribute' => 'id'],
@@ -64,6 +65,7 @@ class Book extends ActiveRecord
             'pages' => 'Número de páginas',
             'year' => 'Ano de publicação',
             'conservationState' => 'Estado de conservação',
+            'isbn' => 'ISBN',
         ];
     }
 
@@ -129,10 +131,8 @@ class Book extends ActiveRecord
      */
     public function removeAllWorks(): void
     {
-        try {
-            foreach ($this->works as $work) $this->removeWork($work);
-        } catch (\Exception $e) {
-            throw new FriendlyException('Não foi possível remover todas as obras vinculadas ao livro.');
+        foreach ($this->works as $work) {
+            $this->removeWork($work);
         }
     }
 

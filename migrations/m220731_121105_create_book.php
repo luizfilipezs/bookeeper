@@ -28,6 +28,7 @@ class m220731_121105_create_book extends Migration
             'pages' => $this->string(),
             'year' => $this->string(),
             'conservationState' => $this->enum(BookConservationState::values()),
+            'isbn' => $this->string(),
         ]);
 
         $this->addForeignKey('fk_book_publishing_company', Book::tableName(), 'publishingCompanyId', PublishingCompany::tableName(), 'id');
