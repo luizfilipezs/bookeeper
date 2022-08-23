@@ -38,6 +38,11 @@ $form = ActiveForm::begin([
 <hr>
 <div class="row">
     <div class="col-6">
+        <?= $form->field($model, 'isbn')->textInput(['maxLength' => true]) ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
         <?= $form->field($model, 'title')->textInput(['maxLength' => true]) ?>
     </div>
 </div>
