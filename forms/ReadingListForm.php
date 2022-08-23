@@ -43,7 +43,6 @@ class ReadingListForm extends ReadingList
     {
         return [
             ...parent::rules(),
-            ['searchInput', 'safe'],
             ['bookIds', 'filter', 'filter' => function ($value) {
                 return  is_array($value) ? $value : explode(',', $value);
             }],
