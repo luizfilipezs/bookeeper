@@ -36,17 +36,6 @@ class BookForm extends Book
         return Book::tableName();
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
-    public function init(): void
-    {
-        parent::init();
-
-        $this->canAutoCreateWork = !!$this->id;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -151,7 +140,7 @@ class BookForm extends Book
     private function hasNewWorks(): bool
     {
         $currentWorkIds = $this->getWorks()
-            ->select('id')
+            ->select('Work.id')
             ->column();
 
         return $this->workIds != $currentWorkIds;

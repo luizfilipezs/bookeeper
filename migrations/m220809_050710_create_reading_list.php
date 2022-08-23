@@ -40,7 +40,6 @@ class m220809_050710_create_reading_list extends Migration
     {
         $this->dropForeignKey('fk_reading_list_item_book', ReadingListItem::tableName());
         $this->dropForeignKey('fk_reading_list_item_reading_list', ReadingListItem::tableName());
-        $this->dropForeignKey('fk_reading_list_user', ReadingList::tableName());
 
         $this->dropTable(ReadingListItem::tableName());
         $this->dropTable(ReadingList::tableName());

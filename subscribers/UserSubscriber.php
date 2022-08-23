@@ -29,7 +29,6 @@ class UserSubscriber
     {
         $readingList = new ReadingList();
         $readingList->name = 'Lidos em ' . date('Y');
-        $readingList->userId = $user->id;
         $readingList->save();
     }
 
