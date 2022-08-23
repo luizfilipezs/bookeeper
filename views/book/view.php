@@ -52,7 +52,7 @@ $this->title = "Livro \"{$model->title}\"";
         ],
         [
             'label' => 'Tags',
-            'value' => fn () => implode('<br>', $model->tagNames),
+            'value' => fn () => implode(', ', $model->tagNames),
             'format' => 'html',
             'visible' => !!$model->tagNames,
         ],
