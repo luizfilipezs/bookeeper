@@ -9,7 +9,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'Listas de leitura';
+$this->title = 'Listas de livros';
 
 ?>
 
