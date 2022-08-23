@@ -1,6 +1,6 @@
 <?php
 
-use app\entities\ReadingListItem;
+use app\entities\Book;
 use kartik\select2\Select2;
 use kartik\sortable\Sortable;
 use yii\helpers\Html;
@@ -13,15 +13,17 @@ use yii\widgets\ActiveForm;
  * @var app\forms\ReadingListForm $model
  */
 
-/** @var array[] */
-$listItems = $model->isNewRecord ? [] : array_map(
-    fn (ReadingListItem $item) => [
+$listItems = [];
+
+foreach ($model->bookIds as $bookId) {
+    $book = Book::findOne($bookId);
+
+    $listItems[] = [
         'content' => $this->render('_list-item', [
-            'model' => $item->book,
+            'model' => $book,
         ]),
-    ],
-    $model->items
-);
+    ];
+}
 
 $form = ActiveForm::begin([
     'method' => 'post',
@@ -67,7 +69,7 @@ $form = ActiveForm::begin([
                 'templateSelection' => new JsExpression('({ text }) => text'),
             ],
         ]) ?>
-        <?= $form->field($model, 'bookIds')->hiddenInput()->label(false) ?>
+        <?= $form->field($model, 'bookIds')->hiddenInput(['value' => ''])->label(false) ?>
     </div>
 </div>
 

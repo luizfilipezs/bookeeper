@@ -19,7 +19,7 @@ class ReadingListForm extends ReadingList
      * 
      * @var string[]
      */
-    public $bookIds;
+    public $bookIds = [];
 
     /**
      * Search input for books. Used in the frontend.
@@ -39,12 +39,24 @@ class ReadingListForm extends ReadingList
     /**
      * {@inheritdoc}
      */
+    public function afterFind(): void
+    {
+        parent::init();
+
+        $this->bookIds = $this->getItems()
+            ->select('bookId')
+            ->column();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
             ...parent::rules(),
             ['bookIds', 'filter', 'filter' => function ($value) {
-                return  is_array($value) ? $value : explode(',', $value);
+                return is_array($value) ? $value : (!!$value ? explode(',', $value) : []);
             }],
             ['bookIds', 'exist', 'targetClass' => Book::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
