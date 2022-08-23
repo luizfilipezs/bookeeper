@@ -123,11 +123,65 @@ $form = ActiveForm::begin([
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
-        <?= $form->field($model, 'canAutoCreateWork')->checkbox() ?>
+<?php if ($model->isNewRecord) : ?>
+
+    <div class="row">
+        <div class="col-12">
+            <?= $form->field($model, 'canAutoCreateWork')->checkbox() ?>
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-6">
+            <?= $form->field($model, 'authorIds')->widget(Select2::class, [
+                'options' => [
+                    'multiple' => true,
+                    'placeholder' => 'Selecione...',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'minimumInputLength' => 1,
+                    'ajax' => [
+                        'url' => Url::to(['author/list']),
+                        'data' => new JsExpression("({ term }) => ({ search: term })"),
+                        'dataType' => 'json',
+                        'cache' => true,
+                        'processResults' => new JsExpression('results => ({ results })'),
+                    ],
+                    'escapeMarkup' => new JsExpression('markup => markup'),
+                    'templateResult' => new JsExpression('({ text }) => text'),
+                    'templateSelection' => new JsExpression('({ text }) => text'),
+                ],
+            ]) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <?= $form->field($model, 'tagIds')->widget(Select2::class, [
+                'options' => [
+                    'multiple' => true,
+                    'placeholder' => 'Selecione...',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'minimumInputLength' => 1,
+                    'ajax' => [
+                        'url' => Url::to(['tag/list']),
+                        'data' => new JsExpression("({ term }) => ({ search: term })"),
+                        'dataType' => 'json',
+                        'cache' => true,
+                        'processResults' => new JsExpression('results => ({ results })'),
+                    ],
+                    'escapeMarkup' => new JsExpression('markup => markup'),
+                    'templateResult' => new JsExpression('({ text }) => text'),
+                    'templateSelection' => new JsExpression('({ text }) => text'),
+                ],
+            ]) ?>
+        </div>
+    </div>
+
+<?php endif ?>
 
 <div class="row">
     <div class="col-12">
@@ -139,3 +193,20 @@ $form = ActiveForm::begin([
 <?php
 
 ActiveForm::end();
+
+$canAutoCreateWorkInput = Html::getInputId($model, 'canAutoCreateWork');
+$workIdsInput = Html::getInputId($model, 'workIds');
+$authorIdsInput = Html::getInputId($model, 'authorIds');
+$tagIdsInput = Html::getInputId($model, 'tagIds');
+
+$this->registerJs(<<<JS
+
+jQuery('#{$canAutoCreateWorkInput}')
+    .change(function () {
+        jQuery('#{$workIdsInput}').parent().toggle(!this.checked);
+        jQuery('#{$authorIdsInput}').parent().toggle(this.checked);
+        jQuery('#{$tagIdsInput}').parent().toggle(this.checked);
+    })
+    .change();
+
+JS);

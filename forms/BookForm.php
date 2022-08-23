@@ -22,11 +22,25 @@ class BookForm extends Book
     public $workIds;
 
     /**
+     * List of author IDs. Used to create a default work.
+     * 
+     * @var string[]
+     */
+    public $authorIds;
+
+    /**
+     * List of tag IDs. Used to create a default work.
+     * 
+     * @var string[]
+     */
+    public $tagIds;
+
+    /**
      * Wether a work should automatically be created if none is specified.
      * 
      * @var bool
      */
-    public $canAutoCreateWork = true;
+    public $canAutoCreateWork;
 
     /**
      * {@inheritdoc}
@@ -39,11 +53,24 @@ class BookForm extends Book
     /**
      * {@inheritdoc}
      */
+    public function init(): void
+    {
+        parent::init();
+
+        if ($this->canAutoCreateWork === null) {
+            $this->canAutoCreateWork = $this->isNewRecord;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
             ...parent::rules(),
             ['canAutoCreateWork', 'boolean'],
+            [['authorIds', 'tagIds'], 'safe'],
             ['workIds', 'filter', 'filter' => function ($value) {
                 return  is_array($value) ? $value : [];
             }],
@@ -59,6 +86,8 @@ class BookForm extends Book
         return parent::attributeLabels() + [
             'canAutoCreateWork' => 'Criar obra automaticamente',
             'workIds' => 'Obras',
+            'authorIds' => 'Autores da obra',
+            'tagIds' => 'Tags da obra',
         ];
     }
 
@@ -95,15 +124,18 @@ class BookForm extends Book
      */
     private function generateWork(): void
     {
-        $work = new Work();
-        $work->title = $this->title;
-        $work->subtitle = $this->subtitle;
+        $workForm = new WorkForm();
+
+        $workForm->title = $this->title;
+        $workForm->subtitle = $this->subtitle;
+        $workForm->authorIds = $this->authorIds;
+        $workForm->tagIds = $this->tagIds;
         
-        if (!$work->save()) {
+        if (!$workForm->save()) {
             throw new FriendlyException('Não foi possível salvar a obra referente ao livro. Será necessário cadastrá-la manualmente.');
         }
 
-        $this->workIds[] = $work->id;
+        $this->workIds[] = $workForm->id;
     }
 
     /**
