@@ -3,16 +3,22 @@
 namespace app\controllers;
 
 use app\core\exceptions\FriendlyException;
+use app\core\web\ICrudActions;
 use app\entities\Book;
 use app\forms\BookForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
-use yii\web\Response;
+use yii\web\{
+    Controller,
+    Response
+};
 
-class BookController extends Controller
+/**
+ * {@inheritdoc}
+ */
+class BookController extends Controller implements ICrudActions
 {
     /**
      * {@inheritdoc}
@@ -34,6 +40,9 @@ class BookController extends Controller
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
@@ -46,6 +55,9 @@ class BookController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionList(?string $search): array
     {
         $this->response->format = Response::FORMAT_JSON;
@@ -58,6 +70,9 @@ class BookController extends Controller
             ->all();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionView(int $id): string
     {
         $model = Book::findOne($id);
@@ -67,6 +82,9 @@ class BookController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionCreate(): string|Response
     {
         $model = new BookForm();
@@ -80,6 +98,9 @@ class BookController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionUpdate(int $id): string|Response
     {
         $model = BookForm::findOne($id);
@@ -93,6 +114,9 @@ class BookController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionDelete(int $id): Response
     {
         $model = Book::findOne($id);
@@ -114,6 +138,13 @@ class BookController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Saves the record into the database.
+     * 
+     * @param Book $model Record being created/updated.
+     * 
+     * @return bool Whether the record was saved successfully.
+     */
     private function saveModel(Book $model): bool
     {
         if (!$model->load($this->request->post())) {
