@@ -24,7 +24,7 @@ $form = ActiveForm::begin([
 <div class="row">
     <div class="col-6">
         <?= $form->field($model, 'nationality')->dropDownList(Nationality::labels(), [
-            'placeholder' => 'Selecionar...',
+            'prompt' => 'Selecionar...',
         ]) ?>
     </div>
 </div>
