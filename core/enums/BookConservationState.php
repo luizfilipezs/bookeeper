@@ -2,9 +2,12 @@
 
 namespace app\core\enums;
 
-use app\core\enums\interfaces\ILabel;
+use app\core\enums\interfaces\{
+    ILabel,
+    IValues
+};
 
-enum BookConservationState: string implements ILabel
+enum BookConservationState: string implements IValues, ILabel
 {
     case New = 'new';
     case Regular = 'regular';
@@ -13,9 +16,7 @@ enum BookConservationState: string implements ILabel
     case DustyAndMissingPages = 'dusty,missingPages';
 
     /**
-     * Returns an array with all case values.
-     * 
-     * @return string[] Case values.
+     * {@inheritdoc}
      */
     public static function values(): array
     {

@@ -2,9 +2,12 @@
 
 namespace app\core\enums;
 
-use app\core\enums\interfaces\ILabel;
+use app\core\enums\interfaces\{
+    ILabel,
+    IValues
+};
 
-enum Nationality: string implements ILabel
+enum Nationality: string implements IValues, ILabel
 {
     case Brazilian = 'brazilian';
     case English = 'english';
@@ -18,17 +21,25 @@ enum Nationality: string implements ILabel
     /**
      * {@inheritdoc}
      */
+    public static function values(): array
+    {
+        return array_map(fn (self $case) => $case->value, self::cases());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public static function labels(): array
     {
         return [
-            self::Brazilian => 'Brasil',
-            self::English => 'Inglaterra',
-            self::French => 'França',
-            self::Indian => 'Índia',
-            self::Italian => 'Itália',
-            self::Polish => 'Polônia',
-            self::Portuguese => 'Portugal',
-            self::Russian => 'Rússia',
+            self::Brazilian->value => 'Brasil',
+            self::English->value => 'Inglaterra',
+            self::French->value => 'França',
+            self::Indian->value => 'Índia',
+            self::Italian->value => 'Itália',
+            self::Polish->value => 'Polônia',
+            self::Portuguese->value => 'Portugal',
+            self::Russian->value => 'Rússia',
         ];
     }
 
