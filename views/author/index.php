@@ -28,7 +28,7 @@ $this->title = 'Autores';
     'columns' => [
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '<div class="d-flex justify-content-around">{view} {update}</div>',
+            'template' => '<div class="d-flex justify-content-around">{view} {update} {delete}</div>',
         ],
         'name',
         'nationality',
