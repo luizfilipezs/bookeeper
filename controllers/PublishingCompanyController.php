@@ -2,13 +2,19 @@
 
 namespace app\controllers;
 
+use app\core\web\IActionList;
 use app\entities\PublishingCompany;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
-use yii\web\Response;
+use yii\web\{
+    Controller,
+    Response
+};
 
 
-class PublishingCompanyController extends Controller
+/**
+ * {@inheritdoc}
+ */
+class PublishingCompanyController extends Controller implements IActionList
 {
     /**
      * {@inheritdoc}
@@ -25,6 +31,9 @@ class PublishingCompanyController extends Controller
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionList(?string $search): array
     {
         $this->response->format = Response::FORMAT_JSON;
