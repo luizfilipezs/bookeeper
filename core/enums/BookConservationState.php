@@ -2,7 +2,9 @@
 
 namespace app\core\enums;
 
-enum BookConservationState: string
+use app\core\enums\interfaces\ILabel;
+
+enum BookConservationState: string implements ILabel
 {
     case New = 'new';
     case Regular = 'regular';
@@ -21,9 +23,7 @@ enum BookConservationState: string
     }
 
     /**
-     * Returns an array with all case labels.
-     * 
-     * @return string[] Case labels.
+     * {@inheritdoc}
      */
     public static function labels(): array
     {
@@ -37,9 +37,7 @@ enum BookConservationState: string
     }
 
     /**
-     * Returns the label for the current value.
-     * 
-     * @return string Value label.
+     * {@inheritdoc}
      */
     public function label(): string
     {
