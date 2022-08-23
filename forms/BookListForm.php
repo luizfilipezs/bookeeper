@@ -69,7 +69,7 @@ class BookListForm extends BookList
     {
         return parent::attributeLabels() + [
             'bookIds' => 'Livros',
-            'searchInput' => 'Adicionar itens',
+            'searchInput' => 'Adicionar livros',
         ];
     }
 
