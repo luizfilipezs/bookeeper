@@ -5,7 +5,7 @@
  * @var app\forms\ReadingListForm $model
  */
 
-$this->title = 'Editar lista';
+$this->title = 'Criar lista';
 
 echo $this->render('_form', [
     'model' => $model,

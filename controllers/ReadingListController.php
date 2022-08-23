@@ -2,7 +2,10 @@
 
 namespace app\controllers;
 
+use app\core\exceptions\FriendlyException;
+use app\entities\Book;
 use app\entities\ReadingList;
+use app\forms\ReadingListForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
@@ -26,6 +29,8 @@ class ReadingListController extends Controller
                     'index' => ['get'],
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
+                    'delete' => ['post'],
+                    'search-books' => ['get'],
                 ],
             ],
         ];
@@ -45,7 +50,7 @@ class ReadingListController extends Controller
 
     public function actionCreate(): string|Response
     {
-        $model = new ReadingList();
+        $model = new ReadingListForm();
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -58,7 +63,7 @@ class ReadingListController extends Controller
 
     public function actionUpdate(int $id): string|Response
     {
-        $model = ReadingList::findOne($id);
+        $model = ReadingListForm::findOne($id);
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -90,7 +95,32 @@ class ReadingListController extends Controller
         return $this->redirect(['index']);
     }
 
-    private function saveModel(ReadingList $model): bool
+    public function actionSearchBooks(?string $search): array
+    {
+        $this->response->format = Response::FORMAT_JSON;
+
+        /** @var Book[] */
+        $books = Book::find()
+            ->filterWhere(['like', 'title', $search])
+            ->orFilterWhere(['like', 'subtitle', $search])
+            ->all();
+
+        /** @var array[] */
+        $results = [];
+
+        foreach ($books as $book)
+            $results[] = [
+                'id' => $book->id,
+                'text' => $book->title,
+                'template' => $this->renderPartial('_list-item', [
+                    'model' => $book,
+                ]),
+            ];
+
+        return $results;
+    }
+
+    private function saveModel(ReadingListForm $model): bool
     {
         if (!$model->load($this->request->post())) {
             return false;
@@ -101,12 +131,16 @@ class ReadingListController extends Controller
         try {
             $model->saveOrFail();
             $transaction->commit();
-            Yii::$app->session->setFlash('success', 'Obra salva com sucesso!');
+            Yii::$app->session->setFlash('success', 'Lista salva com sucesso!');
+        } catch (FriendlyException $friendlyException) {
+            Yii::$app->session->setFlash('error', $friendlyException->getMessage());
         } catch (\Exception $e) {
-            Yii::$app->session->setFlash('error', 'Não foi possível salvar a obra.');
-            return false;
+            Yii::$app->session->setFlash('error', 'Não foi possível salvar a lista.');
         } finally {
-            $transaction->isActive && $transaction->rollBack();
+            if ($transaction->isActive) {
+                $transaction->rollBack();
+                return false;
+            }
         }
 
         return true;

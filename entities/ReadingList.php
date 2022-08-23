@@ -3,6 +3,7 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use app\core\exceptions\FriendlyException;
 use yii\db\ActiveQuery;
 
 /**
@@ -22,8 +23,8 @@ class ReadingList extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'], 'required'],
-            [['name'], 'string'],
+            ['name', 'required'],
+            ['name', 'string'],
         ];
     }
 
@@ -56,5 +57,19 @@ class ReadingList extends ActiveRecord
     public function getBooks(): ActiveQuery
     {
         return $this->hasMany(Book::class, ['id' => 'bookId'])->via('items');
+    }
+
+    /**
+     * Removes all list items.
+     * 
+     * @throws FriendlyException If an item could not be removed.
+     */
+    public function removeAllItems(): void
+    {
+        foreach ($this->items as $item) {
+            if ($item->delete() === false) {
+                throw new FriendlyException('Não foi possível remover um dos itens.');
+            }
+        }
     }
 }
