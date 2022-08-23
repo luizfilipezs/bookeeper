@@ -5,11 +5,14 @@
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
+use app\core\enums\Nationality;
+use app\entities\Author;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Autores';
+
 ?>
 
 <div class="row">
@@ -31,6 +34,13 @@ $this->title = 'Autores';
             'template' => '<div class="d-flex justify-content-around">{view} {update} {delete}</div>',
         ],
         'name',
-        'nationality',
+        [
+            'attribute' => 'nationality',
+            'value' => function (Author $model) {
+                if ($model->nationality) {
+                    return Nationality::from($model->nationality)->label();
+                }
+            },
+        ],
     ],
 ]) ?>

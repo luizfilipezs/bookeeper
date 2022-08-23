@@ -5,6 +5,7 @@
  * @var app\entities\Author $model
  */
 
+use app\core\enums\Nationality;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -22,7 +23,9 @@ $form = ActiveForm::begin([
 </div>
 <div class="row">
     <div class="col-6">
-        <?= $form->field($model, 'nationality')->textInput(['maxLength' => true]) ?>
+        <?= $form->field($model, 'nationality')->dropDownList(Nationality::labels(), [
+            'placeholder' => 'Selecionar...',
+        ]) ?>
     </div>
 </div>
 

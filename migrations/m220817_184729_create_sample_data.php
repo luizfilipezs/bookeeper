@@ -1,5 +1,6 @@
 <?php
 
+use app\core\enums\Nationality;
 use app\entities\{
     Author,
     PublishingCompany,
@@ -31,7 +32,7 @@ class m220817_184729_create_sample_data extends Migration
 
         $author = new Author();
         $author->name = 'Joseph Conrad';
-        $author->nationality = 'Polônia';
+        $author->nationality = Nationality::Polish->value;
         $author->saveOrFail();
 
         // Book

@@ -1,5 +1,6 @@
 <?php
 
+use app\core\enums\Nationality;
 use app\entities\Author;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -28,7 +29,13 @@ $this->title = "Autor \"{$model->name}\"";
     'model' => $model,
     'attributes' => [
         'name',
-        'nationality',
+        [
+            'attribute' => 'nationality',
+            'value' => function (Author $model) {
+                return Nationality::from($model->nationality)->label();
+            },
+            'visible' => !!$model->nationality,
+        ],
         [
             'label' => 'Obras',
             'value' => function (Author $model) {

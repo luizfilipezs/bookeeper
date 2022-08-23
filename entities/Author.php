@@ -3,6 +3,7 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use app\core\enums\Nationality;
 use yii\db\ActiveQuery;
 
 /**
@@ -24,6 +25,7 @@ class Author extends ActiveRecord
         return [
             [['name'], 'required'],
             [['name', 'nationality'], 'string'],
+            ['nationality', 'in', 'range' => Nationality::values()],
         ];
     }
 
