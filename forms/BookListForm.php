@@ -4,15 +4,15 @@ namespace app\forms;
 
 use app\core\exceptions\FriendlyException;
 use app\entities\{
-    ReadingList,
+    BookList,
     Book,
-    ReadingListItem
+    BookListItem
 };
 
 /**
  * This form is used to update reading lists.
  */
-class ReadingListForm extends ReadingList
+class BookListForm extends BookList
 {
     /**
      * List of book IDs.
@@ -33,7 +33,7 @@ class ReadingListForm extends ReadingList
      */
     public final static function tableName(): string
     {
-        return ReadingList::tableName();
+        return BookList::tableName();
     }
 
     /**
@@ -104,8 +104,8 @@ class ReadingListForm extends ReadingList
      */
     private function addBookById(int $bookId): void
     {
-        $item = new ReadingListItem();
-        $item->readingListId = $this->id;
+        $item = new BookListItem();
+        $item->bookListId = $this->id;
         $item->bookId = $bookId;
 
         if (!$item->save()) {
@@ -116,9 +116,9 @@ class ReadingListForm extends ReadingList
     /**
      * Throws a friendly exception specifying an error on adding an item to the list.
      * 
-     * @param ReadingListItem $item Item that could not be saves.
+     * @param BookListItem $item Item that could not be saves.
      */
-    private function handleErrorOnSavingItem(ReadingListItem $item): void
+    private function handleErrorOnSavingItem(BookListItem $item): void
     {
         $message = ($bookTitle = $item->book->title ?? false) ?
             "Não foi possível adicionar o livro \"{$bookTitle}\" à lista." :

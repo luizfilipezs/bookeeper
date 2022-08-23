@@ -7,15 +7,15 @@ use app\core\exceptions\FriendlyException;
 use yii\db\ActiveQuery;
 
 /**
- * This is the model class for table "ReadingList".
+ * This is the model class for table "BookList".
  * 
  * @property int $id
  * @property string $name
  * 
  * @property-read Book[] $books
- * @property-read ReadingListItem[] $items
+ * @property-read BookListItem[] $items
  */
-class ReadingList extends ActiveRecord
+class BookList extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -40,13 +40,13 @@ class ReadingList extends ActiveRecord
     }
 
     /**
-     * Returns a query to the related records from table `ReadingListItem`.
+     * Returns a query to the related records from table `BookListItem`.
      * 
      * @return ActiveQuery
      */
     public function getItems(): ActiveQuery
     {
-        return $this->hasMany(ReadingListItem::class, ['readingListId' => 'id']);
+        return $this->hasMany(BookListItem::class, ['bookListId' => 'id']);
     }
 
     /**

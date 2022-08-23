@@ -9,7 +9,7 @@ use app\core\db\subscription\{
 };
 use app\core\exceptions\FriendlyException;
 use app\entities\{
-    ReadingList,
+    BookList,
     User
 };
 
@@ -25,11 +25,11 @@ class UserSubscriber
      * @param User $user The new user.
      */
     #[AfterInsert]
-    public function createUserDefaultReadingList(User $user): void
+    public function createUserDefaultBookList(User $user): void
     {
-        $readingList = new ReadingList();
-        $readingList->name = 'Lidos em ' . date('Y');
-        $readingList->save();
+        $bookList = new BookList();
+        $bookList->name = 'Lidos em ' . date('Y');
+        $bookList->save();
     }
 
     /**
@@ -40,23 +40,23 @@ class UserSubscriber
      * @throws FriendlyException If a reading list could not be deleted.
      */
     #[BeforeDelete]
-    public function removeUserReadingLists(User $user): void
+    public function removeUserBookLists(User $user): void
     {
-        foreach ($user->readingLists as $readingList) {
-            $this->deleteReadingList($readingList);
+        foreach ($user->bookLists as $bookList) {
+            $this->deleteBookList($bookList);
         }
     }
 
     /**
      * Deletes a reading list.
      * 
-     * @param ReadingList $readingList Record to delete.
+     * @param BookList $bookList Record to delete.
      * 
      * @throws FriendlyException If the record could not be deleted.
      */
-    private function deleteReadingList(ReadingList $readingList): void
+    private function deleteBookList(BookList $bookList): void
     {
-        if ($readingList->delete() === false) {
+        if ($bookList->delete() === false) {
             throw new FriendlyException('Não foi possível remover todas as listas de leitura.');
         }
     }

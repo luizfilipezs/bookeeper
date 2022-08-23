@@ -6,15 +6,15 @@ use app\core\db\ActiveRecord;
 use yii\db\ActiveQuery;
 
 /**
- * This is the model class for table "ReadingListItem".
+ * This is the model class for table "BookListItem".
  * 
  * @property int $id
- * @property int $readingListId
+ * @property int $bookListId
  * @property ?int $bookId
  * 
  * @property-read Book $book
  */
-class ReadingListItem extends ActiveRecord
+class BookListItem extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -23,9 +23,9 @@ class ReadingListItem extends ActiveRecord
     {
         return [
             // common rules
-            [['readingListId', 'bookId'], 'required'],
+            [['bookListId', 'bookId'], 'required'],
             // relations
-            ['readingListId', 'exist', 'skipOnError' => true, 'targetClass' => ReadingList::class, 'targetAttribute' => 'id'],
+            ['bookListId', 'exist', 'skipOnError' => true, 'targetClass' => BookList::class, 'targetAttribute' => 'id'],
             ['bookId', 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => 'id'],
         ];
     }
@@ -37,7 +37,7 @@ class ReadingListItem extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'readingListId' => 'Lista de leitura',
+            'bookListId' => 'Lista de leitura',
             'bookId' => 'Livro',
         ];
     }

@@ -2,8 +2,8 @@
 
 use app\entities\{
     Book,
-    ReadingList,
-    ReadingListItem,
+    BookList,
+    BookListItem,
     User,
 };
 use yii\db\Migration;
@@ -18,19 +18,19 @@ class m220809_050710_create_reading_list extends Migration
      */
     public function safeUp()
     {
-        $this->createTable(ReadingList::tableName(), [
+        $this->createTable(BookList::tableName(), [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
         ]);
 
-        $this->createTable(ReadingListItem::tableName(), [
+        $this->createTable(BookListItem::tableName(), [
             'id' => $this->primaryKey(),
-            'readingListId' => $this->integer()->notNull(),
+            'bookListId' => $this->integer()->notNull(),
             'bookId' => $this->integer()->notNull(),
         ]);
 
-        $this->addForeignKey('fk_reading_list_item_reading_list', ReadingListItem::tableName(), 'readingListId', ReadingList::tableName(), 'id');
-        $this->addForeignKey('fk_reading_list_item_book', ReadingListItem::tableName(), 'bookId', Book::tableName(), 'id');
+        $this->addForeignKey('fk_reading_list_item_reading_list', BookListItem::tableName(), 'bookListId', BookList::tableName(), 'id');
+        $this->addForeignKey('fk_reading_list_item_book', BookListItem::tableName(), 'bookId', Book::tableName(), 'id');
     }
 
     /**
@@ -38,10 +38,10 @@ class m220809_050710_create_reading_list extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_reading_list_item_book', ReadingListItem::tableName());
-        $this->dropForeignKey('fk_reading_list_item_reading_list', ReadingListItem::tableName());
+        $this->dropForeignKey('fk_reading_list_item_book', BookListItem::tableName());
+        $this->dropForeignKey('fk_reading_list_item_reading_list', BookListItem::tableName());
 
-        $this->dropTable(ReadingListItem::tableName());
-        $this->dropTable(ReadingList::tableName());
+        $this->dropTable(BookListItem::tableName());
+        $this->dropTable(BookList::tableName());
     }
 }

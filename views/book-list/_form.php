@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var app\forms\ReadingListForm $model
+ * @var app\forms\BookListForm $model
  */
 
 $listItems = [];

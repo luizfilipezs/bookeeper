@@ -10,8 +10,8 @@ use app\core\web\{
     IActionUpdate
 };
 use app\entities\Book;
-use app\entities\ReadingList;
-use app\forms\ReadingListForm;
+use app\entities\BookList;
+use app\forms\BookListForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
@@ -22,9 +22,9 @@ use yii\web\{
 };
 
 /**
- * Provides actions for handling operations related to the model `ReadingList`.
+ * Provides actions for handling operations related to the model `BookList`.
  */
-class ReadingListController extends Controller implements IActionIndex, IActionCreate, IActionUpdate, IActionDelete
+class BookListController extends Controller implements IActionIndex, IActionCreate, IActionUpdate, IActionDelete
 {
     /**
      * {@inheritdoc}
@@ -51,7 +51,7 @@ class ReadingListController extends Controller implements IActionIndex, IActionC
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => ReadingList::find(),
+            'query' => BookList::find(),
             'pagination' => false,
         ]);
 
@@ -65,7 +65,7 @@ class ReadingListController extends Controller implements IActionIndex, IActionC
      */
     public function actionCreate(): string|Response
     {
-        $model = new ReadingListForm();
+        $model = new BookListForm();
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -81,7 +81,7 @@ class ReadingListController extends Controller implements IActionIndex, IActionC
      */
     public function actionUpdate(int $id): string|Response
     {
-        $model = ReadingListForm::findOne($id);
+        $model = BookListForm::findOne($id);
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -97,7 +97,7 @@ class ReadingListController extends Controller implements IActionIndex, IActionC
      */
     public function actionDelete(int $id): Response
     {
-        $model = ReadingList::findOne($id);
+        $model = BookList::findOne($id);
         $transaction = Yii::$app->db->beginTransaction();
 
         try {
@@ -153,11 +153,11 @@ class ReadingListController extends Controller implements IActionIndex, IActionC
     /**
      * Saves the record into the database.
      * 
-     * @param ReadingListForm $model Form to the record being created/updated.
+     * @param BookListForm $model Form to the record being created/updated.
      * 
      * @return bool Whether the record was saved successfully.
      */
-    private function saveModel(ReadingListForm $model): bool
+    private function saveModel(BookListForm $model): bool
     {
         if (!$model->load($this->request->post())) {
             return false;

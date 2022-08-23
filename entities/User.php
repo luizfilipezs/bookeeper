@@ -15,7 +15,7 @@ use yii\web\IdentityInterface;
  * @property string $authKey
  * @property string $accessToken
  * 
- * @property-read ReadingList[] $readingLists
+ * @property-read BookList[] $bookLists
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -96,12 +96,12 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Returns a query to the related records from table `ReadingList`.
+     * Returns a query to the related records from table `BookList`.
      * 
      * @return ActiveQuery
      */
-    public function getReadingLists(): ActiveQuery
+    public function getBookLists(): ActiveQuery
     {
-        return $this->hasMany(ReadingList::class, ['userId' => 'id']);
+        return $this->hasMany(BookList::class, ['userId' => 'id']);
     }
 }
