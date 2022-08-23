@@ -29,7 +29,7 @@ $this->title = 'Obras';
     'columns' => [
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '<div class="d-flex justify-content-around">{update} {delete}</div>',
+            'template' => '<div class="d-flex justify-content-around">{view} {update} {delete}</div>',
         ],
         [
             'label' => (new Work)->getAttributeLabel('title'),
