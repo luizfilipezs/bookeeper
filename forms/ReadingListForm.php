@@ -41,7 +41,7 @@ class ReadingListForm extends ReadingList
      */
     public function afterFind(): void
     {
-        parent::init();
+        parent::afterFind();
 
         $this->bookIds = $this->getItems()
             ->select('bookId')
