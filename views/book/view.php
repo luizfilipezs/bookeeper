@@ -28,6 +28,10 @@ $this->title = "Livro \"{$model->title}\"";
     'model' => $model,
     'attributes' => [
         [
+            'attribute' => 'isbn',
+            'visible' => !!$model->isbn,
+        ],
+        [
             'attribute' => 'subtitle',
             'visible' => !!$model->subtitle,
         ],
