@@ -16,7 +16,7 @@ use yii\web\{
 };
 
 /**
- * {@inheritdoc}
+ * Provides actions for handling operations related to the model `Book`.
  */
 class BookController extends Controller implements ICrudActions
 {
@@ -141,11 +141,11 @@ class BookController extends Controller implements ICrudActions
     /**
      * Saves the record into the database.
      * 
-     * @param Book $model Record being created/updated.
+     * @param BookForm $model Form to the record being created/updated.
      * 
      * @return bool Whether the record was saved successfully.
      */
-    private function saveModel(Book $model): bool
+    private function saveModel(BookForm $model): bool
     {
         if (!$model->load($this->request->post())) {
             return false;

@@ -12,7 +12,7 @@ use yii\web\{
 
 
 /**
- * {@inheritdoc}
+ * Provides actions for handling operations related to the model `PublishingCompany`.
  */
 class PublishingCompanyController extends Controller implements IActionList
 {

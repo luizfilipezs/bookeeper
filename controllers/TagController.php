@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\core\exceptions\FriendlyException;
+use app\core\web\ICrudActions;
 use app\entities\Tag;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -11,7 +12,10 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
 
-class TagController extends Controller
+/**
+ * Provides actions for handling operations related to the model `Tag`.
+ */
+class TagController extends Controller implements ICrudActions
 {
     /**
      * {@inheritdoc}
@@ -33,6 +37,9 @@ class TagController extends Controller
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
@@ -45,6 +52,9 @@ class TagController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionList(?string $search): array
     {
         $this->response->format = Response::FORMAT_JSON;
@@ -56,6 +66,9 @@ class TagController extends Controller
             ->all();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionView(int $id): string
     {
         $model = Tag::findOne($id);
@@ -65,6 +78,9 @@ class TagController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionCreate(): string|Response
     {
         $model = new Tag();
@@ -78,6 +94,9 @@ class TagController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionUpdate(int $id): string|Response
     {
         $model = Tag::findOne($id);
@@ -91,6 +110,9 @@ class TagController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionDelete(int $id): Response
     {
         $model = Tag::findOne($id);
@@ -112,6 +134,13 @@ class TagController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Saves the record into the database.
+     * 
+     * @param Tag $model Record being created/updated.
+     * 
+     * @return bool Whether the record was saved successfully.
+     */
     private function saveModel(Tag $model): bool
     {
         if (!$model->load($this->request->post())) {

@@ -3,6 +3,12 @@
 namespace app\controllers;
 
 use app\core\exceptions\FriendlyException;
+use app\core\web\{
+    IActionIndex,
+    IActionCreate,
+    IActionDelete,
+    IActionUpdate
+};
 use app\entities\Book;
 use app\entities\ReadingList;
 use app\forms\ReadingListForm;
@@ -15,7 +21,10 @@ use yii\web\{
     Response
 };
 
-class ReadingListController extends Controller
+/**
+ * Provides actions for handling operations related to the model `ReadingList`.
+ */
+class ReadingListController extends Controller implements IActionIndex, IActionCreate, IActionUpdate, IActionDelete
 {
     /**
      * {@inheritdoc}
@@ -36,6 +45,9 @@ class ReadingListController extends Controller
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
@@ -48,6 +60,9 @@ class ReadingListController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionCreate(): string|Response
     {
         $model = new ReadingListForm();
@@ -61,6 +76,9 @@ class ReadingListController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionUpdate(int $id): string|Response
     {
         $model = ReadingListForm::findOne($id);
@@ -74,6 +92,9 @@ class ReadingListController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionDelete(int $id): Response
     {
         $model = ReadingList::findOne($id);
@@ -95,6 +116,15 @@ class ReadingListController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Searches books by their title or subtitle and returns an array with the results
+     * to be used in the form.
+     * 
+     * @param string $search (Optional) Search term.
+     * 
+     * @return array[] Array of results, where each element is an array with the keys
+     * `id`, `text`, and `template`.
+     */
     public function actionSearchBooks(?string $search): array
     {
         $this->response->format = Response::FORMAT_JSON;
@@ -120,6 +150,13 @@ class ReadingListController extends Controller
         return $results;
     }
 
+    /**
+     * Saves the record into the database.
+     * 
+     * @param ReadingListForm $model Form to the record being created/updated.
+     * 
+     * @return bool Whether the record was saved successfully.
+     */
     private function saveModel(ReadingListForm $model): bool
     {
         if (!$model->load($this->request->post())) {

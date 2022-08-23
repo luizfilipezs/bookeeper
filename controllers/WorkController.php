@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\core\web\ICrudActions;
 use app\entities\Work;
 use app\forms\WorkForm;
 use Yii;
@@ -11,7 +12,10 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
 
-class WorkController extends Controller
+/**
+ * Provides actions for handling operations related to the model `Work`.
+ */
+class WorkController extends Controller implements ICrudActions
 {
     /**
      * {@inheritdoc}
@@ -32,6 +36,9 @@ class WorkController extends Controller
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
@@ -44,6 +51,9 @@ class WorkController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionList(?string $search): array
     {
         $this->response->format = Response::FORMAT_JSON;
@@ -55,6 +65,21 @@ class WorkController extends Controller
             ->all();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function actionView(int $id): string
+    {
+        $model = Work::findOne($id);
+
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function actionCreate(): string|Response
     {
         $model = new WorkForm();
@@ -68,6 +93,9 @@ class WorkController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionUpdate(int $id): string|Response
     {
         $model = WorkForm::findOne($id);
@@ -81,6 +109,9 @@ class WorkController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionDelete(int $id): Response
     {
         $model = Work::findOne($id);
@@ -102,7 +133,14 @@ class WorkController extends Controller
         return $this->redirect(['index']);
     }
 
-    private function saveModel(Work $model): bool
+    /**
+     * Saves the record into the database.
+     * 
+     * @param WorkForm $model Form to the record being created/updated.
+     * 
+     * @return bool Whether the record was saved successfully.
+     */
+    private function saveModel(WorkForm $model): bool
     {
         if (!$model->load($this->request->post())) {
             return false;

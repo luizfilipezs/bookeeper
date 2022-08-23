@@ -15,7 +15,7 @@ use yii\web\{
 };
 
 /**
- * {@inheritdoc}
+ * Provides actions for handling operations related to the model `Author`.
  */
 class AuthorController extends Controller implements ICrudActions
 {
