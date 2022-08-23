@@ -2,14 +2,22 @@
 
 namespace app\controllers;
 
+use app\core\exceptions\FriendlyException;
+use app\core\web\ICrudActions;
 use app\entities\Author;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
-use yii\web\Response;
+use yii\web\{
+    Controller,
+    Response
+};
 
-class AuthorController extends Controller
+/**
+ * {@inheritdoc}
+ */
+class AuthorController extends Controller implements ICrudActions
 {
     /**
      * {@inheritdoc}
@@ -30,6 +38,9 @@ class AuthorController extends Controller
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
@@ -42,6 +53,9 @@ class AuthorController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionList(?string $search): array
     {
         $this->response->format = Response::FORMAT_JSON;
@@ -53,6 +67,9 @@ class AuthorController extends Controller
             ->all();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionView(int $id): string
     {
         $model = Author::findOne($id);
@@ -62,6 +79,9 @@ class AuthorController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionCreate(): string|Response
     {
         $model = new Author();
@@ -75,6 +95,9 @@ class AuthorController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function actionUpdate(int $id): string|Response
     {
         $model = Author::findOne($id);
@@ -88,6 +111,37 @@ class AuthorController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function actionDelete(int $id): Response
+    {
+        $model = Author::findOne($id);
+        $transaction = Yii::$app->db->beginTransaction();
+
+        try {
+            if ($model->delete() !== false) {
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Autor removido com sucesso.');
+            }
+        } catch (IntegrityException $e) {
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir o autor. Provavelmente há outros itens vinculados a ele.');
+        } catch (\Exception $e) {
+            Yii::$app->session->setFlash('error', 'Não foi possível excluir o autor.');
+        } finally {
+            $transaction->isActive && $transaction->rollBack();
+        }
+
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * Saves the record into the database.
+     * 
+     * @param Author $model Record being created/updated.
+     * 
+     * @return bool Whether the record was saved successfully.
+     */
     private function saveModel(Author $model): bool
     {
         if (!$model->load($this->request->post())) {
@@ -100,13 +154,16 @@ class AuthorController extends Controller
             $model->saveOrFail();
             $transaction->commit();
             Yii::$app->session->setFlash('success', 'Autor salvo com sucesso!');
+
+            return true;
+        } catch (FriendlyException $friendlyException) {
+            Yii::$app->session->setFlash('error', $friendlyException->getMessage());
         } catch (\Exception $e) {
             Yii::$app->session->setFlash('error', 'Não foi possível salvar o autor.');
-            return false;
         } finally {
             $transaction->isActive && $transaction->rollBack();
         }
 
-        return true;
+        return false;
     }
 }
