@@ -75,6 +75,8 @@ class m220817_175640_create_work_tag extends Migration
             'id' => $this->primaryKey(),
             'userId' => $this->integer(),
             'name' => $this->string()->notNull(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_tag_user', Tag::tableName(), 'userId', User::tableName(), 'id');
@@ -83,6 +85,8 @@ class m220817_175640_create_work_tag extends Migration
             'id' => $this->primaryKey(),
             'workId' => $this->integer()->notNull(),
             'tagId' => $this->integer()->notNull(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_work_tag_work', WorkTag::tableName(), 'workId', Work::tableName(), 'id');

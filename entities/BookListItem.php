@@ -10,7 +10,9 @@ use yii\db\ActiveQuery;
  * 
  * @property int $id
  * @property int $bookListId
- * @property ?int $bookId
+ * @property int $bookId
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read Book $book
  */
@@ -39,6 +41,8 @@ class BookListItem extends ActiveRecord
             'id' => 'ID',
             'bookListId' => 'Lista de leitura',
             'bookId' => 'Livro',
+            'createdAt' => 'Criado em',
+            'updatedAt' => 'Atualizado em',
         ];
     }
 

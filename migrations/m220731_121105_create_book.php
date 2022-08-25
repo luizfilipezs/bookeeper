@@ -31,6 +31,8 @@ class m220731_121105_create_book extends Migration
             'conservationState' => $this->enum(BookConservationState::values()),
             'comments' => $this->string(),
             'acquiredAt' => $this->date(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_book_publishing_company', Book::tableName(), 'publishingCompanyId', PublishingCompany::tableName(), 'id');

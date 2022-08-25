@@ -12,6 +12,8 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int $workId
  * @property int $tagId
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read Tag $tag
  * @property-read Work $work

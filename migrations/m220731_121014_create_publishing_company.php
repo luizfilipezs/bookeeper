@@ -51,6 +51,8 @@ class m220731_121014_create_publishing_company extends Migration
         $this->createTable(PublishingCompany::tableName(), [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->createDefaultPublishingCompanies();

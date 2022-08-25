@@ -14,6 +14,8 @@ use yii\web\IdentityInterface;
  * @property string $password
  * @property string $authKey
  * @property string $accessToken
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read BookList[] $bookLists
  */
@@ -56,6 +58,18 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'password', 'authKey'], 'required'],
             [['username', 'password', 'authKey', 'accessToken'], 'string'],
             ['username', 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'username' => 'Nome de usuário',
+            'createdAt' => 'Criado em',
+            'updatedAt' => 'Atualizado em',
         ];
     }
 

@@ -22,6 +22,8 @@ class m220809_050710_create_book_list extends Migration
             'id' => $this->primaryKey(),
             'userId' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_book_list_user', BookList::tableName(), 'userId', User::tableName(), 'id');
@@ -30,6 +32,8 @@ class m220809_050710_create_book_list extends Migration
             'id' => $this->primaryKey(),
             'bookListId' => $this->integer()->notNull(),
             'bookId' => $this->integer()->notNull(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_book_list_item_book_list', BookListItem::tableName(), 'bookListId', BookList::tableName(), 'id');
@@ -44,7 +48,7 @@ class m220809_050710_create_book_list extends Migration
         $this->dropForeignKey('fk_book_list_item_book', BookListItem::tableName());
         $this->dropForeignKey('fk_book_list_item_book_list', BookListItem::tableName());
         $this->dropTable(BookListItem::tableName());
-        $this->dropForeignKey('fk_book_list_user', User::tableName());
+        $this->dropForeignKey('fk_book_list_user', BookList::tableName());
         $this->dropTable(BookList::tableName());
     }
 }

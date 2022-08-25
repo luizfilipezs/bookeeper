@@ -21,6 +21,8 @@ class m220731_121253_create_book_work extends Migration
             'id' => $this->primaryKey(),
             'bookId' => $this->integer()->notNull(),
             'workId' => $this->integer()->notNull(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_book_work_book', BookWork::tableName(), 'bookId', Book::tableName(), 'id');

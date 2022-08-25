@@ -12,6 +12,8 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property string $name
  * @property string $nationality
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read Work[] $works
  */
@@ -38,6 +40,8 @@ class Author extends ActiveRecord
             'id' => 'ID',
             'name' => 'Nome',
             'nationality' => 'Nacionalidade',
+            'createdAt' => 'Criado em',
+            'updatedAt' => 'Atualizado em',
         ];
     }
 

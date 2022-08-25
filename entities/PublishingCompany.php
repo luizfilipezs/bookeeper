@@ -10,6 +10,8 @@ use yii\db\ActiveQuery;
  * 
  * @property int $id
  * @property string $name
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read Book[] $book
  */
@@ -35,6 +37,18 @@ class PublishingCompany extends ActiveRecord
         return [
             ['name', 'required'],
             ['name', 'string'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'name' => 'Nome',
+            'createdAt' => 'Criada em',
+            'updatedAt' => 'Atualizada em',
         ];
     }
 

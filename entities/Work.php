@@ -12,6 +12,8 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property string $title
  * @property string $subtitle
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read Author[] $authors
  * @property-read Tag[] $tags
@@ -43,6 +45,8 @@ class Work extends ActiveRecord
             'id' => 'ID',
             'title' => 'Título',
             'subtitle' => 'Subtítulo',
+            'createdAt' => 'Criado em',
+            'updatedAt' => 'Atualizado em',
         ];
     }
 

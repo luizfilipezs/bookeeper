@@ -22,6 +22,8 @@ use yii\db\ActiveQuery;
  * @property string $conservationState
  * @property string $comments
  * @property string $acquiredAt
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read BookWork[] $bookWorks
  * @property-read PublishingCompany $publishingCompany
@@ -72,6 +74,8 @@ class Book extends ActiveRecord
             'conservationState' => 'Estado de conservação',
             'comments' => 'Observações',
             'acquiredAt' => 'Data de aquisição',
+            'createdAt' => 'Criado em',
+            'updatedAt' => 'Atualizado em',
         ];
     }
 

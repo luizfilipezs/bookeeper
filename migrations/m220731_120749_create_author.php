@@ -17,6 +17,8 @@ class m220731_120749_create_author extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'nationality' => $this->string(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
     }
 

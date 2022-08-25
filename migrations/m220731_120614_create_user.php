@@ -19,6 +19,8 @@ class m220731_120614_create_user extends Migration
             'password' => $this->string()->notNull(),
             'authKey' => $this->string(),
             'accessToken' => $this->string(),
+            'createdAt' => $this->dateTime()->notNull(),
+            'updatedAt' => $this->dateTime()->notNull(),
         ]);
     }
 

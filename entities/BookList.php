@@ -13,6 +13,8 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int $userId
  * @property string $name
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read Book[] $books
  * @property-read BookListItem[] $items
@@ -25,11 +27,12 @@ class BookList extends ActiveRecord
      */
     public function behaviors(): array
     {
-        return [
+        return parent::behaviors() + [
             'blameable' => [
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'userId',
                 'updatedByAttribute' => false,
+                'preserveNonEmptyValues' => true,
             ],
         ];
     }
@@ -55,6 +58,8 @@ class BookList extends ActiveRecord
             'id' => 'ID',
             'userId' => 'Usuário',
             'name' => 'Nome',
+            'createdAt' => 'Criada em',
+            'updatedAt' => 'Atualizada em',
         ];
     }
 

@@ -13,6 +13,8 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int|null $userId
  * @property string $name
+ * @property string $createdAt
+ * @property string $updatedAt
  * 
  * @property-read User $user
  * 
@@ -37,7 +39,7 @@ class Tag extends ActiveRecord
      */
     public function behaviors(): array
     {
-        return [
+        return parent::behaviors() + [
             'blameable' => [
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'userId',
@@ -67,6 +69,8 @@ class Tag extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Nome',
+            'createdAt' => 'Criada em',
+            'updatedAt' => 'Atualizada em',
         ];
     }
 

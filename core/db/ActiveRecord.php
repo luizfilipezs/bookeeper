@@ -3,6 +3,7 @@
 namespace app\core\db;
 
 use app\core\exceptions\FriendlyException;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\helpers\StringHelper;
 
@@ -17,6 +18,20 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
     public static function tableName(): string
     {
         return StringHelper::basename(static::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+            ],
+        ];
     }
 
     /**
