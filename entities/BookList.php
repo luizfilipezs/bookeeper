@@ -4,6 +4,7 @@ namespace app\entities;
 
 use app\core\db\ActiveRecord;
 use app\core\exceptions\FriendlyException;
+use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 
 /**
@@ -22,10 +23,24 @@ class BookList extends ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors(): array
+    {
+        return [
+            'blameable' => [
+                'class' => BlameableBehavior::class,
+                'createdByAttribute' => 'userId',
+                'updatedByAttribute' => false,
+            ],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [
-            [['name', 'userId'], 'required'],
+            ['name', 'required'],
             ['name', 'string'],
             ['userId', 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => 'id'],
         ];
