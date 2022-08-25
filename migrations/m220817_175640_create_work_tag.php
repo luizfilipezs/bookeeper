@@ -2,6 +2,7 @@
 
 use app\entities\{
     Tag,
+    User,
     Work,
     WorkTag
 };
@@ -72,8 +73,11 @@ class m220817_175640_create_work_tag extends Migration
     {
         $this->createTable(Tag::tableName(), [
             'id' => $this->primaryKey(),
+            'userId' => $this->integer(),
             'name' => $this->string()->notNull(),
         ]);
+
+        $this->addForeignKey('fk_tag_user', Tag::tableName(), 'userId', User::tableName(), 'id');
 
         $this->createTable(WorkTag::tableName(), [
             'id' => $this->primaryKey(),
@@ -94,8 +98,8 @@ class m220817_175640_create_work_tag extends Migration
     {
         $this->dropForeignKey('fk_work_tag_tag', WorkTag::tableName());
         $this->dropForeignKey('fk_work_tag_work', WorkTag::tableName());
-
         $this->dropTable(WorkTag::tableName());
+        $this->dropForeignKey('fk_tag_user', Tag::tableName());
         $this->dropTable(Tag::tableName());
     }
 

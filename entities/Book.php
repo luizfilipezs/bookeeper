@@ -12,6 +12,7 @@ use yii\db\ActiveQuery;
  * 
  * @property int $id
  * @property int $publishingCompanyId
+ * @property string $isbn
  * @property string $title
  * @property string $subtitle
  * @property string $language
@@ -19,7 +20,8 @@ use yii\db\ActiveQuery;
  * @property int $pages
  * @property string $year
  * @property string $conservationState
- * @property string $isbn
+ * @property string $comments
+ * @property string $acquiredAt
  * 
  * @property-read BookWork[] $bookWorks
  * @property-read PublishingCompany $publishingCompany
@@ -45,6 +47,8 @@ class Book extends ActiveRecord
             [['publishingCompanyId', 'volumes', 'pages'], 'integer'],
             [['title', 'subtitle', 'language', 'year', 'conservationState', 'isbn'], 'string'],
             ['conservationState', 'in', 'range' => BookConservationState::values()],
+            ['comments', 'string', 'max' => 255],
+            ['acquiredAt', 'date', 'format' => 'php:Y-m-d'],
             // relations
             ['publishingCompanyId', 'exist', 'skipOnError' => true, 'targetClass' => PublishingCompany::class, 'targetAttribute' => 'id'],
         ];
@@ -58,6 +62,7 @@ class Book extends ActiveRecord
         return [
             'id' => 'ID',
             'publishingCompanyId' => 'Editora',
+            'isbn' => 'ISBN',
             'title' => 'Título',
             'subtitle' => 'Subtítulo',
             'language' => 'Idioma',
@@ -65,7 +70,8 @@ class Book extends ActiveRecord
             'pages' => 'Número de páginas',
             'year' => 'Ano de publicação',
             'conservationState' => 'Estado de conservação',
-            'isbn' => 'ISBN',
+            'comments' => 'Observações',
+            'acquiredAt' => 'Data de aquisição',
         ];
     }
 

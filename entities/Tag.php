@@ -3,12 +3,19 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "Tag".
  * 
  * @property int $id
+ * @property int|null $userId
  * @property string $name
+ * 
+ * @property-read User $user
+ * 
+ * @property-read bool $isEditable Whether the user has permission to edit or delete the record.
  */
 class Tag extends ActiveRecord
 {
@@ -30,9 +37,10 @@ class Tag extends ActiveRecord
     public function rules(): array
     {
         return [
-            ['name', 'required'],
+            [['name', 'userId'], 'required'],
             ['name', 'string'],
             ['name', 'unique'],
+            ['userId', 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => 'id'],
         ];
     }
 
@@ -45,5 +53,25 @@ class Tag extends ActiveRecord
             'id' => 'ID',
             'name' => 'Nome',
         ];
+    }
+
+    /**
+     * Returns a query to the related record from table `User`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'userId']);
+    }
+
+    /**
+     * Checks whether the user has permission to edit or delete the record.
+     * 
+     * @return bool Validation result.
+     */
+    public function getIsEditable(): bool
+    {
+        return $this->userId === Yii::$app->user->identity->id;
     }
 }

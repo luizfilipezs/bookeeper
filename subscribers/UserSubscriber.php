@@ -29,6 +29,7 @@ class UserSubscriber
     {
         $bookList = new BookList();
         $bookList->name = 'Lidos em ' . date('Y');
+        $bookList->userId = $user->id;
         $bookList->save();
     }
 

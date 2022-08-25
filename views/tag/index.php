@@ -5,6 +5,7 @@
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
+use app\entities\Tag;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -29,6 +30,10 @@ $this->title = 'Tags';
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '<div class="d-flex justify-content-around">{update} {delete}</div>',
+            'visibleButtons' => [
+                'update' => fn (Tag $tag) => $tag->isEditable,
+                'delete' => fn (Tag $tag) => $tag->isEditable,
+            ],
         ],
         'name',
     ],

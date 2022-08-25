@@ -21,6 +21,7 @@ class m220731_121105_create_book extends Migration
         $this->createTable(Book::tableName(), [
             'id' => $this->primaryKey(),
             'publishingCompanyId' => $this->integer()->notNull(),
+            'isbn' => $this->string(),
             'title' => $this->string()->notNull(),
             'subtitle' => $this->string(),
             'language' => $this->string()->notNull(),
@@ -28,7 +29,8 @@ class m220731_121105_create_book extends Migration
             'pages' => $this->string(),
             'year' => $this->string(),
             'conservationState' => $this->enum(BookConservationState::values()),
-            'isbn' => $this->string(),
+            'comments' => $this->string(),
+            'acquiredAt' => $this->date(),
         ]);
 
         $this->addForeignKey('fk_book_publishing_company', Book::tableName(), 'publishingCompanyId', PublishingCompany::tableName(), 'id');

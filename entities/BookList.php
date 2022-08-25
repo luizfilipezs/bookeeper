@@ -10,10 +10,12 @@ use yii\db\ActiveQuery;
  * This is the model class for table "BookList".
  * 
  * @property int $id
+ * @property int $userId
  * @property string $name
  * 
  * @property-read Book[] $books
  * @property-read BookListItem[] $items
+ * @property-read User $user
  */
 class BookList extends ActiveRecord
 {
@@ -23,8 +25,9 @@ class BookList extends ActiveRecord
     public function rules(): array
     {
         return [
-            ['name', 'required'],
+            [['name', 'userId'], 'required'],
             ['name', 'string'],
+            ['userId', 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => 'id'],
         ];
     }
 
@@ -35,8 +38,19 @@ class BookList extends ActiveRecord
     {
         return [
             'id' => 'ID',
+            'userId' => 'Usuário',
             'name' => 'Nome',
         ];
+    }
+
+    /**
+     * Returns a query to the related record from table `User`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'userId']);
     }
 
     /**

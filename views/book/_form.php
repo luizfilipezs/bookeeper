@@ -1,6 +1,7 @@
 <?php
 
 use app\core\enums\BookConservationState;
+use kartik\datecontrol\DateControl;
 use kartik\select2\Select2;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
@@ -37,8 +38,14 @@ $form = ActiveForm::begin([
 </div>
 <hr>
 <div class="row">
-    <div class="col-6">
+    <div class="col-3">
         <?= $form->field($model, 'isbn')->textInput(['maxLength' => true]) ?>
+    </div>
+    <div class="col-3">
+        <?= $form->field($model, 'acquiredAt')->widget(DateControl::class, [
+            'type' => DateControl::FORMAT_DATE,
+            'displayFormat' => 'php: d/m/Y',
+        ]) ?>
     </div>
 </div>
 <div class="row">
@@ -71,6 +78,11 @@ $form = ActiveForm::begin([
     </div>
     <div class="col-3">
         <?= $form->field($model, 'conservationState')->dropDownList(BookConservationState::labels()) ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <?= $form->field($model, 'comments')->textarea() ?>
     </div>
 </div>
 <div class="row">
