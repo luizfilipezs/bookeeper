@@ -5,6 +5,7 @@ namespace app\core\db;
 use app\core\exceptions\FriendlyException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 use yii\helpers\StringHelper;
 
 /**
@@ -30,6 +31,7 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::class,
                 'createdAtAttribute' => 'createdAt',
                 'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
             ],
         ];
     }
