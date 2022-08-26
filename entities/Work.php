@@ -16,6 +16,7 @@ use yii\db\ActiveQuery;
  * @property string $updatedAt
  * 
  * @property-read Author[] $authors
+ * @property-read Book[] $books
  * @property-read Tag[] $tags
  * @property-read WorkAuthor[] $workAuthors
  * @property-read WorkTag[] $workTags
@@ -182,5 +183,16 @@ class Work extends ActiveRecord
         return $this->getTags()
             ->select('Tag.name')
             ->column();
+    }
+
+    /**
+     * Returns a query to the related records from table `Book` via a JOIN
+     * operation with the pivot table `BookWork`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getBooks(): ActiveQuery
+    {
+        return $this->hasRelation(Book::class, via: BookWork::class);
     }
 }

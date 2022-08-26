@@ -11,6 +11,13 @@ use yii\widgets\DetailView;
 
 $this->title = "Obra \"{$model->title}\"";
 
+$books = $model->getBooks()
+    ->select([
+        'Book.id',
+        'Book.title',
+    ])
+    ->all();
+
 ?>
 
 <div class="row">
@@ -40,6 +47,20 @@ $this->title = "Obra \"{$model->title}\"";
             'value' => fn () => implode(', ', $model->tagNames),
             'format' => 'html',
             'visible' => !!$model->tagNames,
+        ],
+        [
+            'label' => 'Aparece em',
+            'value' => function () use ($books) {
+                $links = [];
+
+                foreach ($books as $book) {
+                    $links[] = '<i>' . Html::a($book->title, Url::to(['/book/view', 'id' => $book->id])) . '</i>';
+                }
+                
+                return implode('<br>', $links);
+            },
+            'format' => 'html',
+            'visible' => !!$books,
         ],
     ],
 ]) ?>
