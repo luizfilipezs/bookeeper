@@ -29,7 +29,7 @@ class LoginForm extends Model
     public $password;
 
     /**
-     * Wether to keep user logged in.
+     * Whether to keep user logged in.
      * 
      * @var bool
      */

@@ -97,7 +97,7 @@ class WorkForm extends Work
     }
 
     /**
-     * Checks wether authors list changed.
+     * Checks whether authors list changed.
      * 
      * @return bool Validation result.
      */
@@ -111,7 +111,7 @@ class WorkForm extends Work
     }
 
     /**
-     * Checks wether authors list changed.
+     * Checks whether authors list changed.
      * 
      * @return bool Validation result.
      */

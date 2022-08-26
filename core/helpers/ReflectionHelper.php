@@ -13,7 +13,7 @@ use ReflectionMethod;
 final class ReflectionHelper
 {
     /**
-     * Checks wether a class has the specified attribute.
+     * Checks whether a class has the specified attribute.
      * 
      * @param string $attribute Attribute class.
      * @param ReflectionClass|string Class name or reflection.
@@ -28,7 +28,7 @@ final class ReflectionHelper
     }
 
     /**
-     * Checks wether a method has the specified attribute.
+     * Checks whether a method has the specified attribute.
      * 
      * @param string $attribute Attribute class.
      * @param ReflectionClass Method reflection.

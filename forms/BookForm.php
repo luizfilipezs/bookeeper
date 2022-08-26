@@ -36,7 +36,7 @@ class BookForm extends Book
     public $tagIds;
 
     /**
-     * Wether a work should automatically be created if none is specified.
+     * Whether a work should automatically be created if none is specified.
      * 
      * @var bool
      */

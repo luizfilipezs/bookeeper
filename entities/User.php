@@ -102,7 +102,7 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @param string $password Password to validate.
      * 
-     * @return bool Wether password is valid for the current user.
+     * @return bool Whether password is valid for the current user.
      */
     public function validatePassword(string $password): bool
     {
