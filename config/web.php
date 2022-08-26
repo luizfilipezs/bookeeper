@@ -61,7 +61,18 @@ $config = [
             'showScriptName' => false,
         ],
     ],
-    'params' => $params,
+    'params' => $params + [
+        'maskMoneyOptions' => [
+            'prefix' => 'R$ ',
+            'suffix' => '',
+            'affixesStay' => true,
+            'thousands' => '.',
+            'decimal' => ',',
+            'precision' => 2, 
+            'allowZero' => true,
+            'allowNegative' => false,
+        ]
+    ],
     'modules' => [
         'datecontrol' =>  [
             'class' => 'kartik\datecontrol\Module',

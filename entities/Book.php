@@ -22,6 +22,7 @@ use yii\db\ActiveQuery;
  * @property string $conservationState
  * @property string $comments
  * @property string $acquiredAt
+ * @property float $estimatedValue
  * @property string $createdAt
  * @property string $updatedAt
  * 
@@ -47,6 +48,7 @@ class Book extends ActiveRecord
             // common rules
             [['publishingCompanyId', 'title'], 'required'],
             [['publishingCompanyId', 'volumes', 'pages'], 'integer'],
+            ['estimatedValue', 'number'],
             [['title', 'subtitle', 'language', 'year', 'conservationState', 'isbn'], 'string'],
             ['conservationState', 'in', 'range' => BookConservationState::values()],
             ['comments', 'string', 'max' => 255],
@@ -74,6 +76,7 @@ class Book extends ActiveRecord
             'conservationState' => 'Estado de conservação',
             'comments' => 'Observações',
             'acquiredAt' => 'Data de aquisição',
+            'estimatedValue' => 'Valor estimado',
             'createdAt' => 'Criado em',
             'updatedAt' => 'Atualizado em',
         ];

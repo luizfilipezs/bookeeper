@@ -31,6 +31,7 @@ class m220731_121105_create_book extends Migration
             'conservationState' => $this->enum(BookConservationState::values()),
             'comments' => $this->string(),
             'acquiredAt' => $this->date(),
+            'estimatedValue' => $this->float(),
             'createdAt' => $this->dateTime()->notNull(),
             'updatedAt' => $this->dateTime()->notNull(),
         ]);

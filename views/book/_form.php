@@ -2,6 +2,7 @@
 
 use app\core\enums\BookConservationState;
 use kartik\datecontrol\DateControl;
+use kartik\money\MaskMoney;
 use kartik\select2\Select2;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
@@ -106,6 +107,9 @@ $form = ActiveForm::begin([
                 'templateSelection' => new JsExpression('({ text }) => text'),
             ],
         ]) ?>
+    </div>
+    <div class="col-3">
+        <?= $form->field($model, 'estimatedValue')->widget(MaskMoney::class) ?>
     </div>
 </div>
 <div class="row">
