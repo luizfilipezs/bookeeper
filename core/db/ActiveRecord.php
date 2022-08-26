@@ -164,9 +164,21 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         $handler->removeRelation();
     }
 
-    protected function hasRelation(string $modelClass, string $pivotClass = null): ActiveQuery
+    /**
+     * Creates a query for the records of a relation via a pivot table.
+     * 
+     * The main difference from this method in comparison to the traditional `hasMany()` with
+     * `via()` is that it shorten that operation to a single method and orders the results by
+     * the pivot table ID.
+     * 
+     * @param string $modelClass Target relation model class.
+     * @param string $via (Optional) Pivot table model class.
+     * 
+     * @return ActiveQuery Query from the given model class table.
+     */
+    protected function hasRelation(string $modelClass, string $via = null): ActiveQuery
     {
-        $handler = $this->getPivotRelationHandler(new $modelClass, $pivotClass);
+        $handler = $this->getPivotRelationHandler(new $modelClass, $via);
 
         return $handler->createQueryForRelation();
     }
