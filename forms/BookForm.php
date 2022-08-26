@@ -98,7 +98,7 @@ class BookForm extends Book
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if ($this->canAutoCreateWork && !$this->workIds && !$this->getWorks()->exists()) {
+        if ($this->canAutoCreateWork && !$this->hasWorks()) {
             $this->generateWork();
         }
 
@@ -176,5 +176,15 @@ class BookForm extends Book
             ->column();
 
         return $this->workIds != $currentWorkIds;
+    }
+
+    /**
+     * Checks whether there are works to be saved or already existing in database.
+     * 
+     * @return bool Validation result.
+     */
+    private function hasWorks(): bool
+    {
+        return !$this->workIds && !$this->getWorks()->exists();
     }
 }
