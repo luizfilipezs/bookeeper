@@ -185,6 +185,6 @@ class BookForm extends Book
      */
     private function hasWorks(): bool
     {
-        return !$this->workIds && !$this->getWorks()->exists();
+        return $this->workIds || $this->getWorks()->exists();
     }
 }
