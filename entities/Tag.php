@@ -91,6 +91,10 @@ class Tag extends ActiveRecord
      */
     public function getIsEditable(): bool
     {
+        if (Yii::$app->user->isGuest) {
+            return false;
+        }
+
         return $this->userId === Yii::$app->user->identity->id;
     }
 }
