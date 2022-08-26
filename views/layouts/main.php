@@ -39,6 +39,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Listas de livros', 'url' => ['/book-list']],
+            ['label' => 'Boxes', 'url' => ['/box']],
             ['label' => 'Livros', 'url' => ['/book']],
             ['label' => 'Obras', 'url' => ['/work']],
             ['label' => 'Autores', 'url' => ['/author']],

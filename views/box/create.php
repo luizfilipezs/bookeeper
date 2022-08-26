@@ -2,10 +2,10 @@
 
 /**
  * @var yii\web\View $this
- * @var app\forms\WorkForm $model
+ * @var app\forms\BoxForm $model
  */
 
-$this->title = 'Cadastrar obra';
+$this->title = 'Cadastrar box';
 
 echo $this->render('_form', [
     'model' => $model,
