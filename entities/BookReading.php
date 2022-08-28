@@ -3,7 +3,10 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
+use yii\behaviors\{
+    BlameableBehavior,
+    TimestampBehavior
+};
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 
@@ -31,6 +34,11 @@ class BookReading extends ActiveRecord
     public function behaviors(): array
     {
         return [
+            'blameable' => [
+                'class' => BlameableBehavior::class,
+                'createdByAttribute' => 'userId',
+                'updatedByAttribute' => false,
+            ],
             'timestamp' => [
                 'class' => TimestampBehavior::class,
                 'createdAtAttribute' => 'createdAt',
@@ -52,6 +60,21 @@ class BookReading extends ActiveRecord
             [['startDate', 'endDate'], 'date', 'format' => 'php:Y-m-d'],
             ['userId', 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => 'id'],
             ['bookId', 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => 'id'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => 'ID',
+            'userId' => 'Usuário',
+            'bookId' => 'Livro',
+            'isComplete' => 'Concluída',
+            'startDate' => 'Início',
+            'endDate' => 'Fim',
         ];
     }
 

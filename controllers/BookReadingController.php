@@ -11,6 +11,7 @@ use app\core\web\{
     IActionView
 };
 use app\entities\BookReading;
+use app\forms\BookReadingForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
@@ -48,7 +49,7 @@ class BookReadingController extends Controller implements IActionIndex, IActionV
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => BookReading::find()->orderBy('name'),
+            'query' => BookReading::find()->orderBy('createdAt DESC'),
             'pagination' => false,
         ]);
 
@@ -74,7 +75,7 @@ class BookReadingController extends Controller implements IActionIndex, IActionV
      */
     public function actionCreate(): string|Response
     {
-        $model = new BookReading();
+        $model = new BookReadingForm();
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -90,7 +91,7 @@ class BookReadingController extends Controller implements IActionIndex, IActionV
      */
     public function actionUpdate(int $id): string|Response
     {
-        $model = BookReading::findOne($id);
+        $model = BookReadingForm::findOne($id);
 
         if ($this->request->isPost && $this->saveModel($model)) {
             return $this->redirect(['index']);
@@ -128,11 +129,11 @@ class BookReadingController extends Controller implements IActionIndex, IActionV
     /**
      * Saves the record into the database.
      * 
-     * @param BookReading $model Record being created/updated.
+     * @param BookReadingForm $model Record being created/updated.
      * 
      * @return bool Whether the record was saved successfully.
      */
-    private function saveModel(BookReading $model): bool
+    private function saveModel(BookReadingForm $model): bool
     {
         if (!$model->load($this->request->post())) {
             return false;

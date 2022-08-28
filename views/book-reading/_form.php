@@ -18,7 +18,7 @@ $selectedWorks = $model->getWorks()
     ->column();
 
 $selectedBook = $model->getBook()
-    ->select(['name', 'id'])
+    ->select(['title', 'id'])
     ->indexBy('id')
     ->column();
 
