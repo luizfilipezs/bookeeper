@@ -11,6 +11,7 @@ use app\core\web\{
     IActionView
 };
 use app\entities\BookReading;
+use app\entities\BookWork;
 use app\forms\BookReadingForm;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -38,6 +39,7 @@ class BookReadingController extends Controller implements IActionIndex, IActionV
                     'create' => ['get', 'post'],
                     'update' => ['get', 'post'],
                     'delete' => ['post'],
+                    'list-works' => ['get'],
                 ],
             ],
         ];
@@ -124,6 +126,27 @@ class BookReadingController extends Controller implements IActionIndex, IActionV
         }
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * List works by the give book ID.
+     * 
+     * @param int $bookId Book identifier.
+     * @param string $search Search term.
+     * 
+     * @return array[] Results found.
+     */
+    public function actionListWorks(int $bookId, string $search): array
+    {
+        $this->response->format = Response::FORMAT_JSON;
+
+        return BookWork::find()
+            ->select(['Work.id', 'Work.title AS text'])
+            ->joinWith('work')
+            ->where(['BookWork.bookId' => $bookId])
+            ->filterWhere(['like', 'Work.title', $search])
+            ->asArray()
+            ->all();
     }
 
     /**

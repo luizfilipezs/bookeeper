@@ -35,7 +35,17 @@ class BookReadingForm extends BookReading
     {
         return [
             ...parent::rules(),
-            ['workIds', 'filter', 'filter' => fn ($value) => is_array($value) ? $value : []],
+            ['workIds', 'filter', 'filter' => function ($value) {
+                $workIds = is_array($value) ? $value : [];
+
+                if (!$workIds) {
+                    $workIds = $this->book->getWorks()
+                        ->select('Work.id')
+                        ->column();
+                }
+
+                return $workIds;
+            }],
             ['workIds', 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
@@ -57,9 +67,7 @@ class BookReadingForm extends BookReading
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if ($this->hasNewWorks()) {
-            $this->resetWorks();
-        }
+        $this->resetWorks();
     }
 
     /**
@@ -69,20 +77,6 @@ class BookReadingForm extends BookReading
     {
         $this->removeAllWorks();
         $this->saveWorks();
-    }
-
-    /**
-     * Checks whether works list changed.
-     * 
-     * @return bool Validation result.
-     */
-    private function hasNewWorks(): bool
-    {
-        $currentWorkIds = $this->getWorks()
-            ->select('Work.id')
-            ->column();
-        
-        return $this->workIds != $currentWorkIds;
     }
 
     /**

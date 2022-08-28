@@ -12,14 +12,14 @@ use yii\web\JsExpression;
  * @var app\forms\BookReadingForm $model
  */
 
-$selectedWorks = $model->getWorks()
-    ->select(['Work.title', 'Work.id'])
-    ->indexBy('Work.id')
-    ->column();
-
 $selectedBook = $model->getBook()
     ->select(['title', 'id'])
     ->indexBy('id')
+    ->column();
+
+$selectedWorks = $model->getWorks()
+    ->select(['Work.title', 'Work.id'])
+    ->indexBy('Work.id')
     ->column();
 
 $form = ActiveForm::begin([
@@ -61,7 +61,11 @@ $form = ActiveForm::begin([
 </div>
 <div class="row">
     <div class="col-6">
-        <?= $form->field($model, 'workIds')->widget(Select2::class, [
+        <?php
+
+        $bookInputId = Html::getInputId($model, 'bookId');
+
+        echo $form->field($model, 'workIds')->widget(Select2::class, [
             'data' => $selectedWorks,
             'options' => [
                 'value' => array_keys($selectedWorks),
@@ -72,8 +76,8 @@ $form = ActiveForm::begin([
                 'allowClear' => true,
                 'minimumInputLength' => 1,
                 'ajax' => [
-                    'url' => Url::to(['work/list']),
-                    'data' => new JsExpression("({ term }) => ({ search: term })"),
+                    'url' => Url::to(['list-works']),
+                    'data' => new JsExpression("({ term }) => ({ bookId: jQuery('#{$bookInputId}').val(), search: term })"),
                     'dataType' => 'json',
                     'cache' => true,
                     'processResults' => new JsExpression('results => ({ results })'),
@@ -82,7 +86,12 @@ $form = ActiveForm::begin([
                 'templateResult' => new JsExpression('({ text }) => text'),
                 'templateSelection' => new JsExpression('({ text }) => text'),
             ],
-        ]) ?>
+        ])
+
+        ?>
+        <p style="font-size: 12px">
+            <i class="fa-solid fa-circle-info"></i> Se nenhum item for selecionado, todas as obras do livro serão incluídas.
+        </p>
     </div>
 </div>
 <div class="row">
@@ -114,3 +123,26 @@ $form = ActiveForm::begin([
 <?php
 
 ActiveForm::end();
+
+$worksInputId = Html::getInputId($model, 'workIds');
+
+$this->registerJs(<<<JS
+
+const bookInput = jQuery('#{$bookInputId}');
+const worksInput = jQuery('#{$worksInputId}');
+
+/**
+ * Handles page initialization.
+ */
+const onInit = () => {
+    bookInput.change();
+};
+
+bookInput.change(() => {
+    worksInput.val(null).change();
+    worksInput.attr('disabled', !bookInput.val());
+});
+
+onInit();
+
+JS);
