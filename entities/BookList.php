@@ -4,8 +4,12 @@ namespace app\entities;
 
 use app\core\db\ActiveRecord;
 use app\core\exceptions\FriendlyException;
-use yii\behaviors\BlameableBehavior;
+use yii\behaviors\{
+    BlameableBehavior,
+    TimestampBehavior
+};
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "BookList".
@@ -27,12 +31,18 @@ class BookList extends ActiveRecord
      */
     public function behaviors(): array
     {
-        return parent::behaviors() + [
+        return [
             'blameable' => [
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'userId',
                 'updatedByAttribute' => false,
                 'preserveNonEmptyValues' => true,
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
             ],
         ];
     }

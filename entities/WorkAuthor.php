@@ -12,8 +12,6 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int $workId
  * @property int $authorId
- * @property string $createdAt
- * @property string $updatedAt
  * 
  * @property-read Author $author
  * @property-read Work $work
@@ -26,10 +24,8 @@ class WorkAuthor extends ActiveRecord
     public function rules(): array
     {
         return [
-            // common rules
             [['workId', 'authorId'], 'required'],
             [['workId', 'authorId'], 'integer'],
-            // relations
             ['workId', 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id'],
             ['authorId', 'exist', 'skipOnError' => true, 'targetClass' => Author::class, 'targetAttribute' => 'id'],
         ];

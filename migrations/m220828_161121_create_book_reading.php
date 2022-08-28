@@ -37,8 +37,6 @@ class m220828_161121_create_book_reading extends Migration
             'id' => $this->primaryKey(),
             'bookReadingId' => $this->integer()->notNull(),
             'workId' => $this->integer()->notNull(),
-            'createdAt' => $this->dateTime()->notNull(),
-            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_book_reading_work_book_reading', BookReadingWork::tableName(), 'bookReadingId', BookReading::tableName(), 'id');

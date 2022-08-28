@@ -3,7 +3,9 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 use yii\web\IdentityInterface;
 
 /**
@@ -48,6 +50,22 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return self::findOne(['username' => $username]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
 
     /**
      * {@inheritdoc}

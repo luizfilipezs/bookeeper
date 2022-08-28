@@ -4,8 +4,12 @@ namespace app\entities;
 
 use app\core\db\ActiveRecord;
 use Yii;
-use yii\behaviors\BlameableBehavior;
+use yii\behaviors\{
+    BlameableBehavior,
+    TimestampBehavior
+};
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "Tag".
@@ -39,11 +43,17 @@ class Tag extends ActiveRecord
      */
     public function behaviors(): array
     {
-        return parent::behaviors() + [
+        return [
             'blameable' => [
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'userId',
                 'updatedByAttribute' => false,
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
             ],
         ];
     }

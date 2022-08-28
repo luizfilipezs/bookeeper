@@ -12,8 +12,6 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int $bookId
  * @property int $workId
- * @property string $createdAt
- * @property string $updatedAt
  * 
  * @property-read Book $book
  * @property-read Work $work

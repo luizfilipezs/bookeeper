@@ -5,7 +5,9 @@ namespace app\entities;
 use app\core\db\ActiveRecord;
 use app\core\enums\BookConservationState;
 use app\core\exceptions\FriendlyException;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "Book".
@@ -35,6 +37,21 @@ use yii\db\ActiveQuery;
  */
 class Book extends ActiveRecord
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

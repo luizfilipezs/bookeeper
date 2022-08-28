@@ -28,8 +28,6 @@ class m220826_184746_create_box extends Migration
             'id' => $this->primaryKey(),
             'boxId' => $this->integer()->notNull(),
             'bookId' => $this->integer()->notNull(),
-            'createdAt' => $this->dateTime()->notNull(),
-            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addforeignKey('fk_box_book_box', BoxBook::tableName(), 'boxId', Box::tableName(), 'id');

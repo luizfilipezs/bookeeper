@@ -11,8 +11,6 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int $boxId
  * @property int $bookId
- * @property string $createdAt
- * @property string $updatedAt
  * 
  * @property-read Book $book
  * @property-read Box $box

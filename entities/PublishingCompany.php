@@ -3,7 +3,9 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "PublishingCompany".
@@ -27,6 +29,21 @@ class PublishingCompany extends ActiveRecord
     public static function findByName(string $name): ?static
     {
         return static::findOne(['name' => $name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
     }
 
     /**

@@ -12,8 +12,6 @@ use yii\db\ActiveQuery;
  * @property int $id
  * @property int $workId
  * @property int $tagId
- * @property string $createdAt
- * @property string $updatedAt
  * 
  * @property-read Tag $tag
  * @property-read Work $work
@@ -26,10 +24,8 @@ class WorkTag extends ActiveRecord
     public function rules(): array
     {
         return [
-            // common rules
             [['workId', 'tagId'], 'required'],
             [['workId', 'tagId'], 'integer'],
-            // relations
             ['workId', 'exist', 'skipOnError' => true, 'targetClass' => Work::class, 'targetAttribute' => 'id'],
             ['tagId', 'exist', 'skipOnError' => true, 'targetClass' => Tag::class, 'targetAttribute' => 'id'],
         ];

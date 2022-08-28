@@ -3,7 +3,9 @@
 namespace app\entities;
 
 use app\core\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "Box".
@@ -17,6 +19,21 @@ use yii\db\ActiveQuery;
  */
 class Box extends ActiveRecord
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

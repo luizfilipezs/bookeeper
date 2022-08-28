@@ -4,7 +4,9 @@ namespace app\entities;
 
 use app\core\db\ActiveRecord;
 use app\core\exceptions\RelationAlreadyExistsException;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "Work".
@@ -26,6 +28,21 @@ use yii\db\ActiveQuery;
  */
 class Work extends ActiveRecord
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'createdAt',
+                'updatedAtAttribute' => 'updatedAt',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

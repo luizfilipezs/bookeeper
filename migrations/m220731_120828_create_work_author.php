@@ -21,8 +21,6 @@ class m220731_120828_create_work_author extends Migration
             'id' => $this->primaryKey(),
             'workId' => $this->integer()->notNull(),
             'authorId' => $this->integer()->notNull(),
-            'createdAt' => $this->dateTime()->notNull(),
-            'updatedAt' => $this->dateTime()->notNull(),
         ]);
 
         $this->addForeignKey('fk_work_author_work', WorkAuthor::tableName(), 'workId', Work::tableName(), 'id');
