@@ -37,6 +37,7 @@ class m220731_121014_create_publishing_company extends Migration
         'Planeta',
         'Record',
         'Rocco',
+        'Sá da Costa',
         'Senado Federal',
         'Topbooks',
         'Vide Editorial',
