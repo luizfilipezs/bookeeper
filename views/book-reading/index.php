@@ -40,14 +40,20 @@ $this->title = 'Leituras';
                     ->select('Work.title')
                     ->column();
 
-                return Html::tag('i', implode(', ', $titles));
-            }
+                return $titles ? Html::tag('i', implode(', ', $titles)) : 'Todas';
+            },
+            'format' => 'html',
         ],
         [
             'attribute' => 'isComplete',
             'value' => function (BookReading $model) {
-                return $model->isComplete ? Html::tag('i', ['class' => 'fa-solid fa-circle-check']) : '';
+                $iconClass = $model->isComplete ?
+                    'fa-solid fa-circle-check' :
+                    'fa-solid fa-circle-xmark';
+
+                return Html::tag('i', '', ['class' => $iconClass]);
             },
+            'format' => 'html',
         ],
     ],
 ]) ?>

@@ -17,7 +17,7 @@ $this->title = "Leitura do livro \"{$model->book->title}\"";
 <div class="row">
     <div class="col-12 flex flex-row justify-content-between">
         <p class="fs-2">
-            <?= $model->title ?>
+            Leitura <?= $model->isComplete ? 'concluída' : 'agendada' ?>
         </p>
         <?= Html::a('Voltar', Url::toRoute('index'), ['class' => 'btn btn-light']) ?>
     </div>
@@ -33,6 +33,7 @@ $this->title = "Leitura do livro \"{$model->book->title}\"";
                 text: $model->book->title,
                 url: Url::to(['/book/view', 'id' => $model->bookId])
             ),
+            'format' => 'html',
         ],
         [
             'label' => 'Obras',
@@ -41,8 +42,9 @@ $this->title = "Leitura do livro \"{$model->book->title}\"";
                     ->select('Work.title')
                     ->column();
 
-                return Html::tag('i', implode('<br>', $titles));
-            }
+                return $titles ? Html::tag('i', implode('<br>', $titles)) : 'Todas';
+            },
+            'format' => 'html',
         ],
         [
             'attribute' => 'isComplete',
