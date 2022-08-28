@@ -135,12 +135,11 @@ const worksInput = jQuery('#{$worksInputId}');
  * Handles page initialization.
  */
 const onInit = () => {
-    bookInput.change();
+    worksInput.attr('disabled', !bookInput.val());
 };
 
 bookInput.change(() => {
     worksInput.val(null).change();
-    worksInput.attr('disabled', !bookInput.val());
 });
 
 onInit();
