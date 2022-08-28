@@ -173,12 +173,13 @@ class Book extends ActiveRecord
      */
     public function getAuthorNames(): array
     {
-        return $this->getWorks()
+        $names = $this->getWorks()
             ->select('Author.name')
-            ->distinct()
             ->joinWith('workAuthors.author', false)
             ->addOrderBy('WorkAuthor.id ASC')
             ->column();
+
+        return array_unique($names);
     }
 
     /**
@@ -188,11 +189,12 @@ class Book extends ActiveRecord
      */
     public function getTagNames(): array
     {
-        return $this->getWorks()
+        $names = $this->getWorks()
             ->select('Tag.name')
-            ->distinct()
             ->joinWith('workTags.tag', false)
             ->addOrderBy('WorkTag.id ASC')
             ->column();
+
+        return array_unique($names);
     }
 }
