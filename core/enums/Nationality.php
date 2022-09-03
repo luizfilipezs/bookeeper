@@ -9,9 +9,12 @@ use app\core\enums\interfaces\{
 
 enum Nationality: string implements IValues, ILabel
 {
+    case American = 'american';
     case Brazilian = 'brazilian';
     case English = 'english';
     case French = 'french';
+    case German = 'deutsch';
+    case Greek = 'greek';
     case Indian = 'indian';
     case Italian = 'italian';
     case Polish = 'polish';
@@ -32,9 +35,12 @@ enum Nationality: string implements IValues, ILabel
     public static function labels(): array
     {
         return [
+            self::American->value => 'Estados Unidos',
             self::Brazilian->value => 'Brasil',
             self::English->value => 'Inglaterra',
             self::French->value => 'França',
+            self::German->value => 'Alemanha',
+            self::Greek->value => 'Grécia',
             self::Indian->value => 'Índia',
             self::Italian->value => 'Itália',
             self::Polish->value => 'Polônia',
