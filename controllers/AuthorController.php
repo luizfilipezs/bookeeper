@@ -44,7 +44,7 @@ class AuthorController extends Controller implements ICrudActions
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Author::find(),
+            'query' => Author::find()->orderBy('name ASC'),
             'pagination' => false,
         ]);
 
