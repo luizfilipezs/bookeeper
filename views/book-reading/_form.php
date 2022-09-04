@@ -42,6 +42,7 @@ $form = ActiveForm::begin([
             'data' => $selectedBook,
             'options' => [
                 'placeholder' => 'Selecione...',
+                'disabled' => !$model->isNewRecord,
             ],
             'pluginOptions' => [
                 'minimumInputLength' => 1,
@@ -71,6 +72,7 @@ $form = ActiveForm::begin([
                 'value' => array_keys($selectedWorks),
                 'multiple' => true,
                 'placeholder' => 'Selecione...',
+                'disabled' => !$model->isNewRecord || !$model->bookId,
             ],
             'pluginOptions' => [
                 'allowClear' => true,
@@ -131,17 +133,9 @@ $this->registerJs(<<<JS
 const bookInput = jQuery('#{$bookInputId}');
 const worksInput = jQuery('#{$worksInputId}');
 
-/**
- * Handles page initialization.
- */
-const onInit = () => {
-    worksInput.attr('disabled', !bookInput.val());
-};
-
 bookInput.change(() => {
     worksInput.val(null).change();
+    worksInput.attr('disabled', !bookInput.val());
 });
-
-onInit();
 
 JS);
