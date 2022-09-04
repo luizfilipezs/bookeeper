@@ -32,7 +32,10 @@ $this->title = 'Leituras';
             'class' => 'yii\grid\ActionColumn',
             'template' => '<div class="d-flex justify-content-around">{view} {update} {delete}</div>',
         ],
-        'book.title',
+        [
+            'attribute' => 'book.title',
+            'label' => 'Livro',
+        ],
         [
             'label' => 'Obras',
             'value' => function (BookReading $model) {
