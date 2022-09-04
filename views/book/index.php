@@ -32,12 +32,7 @@ $this->title = 'Livros';
             'class' => 'yii\grid\ActionColumn',
             'template' => '<div class="d-flex justify-content-around">{view} {update} {delete}</div>',
         ],
-        [
-            'label' => (new Book)->getAttributeLabel('title'),
-            'value' => function (Book $model) {
-                return $model->title . ($model->subtitle ? ' - ' . $model->subtitle : '');
-            }
-        ],
+        'title',
         [
             'label' => 'Autores',
             'value' => function (Book $model) {
@@ -50,6 +45,5 @@ $this->title = 'Livros';
                 return implode(', ', $model->tagNames);
             },
         ],
-        'year',
     ],
 ]) ?>
