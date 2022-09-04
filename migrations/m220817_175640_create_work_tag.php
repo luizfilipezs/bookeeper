@@ -25,7 +25,7 @@ class m220817_175640_create_work_tag extends Migration
         'Biografia',
         'Ciência',
         'Comunismo',
-        'Contos',
+        'Conto',
         'Correspondências',
         'Cristianismo',
         'Crônica',
