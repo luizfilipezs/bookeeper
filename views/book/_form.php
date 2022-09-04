@@ -8,6 +8,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use yii\widgets\MaskedInput;
 
 /**
  * @var yii\web\View $this
@@ -40,7 +41,9 @@ $form = ActiveForm::begin([
 <hr>
 <div class="row">
     <div class="col-3">
-        <?= $form->field($model, 'isbn')->textInput(['maxLength' => true]) ?>
+        <?= $form->field($model, 'isbn')->widget(MaskedInput::class, [
+            'mask' => '999-99-99999-99-9',
+        ]) ?>
     </div>
     <div class="col-3">
         <?= $form->field($model, 'acquiredAt')->widget(DateControl::class, [
