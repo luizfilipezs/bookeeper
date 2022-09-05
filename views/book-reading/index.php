@@ -43,10 +43,6 @@ $this->title = 'Leituras';
                     ->select('Work.title')
                     ->column();
 
-                if (!$titles) {
-                    return 'Todas';
-                }
-
                 $textTitles = implode(', ', $titles);
                 $maxLength = 100;
 
