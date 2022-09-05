@@ -5,6 +5,7 @@
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
+use app\entities\Box;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -31,5 +32,18 @@ $this->title = 'Boxes';
             'template' => '<div class="d-flex justify-content-around">{view} {update} {delete}</div>',
         ],
         'title',
+        [
+            'label' => 'Livros',
+            'value' => function (Box $model) {
+                $bookTitles = $model->getBooks()
+                    ->select('Book.title')
+                    ->column();
+
+                $italicTitles = array_map(fn (string $title) => "<i>{$title}</br>", $bookTitles);
+
+                return implode(', ', $italicTitles);
+            },
+            'format' => 'html',
+        ],
     ],
 ]) ?>

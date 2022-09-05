@@ -15,6 +15,12 @@ $bookTitles = $model->getBooks()
     ->select('Book.title')
     ->column();
 
+$authorNames = $model->getBooks()
+    ->select('Author.name')
+    ->distinct()
+    ->joinWith('bookWorks.work.workAuthors.author')
+    ->column();
+
 ?>
 
 <div class="row">
@@ -36,6 +42,12 @@ $bookTitles = $model->getBooks()
             'value' => fn () => implode('<br>', $bookTitles),
             'format' => 'html',
             'visible' => !!$bookTitles,
+        ],
+        [
+            'label' => 'Autores',
+            'value' => fn () => implode('<br>', $authorNames),
+            'format' => 'html',
+            'visible' => !!$authorNames,
         ],
     ],
 ]) ?>
