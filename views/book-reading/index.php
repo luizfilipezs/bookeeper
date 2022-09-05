@@ -51,10 +51,12 @@ $this->title = 'Leituras';
             'attribute' => 'isComplete',
             'value' => function (BookReading $model) {
                 $iconClass = $model->isComplete ?
-                    'fa-solid fa-circle-check' :
-                    'fa-solid fa-circle-xmark';
+                    'fa-solid fa-circle-check text-success' :
+                    'fa-solid fa-circle-xmark text-danger';
 
-                return Html::tag('i', '', ['class' => $iconClass]);
+                return Html::tag('i', '', [
+                    'class' => $iconClass,
+                ]);
             },
             'format' => 'html',
         ],
