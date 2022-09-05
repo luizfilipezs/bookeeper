@@ -47,6 +47,12 @@ $this->title = "Leitura do livro \"{$model->book->title}\"";
             'format' => 'html',
         ],
         [
+            'label' => 'Autores',
+            'value' => function (BookReading $model) {
+                return implode(', ', $model->book->authorNames);
+            },
+        ],
+        [
             'attribute' => 'isComplete',
             'value' => $model->isComplete ? 'Sim' : 'Não',
         ],
