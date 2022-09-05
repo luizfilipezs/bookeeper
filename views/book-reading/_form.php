@@ -88,12 +88,13 @@ $form = ActiveForm::begin([
                 'templateResult' => new JsExpression('({ text }) => text'),
                 'templateSelection' => new JsExpression('({ text }) => text'),
             ],
-        ])
+        ]);
 
-        ?>
-        <p style="font-size: 12px">
-            <i class="fa-solid fa-circle-info"></i> Se nenhum item for selecionado, todas as obras do livro serão incluídas.
-        </p>
+        if ($model->isNewRecord) : ?>
+            <p style="font-size: 12px">
+                <i class="fa-solid fa-circle-info"></i> Se nenhum item for selecionado, todas as obras do livro serão incluídas.
+            </p>
+        <?php endif ?>
     </div>
 </div>
 <div class="row">
