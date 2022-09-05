@@ -43,9 +43,26 @@ $this->title = 'Leituras';
                     ->select('Work.title')
                     ->column();
 
-                return $titles ? Html::tag('i', implode(', ', $titles)) : 'Todas';
+                if (!$titles) {
+                    return 'Todas';
+                }
+
+                $textTitles = implode(', ', $titles);
+                $maxLength = 100;
+
+                if (strlen($textTitles) > $maxLength) {
+                    $textTitles = substr($textTitles, 0, $maxLength) . '...';
+                }
+
+                return Html::tag('i', $textTitles);
             },
             'format' => 'html',
+        ],
+        [
+            'attribute' => 'endDate',
+            'value' => function (BookReading $model) {
+                return $model->endDate ? Yii::$app->formatter->asDate($model->endDate, 'short') : '';
+            },
         ],
         [
             'attribute' => 'isComplete',
