@@ -143,9 +143,11 @@ $form = ActiveForm::begin([
 </div>
 
 <?php if ($model->isNewRecord) : ?>
-
     <div class="row">
-        <div class="col-12">
+        <div class="col-3">
+            <?= $form->field($model, 'markAsRead')->checkbox() ?>
+        </div>
+        <div class="col-3">
             <?= $form->field($model, 'canAutoCreateWork')->checkbox() ?>
         </div>
     </div>
@@ -199,7 +201,6 @@ $form = ActiveForm::begin([
             ]) ?>
         </div>
     </div>
-
 <?php endif ?>
 
 <div class="row">

@@ -6,6 +6,7 @@ use app\core\exceptions\FriendlyException;
 use app\core\exceptions\RelationAlreadyExistsException;
 use app\entities\{
     Book,
+    BookReading,
     Work
 };
 
@@ -43,6 +44,13 @@ class BookForm extends Book
     public $canAutoCreateWork;
 
     /**
+     * Whether the book was already read.
+     * 
+     * @var bool
+     */
+    public $markAsRead;
+
+    /**
      * {@inheritdoc}
      */
     public final static function tableName(): string
@@ -69,7 +77,8 @@ class BookForm extends Book
     {
         return [
             ...parent::rules(),
-            ['canAutoCreateWork', 'boolean'],
+            [['canAutoCreateWork', 'markAsRead'], 'boolean'],
+            [['markAsRead'], 'default', 'value' => false],
             [['authorIds', 'tagIds'], 'safe'],
             ['workIds', 'filter', 'filter' => function ($value) {
                 return  is_array($value) ? $value : [];
@@ -84,6 +93,7 @@ class BookForm extends Book
     public function attributeLabels(): array
     {
         return parent::attributeLabels() + [
+            'markAsRead' => 'Lido',
             'canAutoCreateWork' => 'Criar obra automaticamente',
             'workIds' => 'Obras',
             'authorIds' => 'Autores da obra',
@@ -104,6 +114,10 @@ class BookForm extends Book
 
         if ($this->hasNewWorks()) {
             $this->resetWorks();
+        }
+
+        if ($this->markAsRead) {
+            $this->saveReading();
         }
     }
 
@@ -186,5 +200,21 @@ class BookForm extends Book
     private function hasWorks(): bool
     {
         return $this->workIds || $this->getWorks()->exists();
+    }
+
+    /**
+     * Creates a new `BookReading` to record to mark the book as read.
+     * 
+     * @throws FriendlyException If saving fails.
+     */
+    private function saveReading(): void
+    {
+        $reading = new BookReading();
+        $reading->bookId = $this->id;
+        $reading->isComplete = true;
+
+        if (!$reading->save()) {
+            throw new FriendlyException('Não foi possível marcar o livro como lido.');
+        }
     }
 }
