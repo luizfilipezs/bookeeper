@@ -78,19 +78,6 @@ $form = ActiveForm::begin([
 </div>
 <div class="row">
     <div class="col-3">
-        <?= $form->field($model, 'year')->textInput(['maxLength' => true]) ?>
-    </div>
-    <div class="col-3">
-        <?= $form->field($model, 'conservationState')->dropDownList(BookConservationState::labels()) ?>
-    </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        <?= $form->field($model, 'comments')->textarea() ?>
-    </div>
-</div>
-<div class="row">
-    <div class="col-3">
         <?= $form->field($model, 'publishingCompanyId')->widget(Select2::class, [
             'data' => $selectedPublishingCompany,
             'options' => [
@@ -112,7 +99,25 @@ $form = ActiveForm::begin([
         ]) ?>
     </div>
     <div class="col-3">
+        <?= $form->field($model, 'year')->textInput(['maxLength' => true]) ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <?= $form->field($model, 'conservationState')->dropDownList(BookConservationState::labels()) ?>
+    </div>
+    <div class="col-3">
         <?= $form->field($model, 'estimatedValue')->widget(MaskMoney::class) ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <?= $form->field($model, 'translator')->textInput() ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <?= $form->field($model, 'comments')->textarea() ?>
     </div>
 </div>
 <div class="row">
