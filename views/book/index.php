@@ -2,7 +2,8 @@
 
 /**
  * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
+ * @var BookSearch $searchModel
+ * @var yii\data\DataProviderInterface $dataProvider
  */
 
 use app\entities\Book;
@@ -22,7 +23,8 @@ $this->title = 'Livros';
         <?= Html::a('Cadastrar', Url::toRoute('create'), ['class' => 'btn btn-success']) ?>
     </div>
 </div>
-<hr>
+
+<?= $this->render('_search', ['model' => $searchModel]) ?>
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,

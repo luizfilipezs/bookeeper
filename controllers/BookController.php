@@ -6,8 +6,8 @@ use app\core\exceptions\FriendlyException;
 use app\core\web\ICrudActions;
 use app\entities\Book;
 use app\forms\BookForm;
+use app\forms\search\BookSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\{
@@ -45,12 +45,11 @@ class BookController extends Controller implements ICrudActions
      */
     public function actionIndex(): string
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Book::find()->orderBy(['id' => SORT_DESC]),
-            'pagination' => false,
-        ]);
+        $searchModel = new BookSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
