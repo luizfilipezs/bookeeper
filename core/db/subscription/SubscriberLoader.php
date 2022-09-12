@@ -8,6 +8,7 @@ use app\core\helpers\{
 };
 use ReflectionClass;
 use ReflectionMethod;
+use Yii;
 use yii\base\Event;
 use yii\helpers\StringHelper;
 
@@ -67,7 +68,10 @@ class SubscriberLoader implements ISubscriberLoader
         $events = $this->getMethodEvents($method);
 
         foreach ($events as $eventName) {
-            Event::on($entity, $eventName, fn (Event $event) => $method->invoke($subscriber->newInstance(), $event->sender));
+            Event::on($entity, $eventName, fn (Event $event) => $method->invoke(
+                Yii::createObject($subscriber->getName()),
+                $event->sender
+            ));
         }
     }
 
