@@ -37,28 +37,12 @@ $this->title = 'Leituras';
             'label' => 'Livro',
         ],
         [
-            'label' => 'Obras',
-            'value' => function (BookReading $model) {
-                $titles = $model->getWorks()
-                    ->select('Work.title')
-                    ->column();
-
-                $textTitles = implode(', ', $titles);
-                $maxLength = 100;
-
-                if (strlen($textTitles) > $maxLength) {
-                    $textTitles = substr($textTitles, 0, $maxLength) . '...';
-                }
-
-                return Html::tag('i', $textTitles);
-            },
-            'format' => 'html',
+            'attribute' => 'startDate',
+            'format' => ['date', 'php:d/m/Y'],
         ],
         [
             'attribute' => 'endDate',
-            'value' => function (BookReading $model) {
-                return $model->endDate ? Yii::$app->formatter->asDate($model->endDate, 'short') : '';
-            },
+            'format' => ['date', 'php:d/m/Y'],
         ],
         [
             'attribute' => 'isComplete',
