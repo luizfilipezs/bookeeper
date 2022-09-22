@@ -20,6 +20,7 @@ use yii\web\IdentityInterface;
  * @property string $updatedAt
  * 
  * @property-read BookList[] $bookLists
+ * @property-read UserConfig $config
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -125,6 +126,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword(string $password): bool
     {
         return $this->password === $password;
+    }
+
+    /**
+     * Returns a query to the related record from table `UserConfig`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getConfig(): ActiveQuery
+    {
+        return $this->hasOne(UserConfig::class, ['userId' => 'id']);
     }
 
     /**

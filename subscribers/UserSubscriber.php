@@ -10,7 +10,8 @@ use app\core\db\subscription\{
 use app\core\exceptions\FriendlyException;
 use app\entities\{
     BookList,
-    User
+    User,
+    UserConfig
 };
 
 /**
@@ -31,6 +32,19 @@ class UserSubscriber
         $bookList->name = 'Lidos em ' . date('Y');
         $bookList->userId = $user->id;
         $bookList->save();
+    }
+
+    /**
+     * Creates the configurations for the new user.
+     * 
+     * @param User $user The new user.
+     */
+    #[AfterInsert]
+    public function createUserConfig(User $user): void
+    {
+        $config = new UserConfig();
+        $config->userId = $user->id;
+        $config->saveOrFail();
     }
 
     /**
