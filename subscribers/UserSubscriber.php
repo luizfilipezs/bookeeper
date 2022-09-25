@@ -21,6 +21,19 @@ use app\entities\{
 class UserSubscriber
 {
     /**
+     * Creates the configurations for the new user.
+     * 
+     * @param User $user The new user.
+     */
+    #[AfterInsert]
+    public function createUserConfig(User $user): void
+    {
+        $config = new UserConfig();
+        $config->userId = $user->id;
+        $config->saveOrFail();
+    }
+
+    /**
      * Creates a default reading list for a new user.
      * 
      * @param User $user The new user.
@@ -32,19 +45,6 @@ class UserSubscriber
         $bookList->name = 'Lidos em ' . date('Y');
         $bookList->userId = $user->id;
         $bookList->save();
-    }
-
-    /**
-     * Creates the configurations for the new user.
-     * 
-     * @param User $user The new user.
-     */
-    #[AfterInsert]
-    public function createUserConfig(User $user): void
-    {
-        $config = new UserConfig();
-        $config->userId = $user->id;
-        $config->saveOrFail();
     }
 
     /**
