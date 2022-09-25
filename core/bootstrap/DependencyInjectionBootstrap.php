@@ -2,6 +2,8 @@
 
 namespace app\core\bootstrap;
 
+use app\core\base\Cache;
+use app\core\base\CacheInterface;
 use app\core\db\subscription\{
     ISubscriberLoader,
     SubscriberLoader
@@ -19,6 +21,7 @@ class DependencyInjectionBootstrap implements BootstrapInterface
      */
     public function bootstrap($app): void
     {
+        Yii::$container->set(CacheInterface::class, Cache::class);
         Yii::$container->set(ISubscriberLoader::class, SubscriberLoader::class);
     }
 }
