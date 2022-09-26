@@ -22,13 +22,6 @@ use yii\db\ActiveQueryInterface;
  */
 class BookSearch extends Model implements SearchInterface
 {
-    /**
-     * Number of results per page.
-     * 
-     * @var int
-     */
-    const PAGE_SIZE = 25;
-
     const ORDER_BY_DATE_DESC = '-createdAt';
     const ORDER_BY_DATE_ASC = 'createdAt';
     const ORDER_BY_TITLE_ASC = 'title';
@@ -130,7 +123,7 @@ class BookSearch extends Model implements SearchInterface
         return new ActiveDataProvider([
             'query' => $this->getQuery(),
             'pagination' => [
-                'pageSize' => self::PAGE_SIZE,
+                'pageSize' => false,
             ],
         ]);
     }
