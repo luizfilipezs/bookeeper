@@ -2,7 +2,7 @@
 
 /**
  * @var yii\web\View $this
- * @var BookSearch $searchModel
+ * @var app\forms\search\BookSearch $searchModel
  * @var yii\data\DataProviderInterface $dataProvider
  */
 

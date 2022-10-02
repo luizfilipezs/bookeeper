@@ -52,11 +52,12 @@ $this->title = "Leitura do livro \"{$model->book->title}\"";
                 return implode(', ', $model->book->authorNames);
             },
         ],
-        [
-            'attribute' => 'isComplete',
-            'value' => $model->isComplete ? 'Sim' : 'Não',
-        ],
         'startDate:date',
         'endDate:date',
+        [
+            'attribute' => 'isComplete',
+            'label' => 'Status',
+            'value' => $model->isComplete ? 'Concluída' : 'Em andamento',
+        ],
     ],
 ]) ?>

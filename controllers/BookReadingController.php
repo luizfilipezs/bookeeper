@@ -13,8 +13,8 @@ use app\core\web\{
 use app\entities\BookReading;
 use app\entities\BookWork;
 use app\forms\BookReadingForm;
+use app\forms\search\BookReadingSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -50,12 +50,11 @@ class BookReadingController extends Controller implements IActionIndex, IActionV
      */
     public function actionIndex(): string
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => BookReading::find()->orderBy('createdAt DESC'),
-            'pagination' => false,
-        ]);
+        $searchModel = new BookReadingSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

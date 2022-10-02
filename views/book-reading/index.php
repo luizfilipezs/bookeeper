@@ -2,6 +2,7 @@
 
 /**
  * @var yii\web\View $this
+ * @var app\forms\search\BookReadingSearch $searchModel
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
@@ -22,7 +23,8 @@ $this->title = 'Leituras';
         <?= Html::a('Cadastrar', Url::toRoute('create'), ['class' => 'btn btn-success']) ?>
     </div>
 </div>
-<hr>
+
+<?= $this->render('_search', ['model' => $searchModel]) ?>
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
@@ -36,14 +38,7 @@ $this->title = 'Leituras';
             'attribute' => 'book.title',
             'label' => 'Livro',
         ],
-        [
-            'attribute' => 'startDate',
-            'format' => ['date', 'php:d/m/Y'],
-        ],
-        [
-            'attribute' => 'endDate',
-            'format' => ['date', 'php:d/m/Y'],
-        ],
+        'endDate:date',
         [
             'attribute' => 'isComplete',
             'value' => function (BookReading $model) {
@@ -51,9 +46,7 @@ $this->title = 'Leituras';
                     'fa-solid fa-circle-check text-success' :
                     'fa-solid fa-circle-xmark text-danger';
 
-                return Html::tag('i', '', [
-                    'class' => $iconClass,
-                ]);
+                return Html::tag('i', '', ['class' => $iconClass]);
             },
             'format' => 'html',
         ],

@@ -73,8 +73,8 @@ class BookReading extends ActiveRecord
             'userId' => 'Usuário',
             'bookId' => 'Livro',
             'isComplete' => 'Concluída',
-            'startDate' => 'Início',
-            'endDate' => 'Fim',
+            'startDate' => 'Data de início',
+            'endDate' => 'Data de conclusão',
         ];
     }
 
