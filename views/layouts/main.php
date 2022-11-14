@@ -38,13 +38,14 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
+            ['label' => 'Listas de livros', 'url' => ['/book-list']],
+            ['label' => 'Leituras', 'url' => ['/book-reading']],
             ['label' => 'Livros', 'url' => ['/book']],
             ['label' => 'Obras', 'url' => ['/work']],
             ['label' => 'Boxes', 'url' => ['/box']],
             ['label' => 'Autores', 'url' => ['/author']],
             ['label' => 'Tags', 'url' => ['/tag']],
-            ['label' => 'Leituras', 'url' => ['/book-reading']],
-            ['label' => 'Listas de livros', 'url' => ['/book-list']],
+            ['label' => 'Editoras', 'url' => ['/publishing-company']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Entrar', 'url' => ['/site/login']]
             ) : (
