@@ -1,14 +1,14 @@
 <?php
 
-/**
- * @var yii\web\View $this
- * @var app\entities\Author $model
- */
-
 use app\core\enums\Nationality;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+/**
+ * @var yii\web\View $this
+ * @var app\entities\Author $model
+ */
 
 $form = ActiveForm::begin([
     'method' => 'post',

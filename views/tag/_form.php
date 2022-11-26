@@ -1,13 +1,13 @@
 <?php
 
+use yii\bootstrap5\ActiveForm;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /**
  * @var yii\web\View $this
  * @var app\entities\Tag $model
  */
-
-use yii\bootstrap5\ActiveForm;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 $form = ActiveForm::begin([
     'method' => 'post',

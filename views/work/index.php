@@ -1,14 +1,14 @@
 <?php
 
-/**
- * @var yii\web\View $this
- * @var yii\data\ActiveDataProvider $dataProvider
- */
-
 use app\entities\Work;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+/**
+ * @var yii\web\View $this
+ * @var yii\data\ActiveDataProvider $dataProvider
+ */
 
 $this->title = 'Obras';
 ?>

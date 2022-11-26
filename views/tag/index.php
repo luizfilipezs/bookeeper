@@ -1,15 +1,15 @@
 <?php
 
+use app\entities\Tag;
+use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /**
  * @var yii\web\View $this
  * @var app\forms\search\TagSearch $searchModel
  * @var yii\data\ActiveDataProvider $dataProvider
  */
-
-use app\entities\Tag;
-use yii\grid\GridView;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 $this->title = 'Tags';
 ?>

@@ -1,15 +1,15 @@
 <?php
 
-/**
- * @var yii\web\View $this
- * @var app\forms\WorkForm $model
- */
-
 use kartik\select2\Select2;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+
+/**
+ * @var yii\web\View $this
+ * @var app\forms\WorkForm $model
+ */
 
 $form = ActiveForm::begin([
     'method' => 'post',

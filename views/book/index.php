@@ -1,15 +1,15 @@
 <?php
 
+use app\entities\Book;
+use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /**
  * @var yii\web\View $this
  * @var app\forms\search\BookSearch $searchModel
  * @var yii\data\DataProviderInterface $dataProvider
  */
-
-use app\entities\Book;
-use yii\grid\GridView;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 $this->title = 'Livros';
 
