@@ -5,8 +5,8 @@ namespace app\controllers;
 use app\core\exceptions\FriendlyException;
 use app\core\web\ICrudActions;
 use app\entities\Tag;
+use app\forms\search\TagSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -42,12 +42,11 @@ class TagController extends Controller implements ICrudActions
      */
     public function actionIndex(): string
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Tag::find()->orderBy('name'),
-            'pagination' => false,
-        ]);
+        $searchModel = new TagSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
