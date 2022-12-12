@@ -72,7 +72,7 @@ $form = ActiveForm::begin([
                 'value' => array_keys($selectedWorks),
                 'multiple' => true,
                 'placeholder' => 'Selecione...',
-                'disabled' => !$model->isNewRecord || !$model->bookId,
+                'disabled' => !$model->bookId,
             ],
             'pluginOptions' => [
                 'allowClear' => true,
@@ -128,15 +128,25 @@ $form = ActiveForm::begin([
 ActiveForm::end();
 
 $worksInputId = Html::getInputId($model, 'workIds');
+$isCompleteInputId = Html::getInputId($model, 'isComplete');
+$endDateInputId = Html::getInputId($model, 'endDate');
 
 $this->registerJs(<<<JS
 
 const bookInput = jQuery('#{$bookInputId}');
 const worksInput = jQuery('#{$worksInputId}');
+const isCompleteInput = jQuery('#{$isCompleteInputId}');
+const endDateInput = jQuery('#{$endDateInputId}');
 
 bookInput.change(() => {
     worksInput.val(null).change();
     worksInput.attr('disabled', !bookInput.val());
+});
+
+endDateInput.change(function () {
+    if (this.value) {
+        isCompleteInput.prop('checked', true);
+    }
 });
 
 JS);

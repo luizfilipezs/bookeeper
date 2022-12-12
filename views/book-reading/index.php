@@ -35,8 +35,15 @@ $this->title = 'Leituras';
             'template' => '<div class="d-flex justify-content-around">{view} {update} {delete}</div>',
         ],
         [
-            'attribute' => 'book.title',
-            'label' => 'Livro',
+            'label' => 'Obras',
+            'value' => function (BookReading $model) {
+                $works = $model->getWorks()
+                    ->select('Work.title')
+                    ->column();
+
+                return implode('<br>', $works);
+            },
+            'format' => 'html',
         ],
         'endDate:date',
         [
