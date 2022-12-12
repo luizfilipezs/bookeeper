@@ -19,6 +19,7 @@ enum Nationality: string implements IValues, ILabel
     case Italian = 'italian';
     case Polish = 'polish';
     case Portuguese = 'portuguese';
+    case Roman = 'roman';
     case Russian = 'russian';
 
     /**
@@ -45,6 +46,7 @@ enum Nationality: string implements IValues, ILabel
             self::Italian->value => 'Itália',
             self::Polish->value => 'Polônia',
             self::Portuguese->value => 'Portugal',
+            self::Roman->value => 'Romab',
             self::Russian->value => 'Rússia',
         ];
     }
