@@ -8,6 +8,7 @@ use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
+ * @var app\forms\search\AuthorSearch $searchModel
  * @var yii\data\ActiveDataProvider $dataProvider
  */
 
@@ -23,7 +24,8 @@ $this->title = 'Autores';
         <?= Html::a('Cadastrar', Url::toRoute('create'), ['class' => 'btn btn-success']) ?>
     </div>
 </div>
-<hr>
+
+<?= $this->render('_search', ['model' => $searchModel]) ?>
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,

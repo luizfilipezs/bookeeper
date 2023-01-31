@@ -4,9 +4,9 @@ namespace app\controllers;
 
 use app\core\web\ICrudActions;
 use app\entities\Work;
+use app\forms\search\WorkSearch;
 use app\forms\WorkForm;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -41,12 +41,11 @@ class WorkController extends Controller implements ICrudActions
      */
     public function actionIndex(): string
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Work::find()->orderBy('id DESC'),
-            'pagination' => false,
-        ]);
+        $searchModel = new WorkSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

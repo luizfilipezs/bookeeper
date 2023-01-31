@@ -5,8 +5,8 @@ namespace app\controllers;
 use app\core\exceptions\FriendlyException;
 use app\core\web\ICrudActions;
 use app\entities\Author;
+use app\forms\search\AuthorSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\db\IntegrityException;
 use yii\filters\VerbFilter;
 use yii\web\{
@@ -43,12 +43,11 @@ class AuthorController extends Controller implements ICrudActions
      */
     public function actionIndex(): string
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Author::find()->orderBy('name ASC'),
-            'pagination' => false,
-        ]);
+        $searchModel = new AuthorSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
