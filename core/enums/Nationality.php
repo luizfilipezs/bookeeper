@@ -46,7 +46,7 @@ enum Nationality: string implements IValues, ILabel
             self::Italian->value => 'Itália',
             self::Polish->value => 'Polônia',
             self::Portuguese->value => 'Portugal',
-            self::Roman->value => 'Romab',
+            self::Roman->value => 'Roma',
             self::Russian->value => 'Rússia',
         ];
     }
