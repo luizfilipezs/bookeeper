@@ -12,9 +12,10 @@ use yii\web\JsExpression;
  * @var app\forms\BookReadingForm $model
  */
 
-$selectedBook = $model->getBook()
-    ->select(['title', 'id'])
-    ->indexBy('id')
+$selectedBook = $model->isNewRecord ? [] : $model->getBook()
+    ->joinWith('publishingCompany', false)
+    ->select(['CONCAT(Book.title, " - ", PublishingCompany.name) AS title', 'Book.id'])
+    ->indexBy('Book.id')
     ->column();
 
 $selectedWorks = $model->getWorks()

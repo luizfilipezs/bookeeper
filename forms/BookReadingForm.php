@@ -31,6 +31,16 @@ class BookReadingForm extends BookReading
     /**
      * {@inheritdoc}
      */
+    public function init(): void
+    {
+        parent::init();
+
+        $this->startDate = date('Y-m-d');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules(): array
     {
         return [

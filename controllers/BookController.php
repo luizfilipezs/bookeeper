@@ -62,9 +62,10 @@ class BookController extends Controller implements ICrudActions
         $this->response->format = Response::FORMAT_JSON;
 
         return Book::find()
-            ->select(['id', 'title AS text'])
-            ->filterWhere(['like', 'title', $search])
-            ->orFilterWhere(['like', 'subtitle', $search])
+            ->joinWith('publishingCompany', false)
+            ->select(['Book.id', 'CONCAT(Book.title, " - ", PublishingCompany.name) AS text'])
+            ->filterWhere(['like', 'Book.title', $search])
+            ->orFilterWhere(['like', 'Book.subtitle', $search])
             ->asArray()
             ->all();
     }

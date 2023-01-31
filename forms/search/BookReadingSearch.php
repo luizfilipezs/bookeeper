@@ -132,6 +132,7 @@ class BookReadingSearch extends Model implements SearchInterface
             ->andFilterWhere(['<=', 'endDate', $this->endDate])
             ->orderBy([
                 'BookReading.isComplete' => SORT_ASC,
+                'BookReading.endDate' => SORT_DESC,
                 'BookReading.createdAt' => SORT_DESC,
             ]);
     }
