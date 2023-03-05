@@ -24,11 +24,11 @@ class WorkSearch extends Model implements SearchInterface
     public $title;
 
     /**
-     * Author name.
+     * Author ID.
      * 
-     * @var string
+     * @var int
      */
-    public $authorName;
+    public $authorId;
 
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class WorkSearch extends Model implements SearchInterface
     public function rules(): array
     {
         return [
-            [['title', 'authorName'], 'string'],
+            [['title', 'authorId'], 'string'],
         ];
     }
 
@@ -47,7 +47,7 @@ class WorkSearch extends Model implements SearchInterface
     {
         return [
             'title' => 'Nome',
-            'authorName' => 'Autor',
+            'authorId' => 'Autor',
         ];
     }
 
@@ -75,9 +75,12 @@ class WorkSearch extends Model implements SearchInterface
     {
         return Work::find()
             ->leftJoin('WorkAuthor', 'WorkAuthor.workId = Work.id')
-            ->leftJoin('Author', 'Author.id = WorkAuthor.authorId')
-            ->filterWhere(['like', 'Work.title', $this->title])
-            ->andFilterWhere(['like', 'Author.name', $this->authorName])
-            ->orderBy('Work.title');
+            ->filterWhere([
+                'WorkAuthor.authorId' => $this->authorId,
+            ])
+            ->andFilterWhere(['like', 'Work.title', $this->title])
+            ->orderBy([
+                'Work.createdAt' => SORT_DESC,
+            ]);
     }
 }
