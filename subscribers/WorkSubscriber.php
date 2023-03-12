@@ -15,24 +15,14 @@ use app\entities\Work;
 class WorkSubscriber
 {
     /**
-     * Removes all relations with authors from the work being deleted.
+     * Removes all relations with from the work being deleted.
      * 
      * @param Work $work The work being deleted.
      */
     #[BeforeDelete]
-    public function removeAllAuthorsFromWork(Work $work): void
+    public function deleteRelations(Work $work): void
     {
         $work->removeAllAuthors();
-    }
-
-    /**
-     * Removes all relations with tags from the work being deleted.
-     * 
-     * @param Work $work The work being deleted.
-     */
-    #[BeforeDelete]
-    public function removeAllTagsFromWork(Work $work): void
-    {
         $work->removeAllTags();
     }
 }

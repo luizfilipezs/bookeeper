@@ -15,12 +15,12 @@ use app\entities\BookList;
 class BookListSubscriber
 {
     /**
-     * Removes all items from the list being deleted.
+     * Removes all relations from the list being deleted.
      * 
      * @param BookList $bookList The list being deleted.
      */
     #[BeforeDelete]
-    public function removeAllItemsFromBookList(BookList $bookList): void
+    public function deleteRelations(BookList $bookList): void
     {
         $bookList->removeAllItems();
     }

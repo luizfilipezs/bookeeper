@@ -15,12 +15,12 @@ use app\entities\BookReading;
 class BookReadingSubscriber
 {
     /**
-     * Removes all relations with works from the book reading being deleted.
+     * Removes all relations with from the book reading being deleted.
      * 
      * @param BookReading $bookReading The book reading being deleted.
      */
     #[BeforeDelete]
-    public function removeAllWorksFromBookReading(BookReading $bookReading): void
+    public function deleteRelations(BookReading $bookReading): void
     {
         $bookReading->removeAllWorks();
     }

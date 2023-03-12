@@ -15,12 +15,12 @@ use app\entities\Box;
 class BoxSubscriber
 {
     /**
-     * Removes all books from the box being deleted.
+     * Removes all relations from the box being deleted.
      * 
      * @param Box $box The box being deleted.
      */
     #[BeforeDelete]
-    public function removeAllBooksFromBox(Box $box): void
+    public function removeRelations(Box $box): void
     {
         $box->removeAllBooks();
     }

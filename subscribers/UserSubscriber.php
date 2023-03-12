@@ -48,14 +48,14 @@ class UserSubscriber
     }
 
     /**
-     * Deletes all reading lists from the user being deleted.
+     * Deletes all book lists from the user being deleted.
      * 
      * @param User $user The user being deleted.
      * 
-     * @throws FriendlyException If a reading list could not be deleted.
+     * @throws FriendlyException If a book list could not be deleted.
      */
     #[BeforeDelete]
-    public function removeUserBookLists(User $user): void
+    public function deleteBookLists(User $user): void
     {
         foreach ($user->bookLists as $bookList) {
             $this->deleteBookList($bookList);
@@ -63,7 +63,7 @@ class UserSubscriber
     }
 
     /**
-     * Deletes a reading list.
+     * Deletes a book list.
      * 
      * @param BookList $bookList Record to delete.
      * 
