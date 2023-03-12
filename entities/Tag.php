@@ -8,8 +8,10 @@ use yii\behaviors\{
     BlameableBehavior,
     TimestampBehavior
 };
-use yii\db\ActiveQuery;
-use yii\db\Expression;
+use yii\db\{
+    ActiveQuery,
+    Expression
+};
 
 /**
  * This is the model class for table "Tag".
