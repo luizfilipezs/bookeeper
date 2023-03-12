@@ -30,11 +30,14 @@ use yii\db\Expression;
  * @property string $updatedAt
  * 
  * @property-read BookWork[] $bookWorks
+ * @property-read BookTranslator[] $bookTranslators
  * @property-read PublishingCompany $publishingCompany
  * @property-read Work[] $works
+ * @property-read Translator[] $translators
  * 
  * @property-read string[] $authorNames
  * @property-read string[] $tagNames
+ * @property-read string[] $translatorNames
  */
 class Book extends ActiveRecord
 {
@@ -169,6 +172,63 @@ class Book extends ActiveRecord
     }
 
     /**
+     * Returns a query to the related records from table `BookTranslator`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getBookTranslators(): ActiveQuery
+    {
+        return $this->hasMany(BookTranslator::class, ['bookId' => 'id']);
+    }
+
+    /**
+     * Returns a query to the related records from table `Translator` via a JOIN
+     * operation with the pivot table `BookTranslator`.
+     * 
+     * @return ActiveQuery
+     */
+    public function getTranslators(): ActiveQuery
+    {
+        return $this->hasRelation(Translator::class);
+    }
+
+    /**
+     * Creates a new relation between the given `Translator` and the current book.
+     * 
+     * @param Translator $translator Translator to be added to the current book.
+     * 
+     * @return BookTranslator Pivot relation record.
+     * 
+     * @throws \app\core\exceptions\RelationAlreadyExistsException If relation already exists.
+     */
+    public function addTranslator(Translator $translator): BookTranslator
+    {
+        return $this->addRelation($translator);
+    }
+
+    /**
+     * Removes an existing relation between the given `Translator` and the current book.
+     * 
+     * @param Translator $translator Translator to be removed from the current book.
+     */
+    public function removeTranslator(Translator $translator): void
+    {
+        $this->removeRelation($translator);
+    }
+
+    /**
+     * Removes all translators related to the current book.
+     * 
+     * @throws FriendlyException If some relation could no be deleted.
+     */
+    public function removeAllTranslators(): void
+    {
+        foreach ($this->translators as $translator) {
+            $this->removeTranslator($translator);
+        }
+    }
+
+    /**
      * Returns all author names without repetitions.
      * 
      * @return string[] Author names.
@@ -182,6 +242,19 @@ class Book extends ActiveRecord
             ->column();
 
         return array_unique($names);
+    }
+
+    /**
+     * Returns all translator names.
+     * 
+     * @return string[] Translator names.
+     */
+    public function getTranslatorNames(): array
+    {
+        return $this->getTranslators()
+            ->select('Translator.name')
+            ->addOrderBy('BookTranslator.id ASC')
+            ->column();
     }
 
     /**

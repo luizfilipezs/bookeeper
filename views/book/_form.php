@@ -20,6 +20,11 @@ $selectedWorks = $model->getWorks()
     ->indexBy('Work.id')
     ->column();
 
+$selectedTranslators = $model->getTranslators()
+    ->select(['Translator.name', 'Translator.id'])
+    ->indexBy('Translator.id')
+    ->column();
+
 $selectedPublishingCompany = $model->getPublishingCompany()
     ->select(['name', 'id'])
     ->indexBy('id')
@@ -112,7 +117,28 @@ $form = ActiveForm::begin([
 </div>
 <div class="row">
     <div class="col-6">
-        <?= $form->field($model, 'translator')->textInput() ?>
+        <?= $form->field($model, 'translatorIds')->widget(Select2::class, [
+            'data' => $selectedTranslators,
+            'options' => [
+                'value' => array_keys($selectedTranslators),
+                'multiple' => true,
+                'placeholder' => 'Selecione...',
+            ],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 1,
+                'ajax' => [
+                    'url' => Url::to(['translator/list']),
+                    'data' => new JsExpression("({ term }) => ({ search: term })"),
+                    'dataType' => 'json',
+                    'cache' => true,
+                    'processResults' => new JsExpression('results => ({ results })'),
+                ],
+                'escapeMarkup' => new JsExpression('markup => markup'),
+                'templateResult' => new JsExpression('({ text }) => text'),
+                'templateSelection' => new JsExpression('({ text }) => text'),
+            ],
+        ]) ?>
     </div>
 </div>
 <div class="row">

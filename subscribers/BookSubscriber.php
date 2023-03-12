@@ -15,13 +15,14 @@ use app\entities\Book;
 class BookSubscriber
 {
     /**
-     * Removes all relations with works from the book being deleted.
+     * Removes all relations from the book being deleted.
      * 
      * @param Book $book The book being deleted.
      */
     #[BeforeDelete]
-    public function removeAllWorksFromBook(Book $book): void
+    public function deleteRelations(Book $book): void
     {
         $book->removeAllWorks();
+        $book->removeAllTranslators();
     }
 }

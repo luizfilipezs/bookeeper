@@ -7,6 +7,7 @@ use app\core\exceptions\RelationAlreadyExistsException;
 use app\entities\{
     Book,
     BookReading,
+    Translator,
     Work
 };
 
@@ -15,6 +16,13 @@ use app\entities\{
  */
 class BookForm extends Book
 {
+    /**
+     * List of translator IDs.
+     * 
+     * @var string[]
+     */
+    public $translatorIds;
+
     /**
      * List of work IDs.
      * 
@@ -65,9 +73,7 @@ class BookForm extends Book
     {
         parent::init();
 
-        if ($this->canAutoCreateWork === null) {
-            $this->canAutoCreateWork = $this->isNewRecord;
-        }
+        $this->canAutoCreateWork ??= $this->isNewRecord;
     }
 
     /**
@@ -80,9 +86,10 @@ class BookForm extends Book
             [['canAutoCreateWork', 'markAsRead'], 'boolean'],
             [['markAsRead'], 'default', 'value' => false],
             [['authorIds', 'tagIds'], 'safe'],
-            ['workIds', 'filter', 'filter' => function ($value) {
+            [['translatorIds', 'workIds'], 'filter', 'filter' => function ($value) {
                 return  is_array($value) ? $value : [];
             }],
+            ['translatorIds', 'exist', 'targetClass' => Translator::class, 'targetAttribute' => 'id', 'allowArray' => true],
             ['workIds', 'exist', 'targetClass' => Work::class, 'targetAttribute' => 'id', 'allowArray' => true],
         ];
     }
@@ -95,6 +102,7 @@ class BookForm extends Book
         return parent::attributeLabels() + [
             'markAsRead' => 'Lido',
             'canAutoCreateWork' => 'Criar obra automaticamente',
+            'translatorIds' => 'Tradutores da obra',
             'workIds' => 'Obras',
             'authorIds' => 'Autores da obra',
             'tagIds' => 'Tags da obra',
@@ -116,9 +124,37 @@ class BookForm extends Book
             $this->resetWorks();
         }
 
+        if ($this->hasNewTranslators()) {
+            $this->resetTranslators();
+        }
+
         if ($this->markAsRead) {
             $this->saveReading();
         }
+    }
+
+    /**
+     * Checks whether there are works to be saved or already existing in database.
+     * 
+     * @return bool Validation result.
+     */
+    private function hasWorks(): bool
+    {
+        return $this->workIds || $this->getWorks()->exists();
+    }
+
+    /**
+     * Checks whether works list changed.
+     * 
+     * @return bool Validation result.
+     */
+    private function hasNewWorks(): bool
+    {
+        $currentWorkIds = $this->getWorks()
+            ->select('Work.id')
+            ->column();
+
+        return $this->workIds != $currentWorkIds;
     }
 
     /**
@@ -128,6 +164,15 @@ class BookForm extends Book
     {
         $this->removeAllWorks();
         $this->saveWorks();
+    }
+
+    /**
+     * Removes the old translators and saves the new ones.
+     */
+    private function resetTranslators(): void
+    {
+        $this->removeAllTranslators();
+        $this->saveTranslators();
     }
 
     /**
@@ -179,27 +224,43 @@ class BookForm extends Book
     }
 
     /**
-     * Checks whether works list changed.
+     * Checks whether translators list changed.
      * 
      * @return bool Validation result.
      */
-    private function hasNewWorks(): bool
+    private function hasNewTranslators(): bool
     {
-        $currentWorkIds = $this->getWorks()
-            ->select('Work.id')
+        $currentTranslatorIds = $this->getTranslators()
+            ->select('Translator.id')
             ->column();
 
-        return $this->workIds != $currentWorkIds;
+        return $this->translatorIds != $currentTranslatorIds;
     }
 
     /**
-     * Checks whether there are works to be saved or already existing in database.
-     * 
-     * @return bool Validation result.
+     * Creates relations between the book and its translators.
      */
-    private function hasWorks(): bool
+    private function saveTranslators(): void
     {
-        return $this->workIds || $this->getWorks()->exists();
+        foreach ($this->translatorIds as $translatorId) {
+            $this->addTranslatorById($translatorId);
+        }
+    }
+
+    /**
+     * Creates a relation between a translator and the book.
+     * 
+     * @param int $translatorId The translator identifier.
+     */
+    private function addTranslatorById(int $translatorId): void
+    {
+        $translator = Translator::findOne($translatorId);
+
+        try {
+            $this->addTranslator($translator);
+        } catch (RelationAlreadyExistsException $e) {
+            return;
+        }
     }
 
     /**

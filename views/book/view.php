@@ -40,6 +40,10 @@ $this->title = "Livro \"{$model->title}\"";
             'value' => implode(', ', $model->authorNames),
         ],
         [
+            'label' => 'Tradutores',
+            'value' => implode(', ', $model->translatorNames),
+        ],
+        [
             'label' => 'Obras',
             'value' => fn () => implode('<br>', $model->getWorks()->select('title')->column()),
             'format' => 'html',
