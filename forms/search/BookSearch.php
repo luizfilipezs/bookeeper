@@ -8,6 +8,7 @@ use app\entities\{
     Book,
     PublishingCompany,
     Tag,
+    Translator,
     Work
 };
 use yii\base\Model;
@@ -73,6 +74,13 @@ class BookSearch extends Model implements SearchInterface
     public $tagIds;
 
     /**
+     * Author ID.
+     * 
+     * @var int
+     */
+    public $translatorId;
+
+    /**
      * Ordering criteria.
      * 
      * @var string
@@ -95,6 +103,7 @@ class BookSearch extends Model implements SearchInterface
             ['authorId', 'exist', 'skipOnError' => true, 'targetClass' => Author::class, 'targetAttribute' => 'id'],
             ['publishingCompanyId', 'exist', 'skipOnError' => true, 'targetClass' => PublishingCompany::class, 'targetAttribute' => 'id'],
             ['tagIds', 'exist', 'skipOnError' => true, 'targetClass' => Tag::class, 'targetAttribute' => 'id', 'allowArray' => true],
+            ['translatorId', 'exist', 'skipOnError' => true, 'targetClass' => Translator::class, 'targetAttribute' => 'id'],
         ];
     }
 
@@ -109,6 +118,7 @@ class BookSearch extends Model implements SearchInterface
             'authorId' => 'Autor',
             'publishingCompanyId' => 'Editora',
             'tagIds' => 'Tags',
+            'translatorId' => 'Tradutor',
             'orderBy' => 'Ordenar por',
         ];
     }
@@ -140,12 +150,14 @@ class BookSearch extends Model implements SearchInterface
                 'bookWorks',
                 'bookWorks.work.workAuthors',
                 'bookWorks.work.workTags',
+                'bookTranslators',
             ], false)
             ->filterWhere([
                 'Book.publishingCompanyId' => $this->publishingCompanyId,
                 'BookWork.workId' => $this->workId,
                 'WorkAuthor.authorId' => $this->authorId,
                 'WorkTag.tagId' => $this->tagIds,
+                'BookTranslator.translatorId' => $this->translatorId,
             ])
             ->andFilterWhere(['like', 'Book.title', $this->title])
             ->orderBy(match ($this->orderBy) {

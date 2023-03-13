@@ -4,6 +4,7 @@ use app\entities\{
     Author,
     PublishingCompany,
     Tag,
+    Translator,
     Work
 };
 use app\forms\search\BookSearch;
@@ -42,6 +43,12 @@ $workData = !$model->workId ? [] : Work::find()
 $tagsData = !$model->tagIds ? [] : Tag::find()
     ->select(['name', 'id'])
     ->where(['id' => $model->tagIds])
+    ->indexBy('id')
+    ->column();
+
+$translatorData = !$model->translatorId ? [] : Translator::find()
+    ->select(['name', 'id'])
+    ->where(['id' => $model->translatorId])
     ->indexBy('id')
     ->column();
 
@@ -130,6 +137,28 @@ $form = ActiveForm::begin([
 
 <div class="row my-2">
     <div class="col-6">
+        <?= $form->field($model, 'translatorId')->widget(Select2::class, [
+            'data' => $translatorData,
+            'options' => [
+                'placeholder' => 'Selecione...',
+            ],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 1,
+                'ajax' => [
+                    'url' => Url::to(['translator/list']),
+                    'data' => new JsExpression("({ term }) => ({ search: term })"),
+                    'dataType' => 'json',
+                    'cache' => true,
+                    'processResults' => new JsExpression('results => ({ results })'),
+                ],
+                'escapeMarkup' => new JsExpression('markup => markup'),
+                'templateResult' => new JsExpression('({ text }) => text'),
+                'templateSelection' => new JsExpression('({ text }) => text'),
+            ],
+        ]) ?>
+    </div>
+    <div class="col-6">
         <?= $form->field($model, 'tagIds')->widget(Select2::class, [
             'data' => $tagsData,
             'options' => [
@@ -153,6 +182,9 @@ $form = ActiveForm::begin([
             ],
         ]) ?>
     </div>
+</div>
+
+<div class="row my-2">
     <div class="col-6">
         <?= $form->field($model, 'orderBy')->dropDownList(BookSearch::ORDER_BY_OPTIONS) ?>
     </div>
