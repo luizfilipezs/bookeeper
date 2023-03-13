@@ -23,7 +23,6 @@ use yii\db\Expression;
  * @property string $year
  * @property string $conservationState
  * @property string $comments
- * @property string $translator
  * @property string $acquiredAt
  * @property float $estimatedValue
  * @property string $createdAt
@@ -70,7 +69,7 @@ class Book extends ActiveRecord
             [['publishingCompanyId', 'title'], 'required'],
             [['publishingCompanyId', 'volumes', 'pages'], 'integer'],
             ['estimatedValue', 'number'],
-            [['title', 'subtitle', 'language', 'year', 'conservationState', 'isbn', 'translator'], 'string'],
+            [['title', 'subtitle', 'language', 'year', 'conservationState', 'isbn'], 'string'],
             ['conservationState', 'in', 'range' => BookConservationState::values()],
             ['comments', 'string', 'max' => 255],
             ['acquiredAt', 'date', 'format' => 'php:Y-m-d'],
@@ -96,7 +95,6 @@ class Book extends ActiveRecord
             'year' => 'Ano de publicação',
             'conservationState' => 'Estado de conservação',
             'comments' => 'Observações',
-            'translator' => 'Tradutores',
             'acquiredAt' => 'Data de aquisição',
             'estimatedValue' => 'Valor estimado',
             'createdAt' => 'Criado em',
